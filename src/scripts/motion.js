@@ -366,6 +366,19 @@ function initMotion() {
 initNav();
 initForms();
 initLightbox();
+
+// Zurück-Taste (Seite kommt aus dem Browser-Cache): offene Menüs/Diashows schließen, Scrollen wieder freigeben,
+// damit nach dem Zurückspringen nichts blockiert ist
+window.addEventListener('pageshow', (e) => {
+  if (!e.persisted) return;
+  root.classList.remove('menu-open', 'lb-open');
+  document.querySelector('[data-menu]')?.setAttribute('inert', '');
+  document.querySelector('[data-menu-toggle]')?.setAttribute('aria-expanded', 'false');
+  const lb = document.querySelector('.lb');
+  if (lb) { lb.classList.remove('is-open'); lb.hidden = true; }
+  window.__lenis?.start();
+  ScrollTrigger.refresh();
+});
 if (!reduce) {
   root.classList.add('motion');
   initMotion();
