@@ -1,10 +1,12 @@
 ---
 // Responsives Foto: nur WebP (klein, überall unterstützt, hält die Seite unter 1 GB für GitHub Pages), Lazy Loading unterhalb des Folds.
-import { Picture } from 'astro:assets';
+// Optional `mobile`: eigenes Motiv für schmale Bildschirme (z. B. Hochformat statt Querformat im Hero).
+import { getImage } from 'astro:assets';
 import { photo } from '../data/photos';
 
 interface Props {
   src: string;
+  mobile?: string;         // anderes Foto bis 899 px Breite
   alt: string;
   sizes?: string;
   ratio?: string;          // z. B. "4/5", "3/2", "16/9"
@@ -16,9 +18,15 @@ interface Props {
   imgAttrs?: Record<string, string>;
 }
 
-const { src, alt, sizes = '100vw', ratio, priority = false, reveal = false, parallax = false, position = 'center', class: cls = '', imgAttrs = {} } = Astro.props;
-const img = photo(src);
-const widths = [640, 1024, 1600, 2000].filter((w) => w <= img.width);
+const { src, mobile, alt, sizes = '100vw', ratio, priority = false, reveal = false, parallax = false, position = 'center', class: cls = '', imgAttrs = {} } = Astro.props;
+const srcset = async (key: string) => {
+  const img = photo(key);
+  const widths = [640, 1024, 1600, 2000].filter((w) => w <= img.width);
+  const set = await Promise.all(widths.map((w) => getImage({ src: img, width: w, format: 'webp', quality: 82 })));
+  return { img, set: set.map((s, i) => `${s.src} ${widths[i]}w`).join(', '), fallback: set[set.length - 1].src };
+};
+const main = await srcset(src);
+const mob = mobile ? await srcset(mobile) : null;
 ---
 <figure
   class:list={['ph', cls]}
@@ -26,19 +34,20 @@ const widths = [640, 1024, 1600, 2000].filter((w) => w <= img.width);
   data-reveal={reveal || undefined}
   data-parallax={parallax || undefined}
 >
-  <Picture
-    src={img}
-    alt={alt}
-    widths={widths}
-    sizes={sizes}
-    formats={['webp']}
-    fallbackFormat="webp"
-    quality={82}
-    loading={priority ? 'eager' : 'lazy'}
-    decoding={priority ? 'sync' : 'async'}
-    fetchpriority={priority ? 'high' : 'auto'}
-    style={`object-position:${position}`}
-    {...imgAttrs}
-  />
+  <picture>
+    {mob && <source media="(max-width: 899px)" srcset={mob.set} sizes={sizes} type="image/webp" width={mob.img.width} height={mob.img.height} />}
+    <source srcset={main.set} sizes={sizes} type="image/webp" />
+    <img
+      src={main.fallback}
+      alt={alt}
+      width={main.img.width}
+      height={main.img.height}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding={priority ? 'sync' : 'async'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      style={`object-position:${position}`}
+      {...imgAttrs}
+    />
+  </picture>
   <slot />
 </figure>

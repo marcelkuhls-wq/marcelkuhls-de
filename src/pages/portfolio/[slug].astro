@@ -4,11 +4,15 @@ import Base from '../../layouts/Base.astro';
 import Photo from '../../components/Photo.astro';
 import Gallery from '../../components/Gallery.astro';
 import { reportages, bySlug, venueTitle } from '../../data/reportages';
+import { photo } from '../../data/photos';
 
 export function getStaticPaths() {
   return reportages.map((r) => ({ params: { slug: r.slug } }));
 }
 const r = bySlug(Astro.params.slug!);
+// Querformat-Hero auf dem Handy: stattdessen das Hochformat der Reportage zeigen
+const isPortrait = (k: string) => { const p = photo(k); return p.height > p.width; };
+const heroMobile = !isPortrait(r.hero) && isPortrait(r.side) ? r.side : undefined;
 const [a, b] = r.couple.includes(' & ') ? r.couple.split(' & ') : [r.couple, ''];
 const where = [r.place, r.region].filter(Boolean).join(', ');
 const vt = venueTitle(r);
@@ -26,7 +30,7 @@ const schema = {
 <Base title={title} description={`${r.dek} Hochzeitsreportage von Marcel Kuhls${where ? ` in ${where}` : ''}.`} path={`/portfolio/${r.slug}/`} ogImage={r.cover} schema={schema} dark>
   <section class="rhero" data-hero data-theme-dark>
     <div class="rhero__media" data-hero-media>
-      <Photo src={r.hero} alt={`${r.couple}${r.place ? ` bei ihrer Hochzeit, ${r.place}` : ''}`} priority imgAttrs={{ 'data-hero-img': '' }} />
+      <Photo src={r.hero} mobile={heroMobile} alt={`${r.couple}${r.place ? ` bei ihrer Hochzeit, ${r.place}` : ''}`} priority imgAttrs={{ 'data-hero-img': '' }} />
     </div>
     <div class="rhero__type wrap">
       <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/portfolio/">Reportagen</a></li><li><span aria-current="page">{r.couple}</span></li></ol></nav>

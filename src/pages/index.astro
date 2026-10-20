@@ -63,7 +63,7 @@ const schema = [
   <!-- 1 · Hero -->
   <section class="hero" data-hero data-theme-dark>
     <div class="hero__media" data-hero-media>
-      <Photo src="franzi-jan-niklas-schloss-neckarbischhofsheim/004" alt="First Look: Der Bräutigam wischt sich Tränen aus den Augen, während die Braut lachend auf ihn zukommt" priority position="50% 40%" imgAttrs={{ 'data-hero-img': '' }} />
+      <Photo src="franzi-jan-niklas-schloss-neckarbischhofsheim/004" mobile="sb-franzi-jan-niklas/012" alt="First Look: Der Bräutigam wischt sich Tränen aus den Augen, während die Braut lachend auf ihn zukommt" priority position="50% 40%" imgAttrs={{ 'data-hero-img': '' }} />
     </div>
     <div class="hero__type">
       <div class="hero__meta">
@@ -309,6 +309,7 @@ const schema = [
   .trust__in > * { display: grid; gap: 2px; }
   .trust__in strong { font-family: var(--f-display); font-size: 1.35rem; font-weight: 400; color: var(--ink); margin-right: 6px; letter-spacing: -0.02em; }
   .trust__in a { text-decoration: none; }
+  @media (max-width: 599px) { .trust__in { grid-template-columns: 1fr 1fr; } .trust__in > :first-child { display: none; } } /* „seit 2013“ steht schon im Hero, so bleibt ein sauberes 2×2-Raster */
   .bigcta { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: #fff; background: var(--night); text-align: center; }
   .bigcta__media { position: absolute; inset: 0; }
   .bigcta__media :global(.ph) { position: absolute; inset: 0; background: var(--night); }
@@ -322,7 +323,7 @@ const schema = [
   .bigcta__btn { height: 56px; padding: 0 30px; background: transparent; border: 1px solid #fff; color: #fff; font: inherit; font-size: 0.82rem; font-weight: 560; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: background .5s var(--ease), color .5s var(--ease); }
   .bigcta__btn:hover { background: #fff; color: var(--night); }
   @media (max-width: 899px) { .svc__a, .svc__b { grid-column: 1 / -1; } .svc__a :global(.fs) { max-width: 70%; } .bigcta__form input, .bigcta__btn { width: 100%; } .faq-col { grid-column: 1 / -1 !important; margin-top: 24px; } }
-  @media (max-width: 899px) { .hero :global(img) { object-position: 24% 40% !important; } }
+  @media (max-width: 899px) { .hero :global(img) { object-position: 50% 30% !important; } }
   .tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin-top: clamp(64px, 8vw, 130px); }
   .tcard { margin: 0; display: grid; grid-template-columns: 64px 1fr; gap: 18px; align-items: start; padding-top: 22px; border-top: 1px solid rgba(239,232,220,.16); }
   .tcard :global(.ph) { border-radius: 50%; }
