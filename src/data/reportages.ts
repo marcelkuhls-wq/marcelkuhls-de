@@ -115,16 +115,17 @@ export const reportages: Reportage[] = [
     related: ['eliana-mahan', 'lynn-ersin-standesamt-altona'],
   },
   {
-    slug: 'standesamt-hamburg-larissa-und-alex',
+    slug: 'standesamt-hamburg-larissa-und-alex', // alte URL mit Rankings, deshalb bleibt der Slug trotz Seevetal
+    seoTitle: 'Standesamt Seevetal bei Hamburg: Larissa & Alex',
     couple: 'Larissa & Alex',
-    place: 'Standesamt Hamburg',
-    region: 'Hamburg',
+    place: 'Standesamt Seevetal',
+    region: 'Niedersachsen',
     kind: 'Standesamt',
     cover: 'larissa-alex-standesamt/09',
     side: 'larissa-alex-standesamt/04',
     hero: 'larissa-alex-standesamt/19',
-    dek: 'Das standesamtliche Jawort in Hamburg, Rosenblüten vor der Tür und danach Sekt mit den Liebsten.',
-    source: 'Ort laut bestehender Reportage auf marcelkuhls.de',
+    dek: 'Das standesamtliche Jawort in Seevetal, Rosenblüten vor der Tür und danach Sekt mit den Liebsten.',
+    source: 'Ort von Marcel bestätigt (21.10.2026): Standesamt Seevetal',
     chapters: [
       { title: 'Im', titleEm: 'Trauzimmer', photos: pick('larissa-alex-standesamt', [12, 4, 13, 7, 8, 21, 20, 22, 3, 1]) },
       { title: 'Vor', titleEm: 'der Tür', photos: pick('larissa-alex-standesamt', [9, 19, 14, 11, 10]) },

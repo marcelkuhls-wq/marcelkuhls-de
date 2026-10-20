@@ -13,7 +13,7 @@ const examples = ['lynn-ersin-standesamt-altona', 'uinny-sidney-standesamt-alton
 const aemter = [
   { n: 'Altona', f: 'Rathaus Altona, Platz der Republik 1 · bis 30 Gäste', mine: '/hochzeit-standesamt-altona/', note: 'Lynn & Ersin, Uinny & Sidney, Isabelle & Kenny, Sophia & Behnam' },
   { n: 'Eimsbüttel', f: 'Grindelberg 66 · max. 15 Personen inkl. Paar, der Fotograf zählt mit · Di, Do, Fr', mine: '/portfolio/jill-henning-standesamt-eimsbuettel/', note: 'Jill & Henning, Patricia & Alexander' },
-  { n: 'Hamburg-Mitte', f: 'Caffamacherreihe 1–3 · Paar plus max. 17 Gäste, der Fotograf zählt mit', mine: '/portfolio/standesamt-hamburg-larissa-und-alex/', note: 'Larissa & Alex', check: true },
+  { n: 'Hamburg-Mitte', f: 'Caffamacherreihe 1–3 · Paar plus max. 17 Gäste, der Fotograf zählt mit', mine: null },
   { n: 'Hamburg-Nord', f: 'Kümmellstraße 5–7 · Trauzimmer für 15 oder 12 Personen', mine: null },
   { n: 'Wandsbek', f: 'Schloßstraße 60 · im Sommer auch Berner Schloss, Ohlendorff’sche Villa und Museumsdorf Volksdorf', mine: null },
   { n: 'Bergedorf', f: 'Haus im Park, Gräpelweg 8 · bis 40 Personen, außerdem Bergedorfer Schloss', mine: null },
@@ -96,6 +96,7 @@ const lynn = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
           </li>
         ))}
       </ul>
+      <p class="muted sa-col-b" style="margin-top:20px;font-size:var(--fs-small)">Auch im Umland: <a class="link" href="/portfolio/standesamt-hamburg-larissa-und-alex/">Standesamt Seevetal mit Larissa &amp; Alex</a> und <a class="link" href="/portfolio/kristina-swen-horster-muehle/">Standesamt Jesteburg mit Kristina &amp; Swen</a>.</p>
     </div>
   </section>
 
