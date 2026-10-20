@@ -87,7 +87,18 @@ const on = LIVE && Boolean(ga4 || ads);
             var g = state.ads ? 'granted' : 'denied';
             window.gtag('consent', 'default', { ad_storage: g, ad_user_data: g, ad_personalization: 'denied', analytics_storage: state.stats ? 'granted' : 'denied' });
             window.gtag('js', new Date());
-            if (state.stats && ga4) window.gtag('config', ga4, { content_group: contentGroup(location.pathname) });
+            // Eigene Geräte: einmal https://marcelkuhls.de/?intern=1 aufrufen (?intern=0 hebt es auf).
+            // GA4-Datenfilter „Internal Traffic“ schließt diese Besuche dann aus.
+            var internal = false;
+            try {
+              var q = new URLSearchParams(location.search).get('intern');
+              if (q === '1') localStorage.setItem('mk-internal', '1');
+              if (q === '0') localStorage.removeItem('mk-internal');
+              internal = localStorage.getItem('mk-internal') === '1';
+            } catch (e) {}
+            var cfg = { content_group: contentGroup(location.pathname) };
+            if (internal) cfg.traffic_type = 'internal';
+            if (state.stats && ga4) window.gtag('config', ga4, cfg);
             if (state.ads && ads) window.gtag('config', ads);
             var s = document.createElement('script');
             s.async = true;
@@ -144,7 +155,11 @@ const on = LIVE && Boolean(ga4 || ads);
           else if (href.includes('instagram.com')) track('instagram_click', base);
           else if (href.startsWith('/portfolio/') && href !== '/portfolio/') track('select_reportage', { ...base, reportage: href.split('/')[2] });
         });
+        // Formular: erster Kontakt mit einem Feld (einmal pro Seitenaufruf)
+        const form = document.querySelector<HTMLFormElement>('form[data-endpoint], form[data-demo-form]');
+        form?.addEventListener('focusin', () => track('form_start', { form: 'kontakt', page: location.pathname }), { once: true });
         const view = () => {
+          if (location.pathname === '/kontakt/') track('view_contact', { referrer_page: document.referrer ? new URL(document.referrer).pathname : '(direkt)' });
           const m = location.pathname.match(/^\/portfolio\/([^/]+)/);
           if (m) track('view_reportage', { reportage: m[1] });
           if (document.title.indexOf('Seite nicht gefunden') === 0) track('page_not_found', { page: location.pathname, referrer: document.referrer || '(direkt)' });
