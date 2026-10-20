@@ -1,0 +1,185 @@
+---
+// ENTWURF (src/data/drafts.mjs): Venueseite Hotel Atlantic, Briefing B5 in research/08-content-plan.md.
+// Alles über die beiden Hochzeiten stammt aus den Reportagen (reportages.ts: dek, Kapitel, Kundenstimme).
+// Keine Raumnamen, Uhrzeiten oder Hausregeln erfunden. Eigene Ortstipps, Trauungsfrage und Café Prüsse: Marcel ergänzt (todo-Notizen).
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Gallery from '../components/Gallery.astro';
+import FaqList from '../components/FaqList.astro';
+import { bySlug, testimonials } from '../data/reportages';
+import { faqSchema, type Faq } from '../data/faq';
+import { drafts } from '../data/drafts.mjs';
+import { photo } from '../data/photos';
+
+const couples = ['hochzeit-hotel-atlantic-verena-tobias', 'sophia-behnam'].map(bySlug);
+const verena = testimonials.find((t) => t.by === 'Verena & Tobias')!;
+const faq: Faq[] = [
+  { cat: 'Ablauf', q: 'Kann man im Hotel Atlantic standesamtlich heiraten?', a: 'Das klärt ihr am besten direkt mit dem Hotel und eurem Standesamt. Bei Verena & Tobias fand die Trauung im Saal des Atlantic statt.', check: true },
+  { cat: 'Ablauf', q: 'Wo entstehen im Atlantic die schönsten Paarbilder?', a: 'Bei Verena & Tobias am Brunnen im Innenhof und abends am Wasser, bei Sophia & Behnam zwischen den Säulen am Eingang und im warmen Licht der Lobby. Das Haus bietet drinnen und draußen genug Abwechslung, ohne dass ihr weit fahren müsst.' },
+  { cat: 'Ablauf', q: 'Wann ist das Licht an der Alster am schönsten?', a: 'Am frühen Abend, wenn die Sonne tief steht und sich im Wasser spiegelt. Wann das genau ist, hängt von der Jahreszeit ab. Plant für diese Bilder eine kurze Pause zwischen Essen und Feier ein, zwanzig Minuten reichen oft.', check: true },
+  { cat: 'Ablauf', q: 'Wie viele Stunden Fotografie braucht eine Hotelhochzeit?', a: 'Wenn Vorbereitung, Trauung, Essen und Feier im Haus stattfinden, sind die Wege kurz. Für einen ganzen Tag vom Getting Ready bis zum ersten Tanz passen meist zehn Stunden. Schickt mir euren groben Ablauf, dann sage ich euch ehrlich, was ihr braucht.' },
+  { cat: 'Ablauf', q: 'Lohnt sich das Getting Ready im Hotel?', a: 'Ja, gerade wenn ihr ohnehin im Haus feiert. Ihr müsst nirgendwo hinfahren, und die Vorbereitung geht ohne Bruch in den Tag über. Bei Verena & Tobias sind so ruhige Bilder in den Zimmern entstanden, lange bevor die Gäste kamen.' },
+  { cat: 'Ablauf', q: 'Was machen wir bei Regen?', a: 'Dann bleiben wir drinnen. Lobby, Säulen und Flure geben genug her, wie die Bilder von Sophia & Behnam zeigen. Für Innenräume bin ich mit Licht ausgestattet, das nicht nach Blitz aussieht.' },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: 'Hochzeit im Hotel Atlantic Hamburg',
+    dateModified: '2026-10-21',
+    author: { '@id': 'https://marcelkuhls.de/#marcel' },
+    publisher: { '@id': 'https://marcelkuhls.de/#business' },
+    image: new URL(photo('verena-toby-2-hotel-atlantik/044').src, 'https://marcelkuhls.de').href,
+    mainEntityOfPage: 'https://marcelkuhls.de/hochzeit-hotel-atlantic-hamburg/',
+    about: { '@type': 'Hotel', name: 'Hotel Atlantic Hamburg', address: { '@type': 'PostalAddress', addressLocality: 'Hamburg', addressCountry: 'DE' } },
+    inLanguage: 'de-DE',
+  },
+  faqSchema(faq),
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Hochzeitslocations', item: 'https://marcelkuhls.de/hochzeitslocations-hamburg/' },
+    { '@type': 'ListItem', position: 3, name: 'Hotel Atlantic' },
+  ] },
+];
+const draft = drafts.includes(Astro.url.pathname);
+---
+<Base title="Hochzeit im Hotel Atlantic Hamburg | Marcel Kuhls" description="Heiraten im Hotel Atlantic an der Außenalster: zwei echte Hochzeiten, Getting Ready im Zimmer, Bilder am Brunnen und abends Licht über der Alster." ogImage="verena-toby-2-hotel-atlantik/044" schema={schema} noindex={draft} dark>
+  <section class="ahero" data-hero data-theme-dark>
+    <div class="ahero__media" data-hero-media>
+      <Photo src="verena-toby-2-hotel-atlantik/044" mobile="sb-verena-tobias-sb/141" alt="Verena und Tobias stoßen am Abend an der Außenalster an, Hochzeit im Hotel Atlantic" priority position="50% 40%" imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="ahero__type wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/hochzeitslocations-hamburg/">Locations</a></li><li><span aria-current="page">Hotel Atlantic</span></li></ol></nav>
+      <h1 class="h1"><span class="h1-kw" style="color:rgba(255,255,255,.85)">Hochzeit im Hotel Atlantic</span> <span data-split data-split-now>Ein Tag <em>an der Alster</em></span></h1>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    {draft && <p class="todo">Entwurf: noindex und nicht verlinkt. Marcel ergänzt die markierten Stellen und prüft die markierten FAQ, danach Freigabe in src/data/drafts.mjs.</p>}
+    <div class="intro">
+      <p class="eyebrow intro__label">Außenalster</p>
+      <p class="statement intro__text" data-scrub-text>Das Atlantic gehört zu den bekanntesten Hotels der Stadt. Wer hier heiratet, kann den ganzen Tag unter einem Dach verbringen: anziehen, Ja sagen, essen, feiern. Und abends liegt die Alster direkt vor der Tür.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Lage</dt><dd>An der Außenalster, Hamburg</dd></div>
+      <div><dt>Fotospots</dt><dd>Innenhof, Säulen, Lobby, Alster</dd></div>
+      <div><dt>Passende Begleitung</dt><dd>meist 10 Stunden</dd></div>
+      <div><dt>Eigene Reportagen</dt><dd>{couples.length}</dd></div>
+    </dl>
+    <p class="todo">Marcel: Link zur offiziellen Hotelseite ergänzen (welche URL soll es sein?) und ggf. einen Satz, was dich am Haus selbst begeistert.</p>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="g g--text">
+      <div><Photo src="verena-toby-2-hotel-atlantik/011" alt="Tobias lacht beim Anziehen, ein Freund hilft ihm mit dem Hemd, Getting Ready im Hotel Atlantic" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">Am Morgen</p>
+        <h2 class="h2" data-split>Getting Ready <em>in den Zimmern</em></h2>
+        <p data-fade style="margin-top:18px">Bei Verena &amp; Tobias begann der Tag in den Zimmern des Hotels. Der Vorteil liegt auf der Hand: Niemand muss quer durch die Stadt fahren, und aus der Vorbereitung wird ohne Pause der Hochzeitstag.</p>
+        <p data-fade>Ein paar Dinge helfen mir dabei, egal in welchem Zimmer. Stellt euch zum Schminken nah ans Fenster, Tageslicht schmeichelt mehr als jede Lampe. Räumt Koffer, Tüten und Wasserflaschen in eine Ecke. Und legt Ringe, Schmuck, Schuhe und Einladung schon bereit, dann habe ich die Details fotografiert, bevor es hektisch wird.</p>
+        <p class="todo" data-fade>Marcel: eigene Erfahrung zu den Zimmern ergänzen (Licht, Platz, ob Braut und Bräutigam getrennte Zimmer hatten).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="chapter wrap">
+      <span class="chapter__n">Im Haus</span>
+      <h2 class="chapter__t h2" data-split>Brunnen, Säulen <em>und Lobby</em></h2>
+      <p class="chapter__d">Für Paarbilder müsst ihr das Atlantic kaum verlassen. Verena &amp; Tobias standen am Brunnen im Innenhof, Sophia &amp; Behnam zwischen den Säulen am Eingang und im warmen Licht der Lobby. Bei Regen bleiben wir einfach drinnen.</p>
+    </div>
+    <Gallery photos={['verena-toby-2-hotel-atlantik/023', 'sb-verena-tobias-sb/054', 'sophia-behnam/13', 'verena-toby-2-hotel-atlantik/039', 'sophia-behnam/12']} alt="Paarbilder im Hotel Atlantic Hamburg" />
+    <p class="todo wrap" style="margin-top:24px">Marcel: eigene Lieblingsecken im Haus und Tipps zu Licht und Tageszeit ergänzen.</p>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div><Photo src="verena-toby-2-hotel-atlantik/043" alt="Verena und Tobias gehen nach der Trauung durch den Saal, die Gäste jubeln" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">Die Trauung</p>
+        <h2 class="h2" data-split>Ja sagen <em>im Saal</em></h2>
+        <p data-fade style="margin-top:18px">Verena &amp; Tobias haben im Saal des Atlantic geheiratet, unter Kronleuchtern und zwischen ihren Gästen. Beim Auszug standen alle und jubelten.</p>
+        <p data-fade>Während der Trauung halte ich mich im Hintergrund. Ich brauche keinen Platz in der ersten Reihe, nur freien Blick auf eure Gesichter und auf die Menschen, die euch zusehen.</p>
+        <p class="todo" data-fade>Marcel: Name des Saals und ob dort auch standesamtliche Trauungen möglich sind, nur wenn belegt.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight dark" data-theme-dark>
+    <div class="wrap">
+      <figure class="quote">
+        <blockquote data-split>„{verena.text}“</blockquote>
+        <figcaption>{verena.by} · {verena.where}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="chapter wrap">
+      <span class="chapter__n">Abends</span>
+      <h2 class="chapter__t h2" data-split>Licht <em>über der Alster</em></h2>
+      <p class="chapter__d">Wenn die Sonne tief steht, glitzert das Wasser, und die Segelboote liegen im Gegenlicht. Für diese Bilder reicht oft eine kurze Pause zwischen Essen und Feier. Wann genau die Sonne so steht, hängt von der Jahreszeit ab und lässt sich vorher gut planen.</p>
+    </div>
+    <Gallery photos={['verena-toby-2-hotel-atlantik/047', 'verena-toby-2-hotel-atlantik/045', 'verena-toby-2-hotel-atlantik/048', 'sb-verena-tobias-sb/141', 'verena-toby-2-hotel-atlantik/049']} alt="Verena und Tobias am Abend an der Außenalster" />
+  </section>
+
+  <section class="section--tight">
+    <div class="chapter wrap">
+      <span class="chapter__n">01</span>
+      <h2 class="chapter__t h2" data-split>Verena &amp; Tobias, <em>ein ganzer Tag</em></h2>
+      <p class="chapter__d">{couples[0].dek}</p>
+    </div>
+    <Gallery photos={['verena-toby-2-hotel-atlantik/008', 'verena-toby-2-hotel-atlantik/016', 'verena-toby-2-hotel-atlantik/024', 'verena-toby-2-hotel-atlantik/030', 'verena-toby-2-hotel-atlantik/041', 'verena-toby-2-hotel-atlantik/046']} alt="Hochzeit von Verena und Tobias im Hotel Atlantic Hamburg" />
+    <p class="wrap" style="margin-top:24px"><a class="link" href={`/portfolio/${couples[0].slug}/`}>Die ganze Reportage von Verena &amp; Tobias</a></p>
+  </section>
+
+  <section class="section--tight">
+    <div class="chapter wrap">
+      <span class="chapter__n">02</span>
+      <h2 class="chapter__t h2" data-split>Sophia &amp; Behnam <em>zwischen den Säulen</em></h2>
+      <p class="chapter__d">{couples[1].dek}</p>
+    </div>
+    <Gallery photos={['sophia-behnam/02', 'sophia-behnam/05', 'sophia-behnam/08', 'sophia-behnam/10', 'sophia-behnam/15']} alt="Paarbilder von Sophia und Behnam im Hotel Atlantic Hamburg" />
+    <p class="wrap" style="margin-top:24px"><a class="link" href={`/portfolio/${couples[1].slug}/`}>Die ganze Reportage von Sophia &amp; Behnam</a></p>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <p class="eyebrow intro__label">Planung</p>
+      <h2 class="intro__text h2" data-split>Tipps <em>aus Fotografensicht</em></h2>
+    </div>
+    <ol class="steps-e">
+      <li data-fade><span class="num">01</span><h3>Alles im Haus</h3><p>Wenn Vorbereitung, Trauung und Feier unter einem Dach liegen, spart ihr Fahrzeit. Die fließt in ruhige Paarbilder.</p></li>
+      <li data-fade="0.06"><span class="num">02</span><h3>Puffer einplanen</h3><p>Zehn Minuten Luft zwischen den Programmpunkten nehmen jedem den Druck, auch den Gästen.</p></li>
+      <li data-fade="0.12"><span class="num">03</span><h3>Gruppenliste</h3><p>Schickt mir vorab, wer mit wem aufs Bild soll. Dann steht niemand lange herum.</p></li>
+      <li data-fade="0.18"><span class="num">04</span><h3>Abendlicht</h3><p>Lasst nach dem Essen ein kurzes Fenster frei, dann geht es für ein paar Minuten ans Wasser.</p></li>
+    </ol>
+    <p class="todo" style="margin-top:24px">Marcel: eigene Planungstipps fürs Atlantic ergänzen (Zeitplan, Wege im Haus). Café Prüsse nur nennen, wenn es zu einer dieser Hochzeiten gehört.</p>
+  </section>
+
+  <section class="section wrap" style="padding-bottom: var(--space)">
+    <div class="g">
+      <div class="af-a"><p class="eyebrow">Fragen zum Atlantic</p><h2 class="h2" data-split>Ihr feiert <em>im Atlantic?</em></h2><p style="margin-top:18px">Schreibt mir euer Datum. Ich nehme pro Wochenende nur eine Hochzeit an und antworte innerhalb von 24 Stunden.</p><p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/?art=Hochzeit&amp;ort=Hotel%20Atlantic%20Hamburg">Verfügbarkeit anfragen <span class="arr">→</span></a></p><p style="margin-top:14px"><a class="link" href="/hochzeitslocations-hamburg/">Hochzeitslocations in Hamburg</a></p><p style="margin-top:8px"><a class="link" href="/leistungen/">Pakete und Ablauf</a></p></div>
+      <div class="af-b"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahero { position: relative; height: 88svh; min-height: 540px; color: #fff; overflow: hidden; background: var(--night); }
+  .ahero__media { position: absolute; inset: 0; transform-origin: 50% 0; }
+  .ahero__media :global(.ph) { position: absolute; inset: 0; }
+  .ahero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,0) 40%, rgba(0,0,0,.55)); }
+  .ahero__type { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; padding-bottom: clamp(28px, 4vw, 64px); z-index: 2; }
+  .ahero .crumbs { color: rgba(255,255,255,.7); }
+  .steps-e { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .steps-e li { display: grid; gap: 8px; align-content: start; border-top: 1px solid var(--line); padding-top: 18px; }
+  .steps-e h3 { font-size: 1.3rem; }
+  .steps-e p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .af-a { grid-column: 1 / 5; }
+  .af-b { grid-column: 6 / 13; }
+  @media (max-width: 899px) {
+    .steps-e { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .af-a, .af-b { grid-column: 1 / -1; }
+    .af-b { margin-top: 24px; }
+  }
+</style>

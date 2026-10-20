@@ -1,0 +1,216 @@
+---
+// ENTWURF (src/data/drafts.mjs): Ratgeber „Wie viele Stunden Hochzeitsfotograf?“, Briefing B7 in research/08-content-plan.md.
+// Stundenangaben = Marcels Pakete von /angebot/ und /leistungen/ (3 bis 5, 8, 10, 12 Stunden), keine Preise.
+// Die Beispielhochzeiten nur mit dem, was reportages.ts über sie sagt. Wie lange Marcel jeweils gebucht war, steht nirgends und wird nicht behauptet.
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Gallery from '../components/Gallery.astro';
+import FaqList from '../components/FaqList.astro';
+import { bySlug, testimonials } from '../data/reportages';
+import { faqSchema, type Faq } from '../data/faq';
+import { drafts } from '../data/drafts.mjs';
+import { photo } from '../data/photos';
+
+const [lynn, patricia, uinny, pronstorf, joana, uinnySta, isabelleSta, isabelle] = ['lynn-ersin-standesamt-altona', 'patricia-alexander-standesamt-eimsbuettel', 'uinny-sidney-villa-mignon', 'hochzeit-gut-pronstorf', 'joana-dennis', 'uinny-sidney-standesamt-altona', 'isabelle-kenny-standesamt-altona', 'isabelle-kenny'].map(bySlug);
+const lynnQuote = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
+const rows = [
+  ['3 bis 5 Stunden', 'Ankunft, Jawort, Gratulationen, Paarbilder in der Nähe, Sekt oder Essen danach', 'Standesamt und kleine Hochzeit'],
+  ['8 Stunden', 'Ankommen, Trauung, Gratulationen, Gruppen- und Paarbilder, Essen und die ersten Stunden der Feier', 'Feiern im kleinen Kreis'],
+  ['10 Stunden', 'Getting Ready, Trauung, Empfang, Gruppen- und Paarbilder, Dinner, Reden, Eröffnungstanz und die erste Stunde Party', 'Der klassische Hochzeitstag'],
+  ['12 Stunden', 'Alles davon, dazu Spiele, lange Reden und die Tanzfläche bis in die Nacht', 'Große Hochzeiten mit langem Abend'],
+];
+const faq: Faq[] = [
+  { cat: 'Ablauf', q: 'Reichen 6 Stunden für eine Hochzeit?', a: 'Wenn euer Tag mit der Trauung beginnt und nach dem Essen ruhiger wird, oft ja. Getting Ready und Party sind dann meist nicht dabei. Ist euch eins davon wichtig, plant mehr Zeit ein.', check: true },
+  { cat: 'Ablauf', q: 'Ab wann sollte der Fotograf beim Getting Ready dabei sein?', a: 'Etwa eine Stunde bevor ihr angezogen seid. Dann sind Haare und Make-up fast fertig, die Details liegen bereit, und die schönsten Momente kommen ohnehin zum Schluss: Kleid, Anzug, der Blick in den Spiegel.', check: true },
+  { cat: 'Ablauf', q: 'Lohnt es sich, den Fotografen bis zur Party zu buchen?', a: 'Wenn ihr gern tanzt und eure Gäste auch, ja. Die erste Stunde nach dem Eröffnungstanz bringt oft die ausgelassensten Bilder. Für eine lange Nacht mit Spielen und Reden passen zwölf Stunden.' },
+  { cat: 'Ablauf', q: 'Wie viel Zeit braucht ein Paarshooting am Hochzeitstag?', a: 'Nach dem Standesamt reicht meist eine halbe Stunde in der Nähe. An einem ganzen Tag lohnt es sich, die Zeit zu teilen: einmal am Nachmittag und ein paar Minuten im Abendlicht.', check: true },
+  { cat: 'Ablauf', q: 'Wie viel Zeit sollten wir für Gruppenfotos einplanen?', a: 'Das hängt von der Zahl der Gruppen ab. Mit einer Liste vorab geht es zügig, weil ich die Gruppen der Reihe nach aufrufen kann und niemand gesucht werden muss. Für die engste Familie reicht oft eine Viertelstunde.', check: true },
+  { cat: 'Buchung', q: 'Kann man die Stunden am Tag spontan verlängern?', a: 'Ja. Wenn der Abend länger wird als geplant, kann ich auch spontan vor Ort länger bleiben. Weitere Stunden lassen sich auch vorher noch dazubuchen.' },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'BlogPosting',
+    headline: 'Wie viele Stunden Hochzeitsfotograf braucht ihr?',
+    dateModified: '2026-10-21',
+    author: { '@id': 'https://marcelkuhls.de/#marcel' },
+    publisher: { '@id': 'https://marcelkuhls.de/#business' },
+    image: new URL(photo('michelle-benjamin/17').src, 'https://marcelkuhls.de').href,
+    mainEntityOfPage: 'https://marcelkuhls.de/wie-viele-stunden-hochzeitsfotograf/',
+    inLanguage: 'de-DE',
+  },
+  faqSchema(faq),
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Journal', item: 'https://marcelkuhls.de/journal/' },
+    { '@type': 'ListItem', position: 3, name: 'Wie viele Stunden Hochzeitsfotograf?' },
+  ] },
+];
+const draft = drafts.includes(Astro.url.pathname);
+---
+<Base title="Wie viele Stunden Hochzeitsfotograf? Zeitpläne" description="3, 8, 10 oder 12 Stunden? Echte Hochzeitstage vom Standesamt bis zur Party und was in jeder Variante auf euren Bildern zu sehen ist." ogImage="michelle-benjamin/17" ogType="article" schema={schema} noindex={draft} dark>
+  <section class="ahero" data-hero data-theme-dark>
+    <div class="ahero__media" data-hero-media>
+      <Photo src="michelle-benjamin/17" mobile="michelle-benjamin/14" alt="Michelle und Benjamin gehen über den Kopfsteinpflasterweg auf das Torhaus von Gut Pronstorf zu" priority position="50% 45%" imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="ahero__type wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/journal/">Journal</a></li><li><span aria-current="page">Wie viele Stunden?</span></li></ol></nav>
+      <h1 class="h1"><span class="h1-kw" style="color:rgba(255,255,255,.85)">Wie viele Stunden Hochzeitsfotograf braucht ihr?</span> <span data-split data-split-now>Euer Tag, <em>in Stunden</em></span></h1>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    {draft && <p class="todo">Entwurf: noindex und nicht verlinkt. Marcel prüft die markierten FAQ und Notizen, danach Freigabe in src/data/drafts.mjs.</p>}
+    <div class="intro">
+      <p class="eyebrow intro__label">Ratgeber</p>
+      <p class="statement intro__text" data-scrub-text>Die Frage kommt fast immer, bevor es um Bilder geht. Die ehrliche Antwort: Es hängt davon ab, was auf euren Bildern zu sehen sein soll. Hier steht, was in welche Zeit passt, mit echten Hochzeitstagen als Beispiel.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Standesamt</dt><dd>3 bis 5 Stunden</dd></div>
+      <div><dt>Kleiner Rahmen</dt><dd>8 Stunden</dd></div>
+      <div><dt>Der ganze Tag</dt><dd>10 Stunden</dd></div>
+      <div><dt>Bis Mitternacht</dt><dd>12 Stunden</dd></div>
+    </dl>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="intro" style="margin-bottom: clamp(24px, 3vw, 40px)">
+      <p class="eyebrow intro__label">Kurz gesagt</p>
+      <h2 class="intro__text h2" data-split>Was in <em>welche Zeit passt</em></h2>
+    </div>
+    <div class="tablewrap">
+      <table class="table">
+        <thead><tr><th>Umfang</th><th>Was auf den Bildern ist</th><th>Passt zu</th></tr></thead>
+        <tbody>{rows.map(([h, what, fit]) => <tr><td>{h}</td><td>{what}</td><td>{fit}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="muted" style="max-width:60ch">Zwischenstufen gehen auch, jede weitere Stunde lässt sich dazubuchen. Was das kostet, steht im Artikel <a class="link" href="/was-kostet-ein-hochzeitsfotograf-hamburg/">Was kostet ein Hochzeitsfotograf in Hamburg?</a>, mein Angebot bekommt ihr auf Anfrage.</p>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div><Photo src="sb-lynn-ersin/053" alt="Lynn und Ersin vor dem schwarzen Tor des Standesamts Altona" ratio="2/3" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">3 Stunden</p>
+        <h2 class="h2" data-split>Nur <em>das Standesamt</em></h2>
+        <p data-fade style="margin-top:18px">Ankommen, Jawort, Ringe, Gratulationen vor der Tür und ein paar Paarbilder in der Nähe. So ein Termin braucht meist rund drei Stunden, auch wenn die Trauung selbst nicht lange dauert. Die schönsten Bilder entstehen oft davor und danach.</p>
+        <p data-fade>Bei Lynn &amp; Ersin in Altona sah das so aus: weiße Fassade, schwarzes Tor und eine Champagnerpyramide direkt vor dem Rathaus. Die ersten Bilder entstanden schon beim Aussteigen aus dem Auto.</p>
+        <p data-fade><a class="link" href={`/portfolio/${lynn.slug}/`}>Die Reportage von Lynn &amp; Ersin</a> · <a class="link" href="/standesamt-fotograf-hamburg/">Fotograf fürs Standesamt</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight dark" data-theme-dark>
+    <div class="wrap">
+      <figure class="quote">
+        <blockquote data-split>„{lynnQuote.text}“</blockquote>
+        <figcaption>{lynnQuote.by} · {lynnQuote.where}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div><Photo src="sb-patricia-alexander/155" alt="Patricia und Alexander gehen Hand in Hand auf einen Leuchtturm zu" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">4 bis 5 Stunden</p>
+        <h2 class="h2" data-split>Standesamt, <em>Paarbilder, Essen</em></h2>
+        <p data-fade style="margin-top:18px">Geht es nach der Trauung mit den Liebsten weiter, wächst der Tag. Sekt vor der Tür, ein Spaziergang für Paarbilder, dann ein Essen im kleinen Kreis. Dafür sind vier bis fünf Stunden eine gute Größe.</p>
+        <p data-fade>Patricia &amp; Alexander haben so geheiratet: Jawort in Eimsbüttel, Feier im Restaurant Sicily und dazwischen Paarbilder auf Treppen, an Hecken und vor einem rot-weißen Leuchtturm.</p>
+        <p data-fade><a class="link" href={`/portfolio/${patricia.slug}/`}>Die Reportage von Patricia &amp; Alexander</a> · <a class="link" href="/kleine-hochzeit-hamburg/">Kleine Hochzeit in Hamburg</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div><Photo src="uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/028" alt="Uinny und Sidney küssen sich vor der Villa, die Gäste stehen im Halbkreis" ratio="2/3" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">8 Stunden</p>
+        <h2 class="h2" data-split>Von der Trauung <em>bis in den Abend</em></h2>
+        <p data-fade style="margin-top:18px">Beginnt euer Tag mit der Trauung und soll das Getting Ready nicht dabei sein, reichen oft acht Stunden. Darin haben Trauung, Gratulationen, Gruppenbilder, Paarbilder und das Essen Platz, dazu die ersten Stunden der Feier.</p>
+        <p data-fade>Ein Tag wie bei Uinny &amp; Sidney zeigt, wie viel da zusammenkommt: kirchliche Trauung in der Melanchthonkirche, Paarbilder an der Villa im Heine Park und ein großes Fest in der Villa Mignon.</p>
+        <p class="todo" data-fade>Marcel: Passt Villa Mignon als Beispiel für 8 Stunden, oder lieber eine andere Hochzeit nennen?</p>
+        <p data-fade><a class="link" href={`/portfolio/${uinny.slug}/`}>Die Reportage von Uinny &amp; Sidney</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="chapter wrap">
+      <span class="chapter__n">10 Stunden</span>
+      <h2 class="chapter__t h2" data-split>Vom Getting Ready <em>bis zum ersten Tanz</em></h2>
+      <p class="chapter__d">Das Paket, das am häufigsten gebucht wird. Genug Zeit für den Morgen, die Trauung, Empfang, Dinner, Reden und den Eröffnungstanz, ohne dass am Abend die Uhr im Nacken sitzt.</p>
+    </div>
+    <Gallery photos={['michelle-benjamin/03', 'michelle-benjamin/09', 'michelle-benjamin/27', 'joana-dennis-gut-bardenhagen/035', 'joana-dennis-gut-bardenhagen/017', 'joana-dennis-gut-bardenhagen/001']} alt="Ganze Hochzeitstage auf Gut Pronstorf und Gut Bardenhagen" />
+    <div class="wrap prose" style="margin-top:32px;max-width:64ch">
+      <p data-fade>So sehen ganze Tage aus. Bei Michelle &amp; Benjamin auf Gut Pronstorf: Getting Ready mit weißen Rosen, Trauung in der Kirche von Pronstorf, Feier im Festsaal mit Kronleuchtern. Bei Joana &amp; Dennis auf Gut Bardenhagen: ein First Look am Pool, eine Trauung im Garten mit Konfetti und abends eine volle Tanzfläche in der Halle.</p>
+      <p data-fade><a class="link" href={`/portfolio/${pronstorf.slug}/`}>Michelle &amp; Benjamin auf Gut Pronstorf</a> · <a class="link" href={`/portfolio/${joana.slug}/`}>Joana &amp; Dennis auf Gut Bardenhagen</a></p>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div><Photo src="michelle-benjamin/31" alt="Volle Tanzfläche unter Lichterketten im Festsaal von Gut Pronstorf" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">12 Stunden</p>
+        <h2 class="h2" data-split>Bis die <em>Party läuft</em></h2>
+        <p data-fade style="margin-top:18px">Zwölf Stunden sind für große Hochzeiten mit langem Abend. Der Morgen bekommt Ruhe statt Hetze, und abends ist noch Zeit für Spiele, späte Reden und die Tanzfläche, wenn sie wirklich voll ist.</p>
+        <p data-fade>Ob sich das lohnt, hängt an euch und euren Gästen. Wenn bei euch getanzt wird, bis das Licht angeht, gehören diese Bilder zu den lebendigsten des Tages.</p>
+        <p data-fade><a class="link" href="/leistungen/">Alle Pakete im Überblick</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <p class="eyebrow intro__label">Clever planen</p>
+      <h2 class="intro__text h2" data-split>Wo sich Stunden sparen lassen, <em>ohne dass etwas fehlt</em></h2>
+    </div>
+    <ol class="steps-e">
+      <li data-fade><span class="num">01</span><h3>Später einsteigen</h3><p>Beim Getting Ready zählt die letzte Stunde: Kleid, Anzug, der Blick in den Spiegel. Den ganzen Friseurtermin braucht es nicht.</p></li>
+      <li data-fade="0.06"><span class="num">02</span><h3>Kurze Wege</h3><p>Liegen Trauung und Feier nah beieinander, geht weniger Zeit im Auto verloren.</p></li>
+      <li data-fade="0.12"><span class="num">03</span><h3>Gruppenliste</h3><p>Eine Liste vorab macht Gruppenbilder schnell. Dann bleibt mehr Zeit für ungestellte Momente.</p></li>
+      <li data-fade="0.18"><span class="num">04</span><h3>Paarbilder klug legen</h3><p>Während des Sektempfangs fehlt ihr niemandem lange. Ein First Look vor der Trauung schafft zusätzlich Luft.</p></li>
+    </ol>
+    <p class="muted" style="margin-top:24px;max-width:60ch">Und wenn der Abend doch länger wird als geplant, bleibe ich auch spontan vor Ort länger.</p>
+  </section>
+
+  <section class="section--tight">
+    <div class="chapter wrap">
+      <span class="chapter__n">Zwei Tage</span>
+      <h2 class="chapter__t h2" data-split>Standesamt und Kirche <em>getrennt</em></h2>
+      <p class="chapter__d">Manche Paare heiraten an zwei Tagen. Dann braucht jeder Tag seine eigene Zeit: ein paar Stunden fürs Standesamt, ein ganzer Tag für die große Feier. Uinny &amp; Sidney haben im Februar im Schnee in Altona standesamtlich geheiratet und ein halbes Jahr später in der Melanchthonkirche und der Villa Mignon gefeiert. Bei Isabelle &amp; Kenny lag das Standesamt in Altona einen Tag vor der kirchlichen Trauung in Ulsnis an der Schlei.</p>
+    </div>
+    <Gallery photos={['sb-uinny-sidney-sta/080', 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/014', 'sb-uinny-sidney-sta/098', 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/008']} alt="Uinny und Sidney im Winter am Standesamt Altona und im Sommer im Heine Park" />
+    <p class="wrap" style="margin-top:24px"><a class="link" href={`/portfolio/${uinnySta.slug}/`}>Uinny &amp; Sidney im Standesamt</a> · <a class="link" href={`/portfolio/${uinny.slug}/`}>Uinny &amp; Sidney in der Villa Mignon</a> · <a class="link" href={`/portfolio/${isabelleSta.slug}/`}>Isabelle &amp; Kenny in Altona</a> · <a class="link" href={`/portfolio/${isabelle.slug}/`}>Isabelle &amp; Kenny an der Schlei</a></p>
+  </section>
+
+  <section class="section wrap" style="padding-bottom: var(--space)">
+    <div class="g">
+      <div class="af-a"><p class="eyebrow">Fragen zur Dauer</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2><p style="margin-top:18px">Schickt mir euren groben Zeitplan, ich sage euch, wie viele Stunden sinnvoll sind. Auch wenn das weniger ist, als ihr dachtet. Antwort innerhalb von 24 Stunden.</p><p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/?art=Hochzeit">Zeitplan schicken <span class="arr">→</span></a></p><p style="margin-top:14px"><a class="link" href="/leistungen/">Pakete und Ablauf</a></p><p style="margin-top:8px"><a class="link" href="/was-kostet-ein-hochzeitsfotograf-hamburg/">Was kostet ein Hochzeitsfotograf?</a></p></div>
+      <div class="af-b"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahero { position: relative; height: 88svh; min-height: 540px; color: #fff; overflow: hidden; background: var(--night); }
+  .ahero__media { position: absolute; inset: 0; transform-origin: 50% 0; }
+  .ahero__media :global(.ph) { position: absolute; inset: 0; }
+  .ahero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,0) 40%, rgba(0,0,0,.55)); }
+  .ahero__type { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; padding-bottom: clamp(28px, 4vw, 64px); z-index: 2; }
+  .ahero .crumbs { color: rgba(255,255,255,.7); }
+  .tablewrap { overflow-x: auto; }
+  .tablewrap .table { max-width: 80ch; }
+  .steps-e { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .steps-e li { display: grid; gap: 8px; align-content: start; border-top: 1px solid var(--line); padding-top: 18px; }
+  .steps-e h3 { font-size: 1.3rem; }
+  .steps-e p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .af-a { grid-column: 1 / 5; }
+  .af-b { grid-column: 6 / 13; }
+  @media (max-width: 899px) {
+    .steps-e { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .af-a, .af-b { grid-column: 1 / -1; }
+    .af-b { margin-top: 24px; }
+  }
+</style>
