@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site, nav, legal, more } from '../data/site';
+import Consent from '../components/Consent.astro';
 import { getImage } from 'astro:assets';
 import { photo } from '../data/photos';
 
@@ -38,7 +39,7 @@ const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, fo
       <meta name="facebook-domain-verification" content="svt1soedi4fhsi7n63m6a79z0xwmmh" />
     </>
   )}
-  <!-- Vorgesehene Live-URL (nur Konzept, Prototyp wird nicht veröffentlicht) -->
+  <!-- Canonical auf die Live-URL -->
   <link rel="canonical" href={canonical} />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="de_DE" />
@@ -113,6 +114,7 @@ const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, fo
       <div>
         <p class="ftr__label">Kontakt</p>
         <p><a href={`mailto:${site.email}`}>{site.email}</a><br />Hamburg und Umgebung, gern auch weiter weg</p>
+        <p><a href={site.instagram} rel="noopener" target="_blank">Instagram · @marcelkuhls.photography</a></p>
       </div>
       <div>
         <p class="ftr__label">Entdecken</p>
@@ -120,7 +122,7 @@ const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, fo
       </div>
       <div>
         <p class="ftr__label">Rechtliches</p>
-        <ul>{legal.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+        <ul>{legal.map((n) => <li><a href={n.href}>{n.label}</a></li>)}{LIVE && site.analytics.ga4 && <li><button type="button" class="ftr__consent" data-consent-open>Cookie-Einstellungen</button></li>}</ul>
       </div>
     </div>
     <div class="ftr__brand wrap">
@@ -128,10 +130,11 @@ const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, fo
     </div>
     <div class="ftr__base wrap">
       <span>© 2026 Marcel Kuhls Photography</span>
-      <span>Entwurf · nicht öffentlich</span>
+      <span>Hochzeitsfotografie aus Hamburg</span>
     </div>
   </footer>
 
+  <Consent />
   {!LIVE && <div class="proto-badge" role="note">Prototyp · noindex · Formular sendet nichts</div>}
 
   <script>

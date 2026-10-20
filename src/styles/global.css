@@ -593,3 +593,6 @@ html { interpolate-size: allow-keywords; }
 .lb__bar { height: 2px; margin: 0 var(--pad) 20px; background: rgba(239,232,220,.15); }
 .lb__bar i { display: block; height: 100%; background: var(--cream); transform-origin: left; transition: transform 0.5s var(--ease); }
 @media (max-width: 899px) { .lb__nav { top: auto; bottom: 34px; transform: none; width: 48px; height: 48px; } .lb__stage { padding: 0 8px; } .lb__img { max-height: calc(100svh - 190px); } }
+
+.ftr__consent { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; opacity: inherit; }
+.ftr__consent:hover { text-decoration: underline; }

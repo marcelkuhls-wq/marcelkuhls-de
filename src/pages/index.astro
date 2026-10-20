@@ -1,4 +1,5 @@
 ---
+import { site } from '../data/site';
 import { PORTRAIT_FRONT } from '../data/photos';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
@@ -35,6 +36,7 @@ const schema = [
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': 'https://marcelkuhls.de/#business',
+    sameAs: [site.instagram],
     name: 'Marcel Kuhls Photography',
     description: 'Dokumentarische Hochzeitsfotografie in Hamburg.',
     url: 'https://marcelkuhls.de/',

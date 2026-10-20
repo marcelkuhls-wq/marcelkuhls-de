@@ -1,0 +1,138 @@
+---
+/**
+ * Cookie-Einwilligung + Google Analytics 4 (Aufbau wie bei Studio Kuhls, eigene Property).
+ *
+ * - Nur live und nur mit Messungs-ID (site.analytics.ga4). Sonst kein Banner, kein Skript.
+ * - Google Analytics lädt erst NACH Zustimmung (vorher keine Verbindung zu Google).
+ * - Die Entscheidung liegt im localStorage (technisch notwendig, § 25 Abs. 2 TDDDG)
+ *   und lässt sich über „Cookie-Einstellungen“ im Footer jederzeit ändern.
+ * - Gemessen werden Seitenaufrufe und Anfrage-Signale: Formular abgeschickt (generate_lead),
+ *   Klicks auf Anfragen/E-Mail/Telefon/Instagram, angesehene Reportagen.
+ */
+import { site } from '../data/site';
+const LIVE = import.meta.env.PUBLIC_MODE === 'live';
+const ga4 = LIVE ? site.analytics.ga4 : '';
+---
+
+{
+  ga4 && (
+    <>
+      <div id="consent" class="consent" hidden role="dialog" aria-labelledby="consent-title" aria-describedby="consent-text">
+        <p id="consent-title" class="eyebrow eyebrow--plain">Datenschutz-Einstellungen</p>
+        <p id="consent-text">
+          Darf ich mit Google Analytics sehen, welche Seiten euch interessieren? Dafür werden Cookies gesetzt und Daten an Google
+          übermittelt, auch in die USA. Das passiert nur, wenn ihr zustimmt, und lässt sich jederzeit widerrufen. Mehr in der{' '}
+          <a class="link" href="/datenschutzerklaerung/">Datenschutzerklärung</a>.
+        </p>
+        <div class="consent__btns">
+          <button type="button" class="btn" data-consent="deny">Ablehnen</button>
+          <button type="button" class="btn" data-consent="grant">Akzeptieren</button>
+        </div>
+      </div>
+
+      <script is:inline define:vars={{ ga4 }}>
+        (function () {
+          var KEY = 'mk-consent';
+          var box = document.getElementById('consent');
+          var loaded = false;
+          function read() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+          function save(granted) { try { localStorage.setItem(KEY, JSON.stringify({ analytics: granted, v: 1, ts: Date.now() })); } catch (e) {} }
+          function clearGaCookies() {
+            document.cookie.split(';').forEach(function (c) {
+              var name = c.split('=')[0].trim();
+              if (/^_ga/.test(name)) {
+                [location.hostname, '.' + location.hostname.replace(/^www\./, '')].forEach(function (d) {
+                  document.cookie = name + '=; Max-Age=0; path=/; domain=' + d;
+                });
+                document.cookie = name + '=; Max-Age=0; path=/';
+              }
+            });
+          }
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          // Ereignisse ohne Zustimmung werden verworfen
+          window.mkTrack = function (name, params) { if (loaded) window.gtag('event', name, params || {}); };
+
+          // Seitenbereich für Berichte („Inhaltsgruppe“)
+          function contentGroup(p) {
+            if (document.title.indexOf('Seite nicht gefunden') === 0) return 'Fehlerseite 404';
+            p = p.replace(/\/$/, '') || '/';
+            if (p === '/') return 'Startseite';
+            if (p === '/portfolio') return 'Reportagen-Übersicht';
+            if (p.indexOf('/portfolio/') === 0) return 'Reportage';
+            if (p === '/journal') return 'Journal-Übersicht';
+            if (/^\/(heiraten-in-hamburg|hochzeit-gutshaus-norddeutschland|kleine-hochzeit-hamburg|hochzeitsfotos|was-kostet-ein-hochzeitsfotograf-hamburg)$/.test(p)) return 'Ratgeber';
+            if (/^\/(standesamt-fotograf-hamburg|hochzeit-standesamt-altona)$/.test(p)) return 'Standesamt';
+            if (/^\/(hochzeitslocations-hamburg|hochzeit-gut-pronstorf-fotograf)$/.test(p)) return 'Locations';
+            if (/^\/(leistungen|verlobungsshooting-hamburg|angebot)$/.test(p)) return 'Leistungen';
+            if (p === '/kontakt') return 'Kontakt';
+            if (p === '/ueber-mich' || p === '/bewertungen' || p === '/faq') return 'Über mich & Vertrauen';
+            if (p === '/impressum' || p === '/datenschutzerklaerung') return 'Rechtliches';
+            return 'Sonstiges';
+          }
+          function load() {
+            if (loaded) return;
+            loaded = true;
+            window.gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+            window.gtag('js', new Date());
+            window.gtag('config', ga4, { content_group: contentGroup(location.pathname) });
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4;
+            document.head.appendChild(s);
+            document.dispatchEvent(new Event('mk:analytics'));
+          }
+          box.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-consent]');
+            if (!b) return;
+            var granted = b.getAttribute('data-consent') === 'grant';
+            save(granted);
+            box.hidden = true;
+            if (granted) load();
+            else if (loaded) { clearGaCookies(); location.reload(); } // Widerruf
+          });
+          document.addEventListener('click', function (e) {
+            if (e.target.closest('[data-consent-open]')) { e.preventDefault(); box.hidden = false; }
+          });
+          var c = read();
+          if (c && c.analytics) load();
+          else if (!c) box.hidden = false;
+        })();
+      </script>
+
+      <script>
+        // Anfrage-Signale mit Herkunft auf der Seite
+        const track = (name: string, params: Record<string, unknown> = {}) =>
+          (window as unknown as { mkTrack?: (n: string, p: Record<string, unknown>) => void }).mkTrack?.(name, params);
+        const where = (el: Element) => (el.closest('header') ? 'Kopfzeile' : el.closest('footer') ? 'Footer' : el.closest('.nav-menu, [data-menu]') ? 'Menü' : 'Inhalt');
+        document.addEventListener('click', (e) => {
+          const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+          if (!a) return;
+          const href = a.getAttribute('href') ?? '';
+          const base = { link_text: (a.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 60), cta_location: where(a), page: location.pathname };
+          if (href.startsWith('/kontakt')) track('cta_click', base);
+          else if (href.startsWith('mailto:')) track('email_click', base);
+          else if (href.startsWith('tel:')) track('phone_click', base);
+          else if (href.includes('instagram.com')) track('instagram_click', base);
+          else if (href.startsWith('/portfolio/') && href !== '/portfolio/') track('select_reportage', { ...base, reportage: href.split('/')[2] });
+        });
+        const view = () => {
+          const m = location.pathname.match(/^\/portfolio\/([^/]+)/);
+          if (m) track('view_reportage', { reportage: m[1] });
+          if (document.title.indexOf('Seite nicht gefunden') === 0) track('page_not_found', { page: location.pathname, referrer: document.referrer || '(direkt)' });
+        };
+        document.addEventListener('mk:analytics', view);
+        view();
+      </script>
+    </>
+  )
+}
+
+<style>
+  .consent { position: fixed; z-index: 90; left: 16px; right: 16px; bottom: 16px; max-width: 30rem; background: var(--paper); color: var(--ink); border: 1px solid var(--line); padding: 22px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14); font-size: 0.95rem; }
+  .consent[hidden] { display: none; }
+  .consent p { margin: 0 0 14px; }
+  .consent__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .consent__btns .btn { justify-content: center; }
+  @media (min-width: 900px) { .consent { left: 32px; right: auto; bottom: 32px; } }
+</style>

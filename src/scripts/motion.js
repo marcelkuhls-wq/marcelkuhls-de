@@ -174,6 +174,7 @@ function initForms() {
           const res = await fetch(form.dataset.endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
           const json = await res.json();
           if (!json.success) throw new Error(json.message);
+          window.mkTrack?.('generate_lead', { form: 'kontakt', kind: String(data.get('kind') || ''), page: location.pathname });
         } catch {
           btn.disabled = false;
           if (err) err.hidden = false;
