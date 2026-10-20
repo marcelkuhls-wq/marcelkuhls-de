@@ -5,7 +5,7 @@
 Offen nach dem Start:
 - www-Zertifikat abwarten, dann in GitHub Pages „Enforce HTTPS“ aktivieren
 - Nach der ersten echten Anfrage `generate_lead` in GA4 als Schlüsselereignis markieren (Verwaltung → Ereignisse → Stern)
-- Web3Forms läuft über das Konto marcel.kuhls@web.de (Anfragen landen dort)
+- Web3Forms: Konto marcel.kuhls@web.de, Empfänger info@marcelkuhls.de
 - Altes GA4-Tag G-VMXBV47J77 und Google Ads AW-16714662548 der WordPress-Seite sind nicht mehr eingebunden
 
 ---
