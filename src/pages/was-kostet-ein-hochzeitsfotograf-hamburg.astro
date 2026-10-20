@@ -29,7 +29,8 @@ const schema = [
     '@context': 'https://schema.org', '@type': 'BlogPosting',
     headline: 'Was kostet ein Hochzeitsfotograf in Hamburg?',
     dateModified: '2026-10-20',
-    author: { '@type': 'Person', name: 'Marcel Kuhls', url: 'https://marcelkuhls.de/ueber-mich/' },
+    author: { '@id': 'https://marcelkuhls.de/#marcel' },
+    image: new URL(photo('michelle-benjamin/20').src, 'https://marcelkuhls.de').href,
     publisher: { '@id': 'https://marcelkuhls.de/#business' },
     mainEntityOfPage: 'https://marcelkuhls.de/was-kostet-ein-hochzeitsfotograf-hamburg/',
     inLanguage: 'de-DE',
@@ -43,7 +44,7 @@ const schema = [
 ];
 const avatar = await getImage({ src: photo(PORTRAIT_FRONT), width: 160, height: 160, fit: 'cover', position: 'top', format: 'webp' });
 ---
-<Base title="Was kostet ein Hochzeitsfotograf in Hamburg? Preise 2026" description="Marktpreise in Hamburg: ganzer Hochzeitstag meist 2.000 bis 3.500 €, Standesamt 650 bis 1.400 €. Was im Preis stecken sollte und woran ihr ein faires Angebot erkennt." ogImage="michelle-benjamin/20" schema={schema}>
+<Base title="Was kostet ein Hochzeitsfotograf in Hamburg? Preise 2026" description="Marktpreise in Hamburg: ganzer Hochzeitstag meist 2.000 bis 3.500 €, Standesamt 650 bis 1.400 €. Was im Preis stecken sollte und woran ihr ein faires Angebot erkennt." ogImage="michelle-benjamin/20" schema={schema} ogType="article">
   <article>
     <header class="ahead wrap">
       <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/journal/">Journal</a></li><li><span aria-current="page">Kosten</span></li></ol></nav>

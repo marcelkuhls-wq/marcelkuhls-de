@@ -3,7 +3,7 @@ import { site } from '../data/site';
 import { PORTRAIT_FRONT } from '../data/photos';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
-import { bySlug, testimonials, venueTitle } from '../data/reportages';
+import { bySlug, testimonials, venueTitle, reportages } from '../data/reportages';
 import { pick } from '../data/faq';
 import FaqList from '../components/FaqList.astro';
 import FrameShow from '../components/FrameShow.astro';
@@ -29,23 +29,16 @@ const day = [
   { k: 'michelle-benjamin/36', t: 'p' },
 ];
 
+// Alt-Text der Tagesfolge aus der Reportage, zu der das Foto gehört (statt 14× derselbe Text)
+const seqAlt = (k: string) => {
+  const r = reportages.find((x) => [x.cover, x.side, x.hero, ...x.chapters.flatMap((c) => c.photos)].includes(k) || x.chapters.some((c) => c.photos.some((p) => p.split('/')[0] === k.split('/')[0])));
+  return r ? `${venueTitle(r)}: ${r.couple}, Hochzeitsreportage von Marcel Kuhls` : 'Hochzeitsreportage von Marcel Kuhls';
+};
+
 const faq = pick('Was kostet', 'Wie weit im Voraus', 'Wie viele Stunden', 'Wann bekommen', 'Begleitest du auch nur', 'Wir stehen nicht gern', 'Was passiert, wenn', 'Fotografierst du auch au');
 
 const schema = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': 'https://marcelkuhls.de/#business',
-    sameAs: [site.instagram, site.google],
-    name: 'Marcel Kuhls Photography',
-    description: 'Dokumentarische Hochzeitsfotografie in Hamburg.',
-    url: 'https://marcelkuhls.de/',
-    email: 'info@marcelkuhls.de',
-    telephone: '+49 176 28979148',
-    address: { '@type': 'PostalAddress', streetAddress: 'Mühlenkamp 52', postalCode: '22303', addressLocality: 'Hamburg', addressCountry: 'DE' },
-    areaServed: ['Hamburg', 'Schleswig-Holstein', 'Niedersachsen'],
-    founder: { '@type': 'Person', name: 'Marcel Kuhls', jobTitle: 'Hochzeitsfotograf' },
-  },
+  // Unternehmen, Website und Person stehen zentral in Base.astro (auf jeder Seite)
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -171,7 +164,7 @@ const schema = [
           </div>
         ) : (
           <div class:list={['hs__item', `hs__item--${d.t}`]}>
-            <Photo src={d.k!} alt="Moment aus einer Hochzeitsreportage von Marcel Kuhls" sizes="(max-width: 899px) 80vw, 45vw" />
+            <Photo src={d.k!} alt={seqAlt(d.k!)} sizes="(max-width: 899px) 80vw, 45vw" />
           </div>
         ))}
       </div>

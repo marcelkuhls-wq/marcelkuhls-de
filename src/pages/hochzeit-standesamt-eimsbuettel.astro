@@ -1,0 +1,141 @@
+---
+// ENTWURF (src/data/drafts.mjs): Ortsseite Standesamt Eimsbüttel, Briefing B6 in research/08-content-plan.md.
+// Regeln zu Gästezahl, Zeiten und Terrasse stammen von hamburg.de (abgerufen 21.10.2026), Quellen unten im Code.
+// Alles über die beiden Hochzeiten stammt aus den Reportagen (reportages.ts). Eigene Erfahrungswerte: Marcel ergänzt.
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Gallery from '../components/Gallery.astro';
+import FaqList from '../components/FaqList.astro';
+import { bySlug } from '../data/reportages';
+import { faqSchema, type Faq } from '../data/faq';
+import { drafts } from '../data/drafts.mjs';
+
+// Quellen: https://www.hamburg.de/politik-und-verwaltung/bezirke/bezirksthemen/standesamt/eimsbuettel-58392
+//          https://standesamtstermine.hamburg.de/de/Trauzimmer-im-Bezirksamt-Hamburg-Eimsbuettel-200.html
+const couples = ['jill-henning-standesamt-eimsbuettel', 'patricia-alexander-standesamt-eimsbuettel'].map(bySlug);
+const faq: Faq[] = [
+  { cat: 'Standesamt', q: 'Wie viele Gäste dürfen ins Standesamt Eimsbüttel?', a: 'Ins Trauzimmer passen höchstens 15 Personen, das Brautpaar und die Standesbeamtin oder der Standesbeamte eingerechnet. Für Gäste bleiben also bis zu 12 Plätze.' },
+  { cat: 'Standesamt', q: 'Zählt der Fotograf zur Gästezahl?', a: 'Ja. Das Standesamt zählt Kinder, Fotografinnen und Fotografen sowie Dolmetscher mit. Plant meinen Platz also ein, ich brauche nur einen.' },
+  { cat: 'Standesamt', q: 'An welchen Tagen wird in Eimsbüttel getraut?', a: 'Dienstags, donnerstags und freitags. Freitage lassen sich ein Jahr im Voraus reservieren, Dienstage und Donnerstage ein halbes Jahr.' },
+  { cat: 'Standesamt', q: 'Darf im Trauzimmer fotografiert werden?', a: 'Fotografieren ist laut Standesamt ausdrücklich willkommen. Filmen oder Streamen nur nach vorheriger Absprache.' },
+  { cat: 'Standesamt', q: 'Wie lange dauert die Trauung?', a: 'Rund 20 Minuten Trauung und etwa 20 Minuten Formalitäten. Danach habt ihr bis zu 15 Minuten im Raum, zum Beispiel für die ersten Gratulationen.' },
+  { cat: 'Standesamt', q: 'Dürfen wir nach der Trauung anstoßen?', a: 'Auf der öffentlichen Terrasse stehen zwei feste Stehtische. Gläser stellt das Standesamt nicht, die bringt ihr selbst mit.' },
+  { cat: 'Standesamt', q: 'Wie lange sollte der Fotograf in Eimsbüttel dabei sein?', a: 'Für Ankunft, Trauung, Gratulationen und Paarbilder danach reichen meist zwei bis drei Stunden. Feiert ihr anschließend, wie Patricia & Alexander im Restaurant Sicily, plant mehr Zeit ein.', check: true },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: 'Hochzeit im Standesamt Eimsbüttel: Tipps und echte Fotos',
+    author: { '@type': 'Person', name: 'Marcel Kuhls', url: 'https://marcelkuhls.de/ueber-mich/' },
+    publisher: { '@id': 'https://marcelkuhls.de/#business' },
+    about: { '@type': 'Place', name: 'Standesamt Eimsbüttel', address: { '@type': 'PostalAddress', streetAddress: 'Grindelberg 66', postalCode: '20144', addressLocality: 'Hamburg', addressCountry: 'DE' } },
+    inLanguage: 'de-DE',
+  },
+  faqSchema(faq),
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Standesamt', item: 'https://marcelkuhls.de/standesamt-fotograf-hamburg/' },
+    { '@type': 'ListItem', position: 3, name: 'Standesamt Eimsbüttel' },
+  ] },
+];
+const draft = drafts.includes(Astro.url.pathname);
+---
+<Base title="Standesamt Eimsbüttel: Hochzeit, Ablauf & echte Fotos" description="Standesamt Eimsbüttel am Grindelberg: Trauzimmer für bis zu 15 Personen, der Fotograf zählt mit. Ablauf, Terrasse und zwei echte Hochzeiten." ogImage="sb-jill-henning/138" schema={schema} noindex={draft} dark>
+  <section class="ahero" data-hero data-theme-dark>
+    <div class="ahero__media" data-hero-media>
+      <Photo src="sb-jill-henning/138" mobile="sb-jill-henning/102" alt="Jill und Henning nach ihrer Trauung im Standesamt Eimsbüttel" priority position="50% 40%" imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="ahero__type wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/standesamt-fotograf-hamburg/">Standesamt</a></li><li><span aria-current="page">Eimsbüttel</span></li></ol></nav>
+      <h1 class="h1"><span class="h1-kw" style="color:rgba(255,255,255,.85)">Hochzeit im Standesamt Eimsbüttel</span> <span data-split data-split-now>Klein, <em>und jeder zählt</em></span></h1>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    {draft && <p class="todo">Entwurf: noindex und nicht verlinkt. Marcel prüft die eigenen Erfahrungswerte (markierte FAQ), danach Freigabe in src/data/drafts.mjs.</p>}
+    <div class="intro">
+      <p class="eyebrow intro__label">Grindelberg</p>
+      <p class="statement intro__text" data-scrub-text>Das Trauzimmer liegt im Erdgeschoss des Bezirksamts, hinten raus, neben einer Grünfläche mit Terrasse. Viel Platz gibt es nicht. Dafür ist jeder im Raum jemand, der euch wirklich nahesteht.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Adresse</dt><dd>Grindelberg 66, 20144 Hamburg</dd></div>
+      <div><dt>Im Trauzimmer</dt><dd>max. 15 Personen inkl. Paar</dd></div>
+      <div><dt>Trautage</dt><dd>Di, Do, Fr</dd></div>
+      <div><dt>Eigene Reportagen</dt><dd>{couples.length}</dd></div>
+    </dl>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="g g--text">
+      <div><Photo src="sb-jill-henning/041" alt="Trauung im Standesamt Eimsbüttel, Familie im Trauzimmer" ratio="2/3" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">Gut zu wissen</p>
+        <h2 class="h2" data-split>Maximal 15 Personen, <em>und alle zählen</em></h2>
+        <p data-fade style="margin-top:18px">Ins Trauzimmer dürfen höchstens 15 Personen, ihr beide und die Standesbeamtin oder der Standesbeamte eingerechnet. Das Standesamt zählt dabei jeden mit: Kinder, Dolmetscher und auch die Fotografin oder den Fotografen.</p>
+        <p data-fade>Für eure Gäste bleiben also höchstens zwölf Plätze, und einer davon geht an mich. Ich brauche nur diesen einen. Wenn es eng wird, stehe ich an der Seite, damit niemand hinter mir verschwindet.</p>
+        <p data-fade>Fotografieren ist im Trauzimmer laut Standesamt ausdrücklich willkommen. Filmen oder Streamen klärt ihr vorher ab.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <p class="eyebrow intro__label">Ablauf</p>
+      <h2 class="intro__text h2" data-split>So läuft <em>der Termin</em></h2>
+    </div>
+    <ol class="steps-e">
+      <li data-fade><span class="num">01</span><h3>Trauung</h3><p>Rund 20 Minuten Zeremonie im Trauzimmer.</p></li>
+      <li data-fade="0.06"><span class="num">02</span><h3>Formalitäten</h3><p>Etwa 20 Minuten für Unterschriften und Papiere.</p></li>
+      <li data-fade="0.12"><span class="num">03</span><h3>Im Raum</h3><p>Danach bis zu 15 Minuten für die ersten Umarmungen.</p></li>
+      <li data-fade="0.18"><span class="num">04</span><h3>Terrasse</h3><p>Zwei feste Stehtische draußen. Gläser bringt ihr selbst mit.</p></li>
+    </ol>
+    <p class="muted" style="margin-top:24px;max-width:60ch">Getraut wird dienstags, donnerstags und freitags. Freitage könnt ihr ein Jahr im Voraus reservieren, Dienstage und Donnerstage ein halbes Jahr. Den Termin reserviert ihr im <a class="link" href="https://standesamtstermine.hamburg.de/" rel="noopener" target="_blank">Traukalender der Stadt</a>.</p>
+  </section>
+
+  <section class="section--tight">
+    <div class="chapter wrap">
+      <span class="chapter__n">01</span>
+      <h2 class="chapter__t h2" data-split>Jill &amp; Henning <em>im Juni</em></h2>
+      <p class="chapter__d">{couples[0].dek}</p>
+    </div>
+    <Gallery photos={['sb-jill-henning/011', 'sb-jill-henning/051', 'sb-jill-henning/079', 'sb-jill-henning/107', 'sb-jill-henning/122', 'sb-jill-henning/149']} alt="Hochzeit von Jill und Henning, Standesamt Eimsbüttel" />
+    <p class="wrap" style="margin-top:24px"><a class="link" href={`/portfolio/${couples[0].slug}/`}>Die ganze Reportage von Jill &amp; Henning</a></p>
+  </section>
+
+  <section class="section--tight">
+    <div class="chapter wrap">
+      <span class="chapter__n">02</span>
+      <h2 class="chapter__t h2" data-split>Patricia &amp; Alexander <em>im September</em></h2>
+      <p class="chapter__d">{couples[1].dek}</p>
+    </div>
+    <Gallery photos={['sb-patricia-alexander/105', 'sb-patricia-alexander/113', 'sb-patricia-alexander/136', 'sb-patricia-alexander/155', 'sb-patricia-alexander/161']} alt="Hochzeit von Patricia und Alexander, Standesamt Eimsbüttel" />
+    <p class="wrap" style="margin-top:24px"><a class="link" href={`/portfolio/${couples[1].slug}/`}>Die ganze Reportage von Patricia &amp; Alexander</a></p>
+  </section>
+
+  <section class="section wrap" style="padding-bottom: var(--space)">
+    <div class="g">
+      <div class="af-a"><p class="eyebrow">Fragen zu Eimsbüttel</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2><p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/?art=Standesamt&amp;ort=Standesamt%20Eimsb%C3%BCttel">Verfügbarkeit anfragen <span class="arr">→</span></a></p><p style="margin-top:14px"><a class="link" href="/standesamt-fotograf-hamburg/">Alle Hamburger Standesämter</a></p><p style="margin-top:8px"><a class="link" href="/kleine-hochzeit-hamburg/">Kleine Hochzeit in Hamburg</a></p></div>
+      <div class="af-b"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahero { position: relative; height: 88svh; min-height: 540px; color: #fff; overflow: hidden; background: var(--night); }
+  .ahero__media { position: absolute; inset: 0; transform-origin: 50% 0; }
+  .ahero__media :global(.ph) { position: absolute; inset: 0; }
+  .ahero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,0) 40%, rgba(0,0,0,.55)); }
+  .ahero__type { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; padding-bottom: clamp(28px, 4vw, 64px); z-index: 2; }
+  .ahero .crumbs { color: rgba(255,255,255,.7); }
+  .steps-e { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .steps-e li { display: grid; gap: 8px; align-content: start; border-top: 1px solid var(--line); padding-top: 18px; }
+  .steps-e h3 { font-size: 1.3rem; }
+  .steps-e p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .af-a { grid-column: 1 / 5; }
+  .af-b { grid-column: 6 / 13; }
+  @media (max-width: 899px) {
+    .steps-e { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .af-a, .af-b { grid-column: 1 / -1; }
+    .af-b { margin-top: 24px; }
+  }
+</style>

@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { site, nav, legal, more } from '../data/site';
 import Consent from '../components/Consent.astro';
 import { getImage } from 'astro:assets';
-import { photo } from '../data/photos';
+import { photo, PORTRAIT } from '../data/photos';
 
 interface Props {
   title: string;
@@ -13,15 +13,45 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
   dark?: boolean;
   noindex?: boolean;   // z. B. /angebot/: auch live nicht indexieren
+  ogType?: 'website' | 'article';
 }
-const { title, description, path = Astro.url.pathname, ogImage = 'joana-dennis-gut-bardenhagen/016', schema, dark = false, noindex = false } = Astro.props;
+const { title, description, path = Astro.url.pathname, ogImage = 'joana-dennis-gut-bardenhagen/016', schema, dark = false, noindex = false, ogType = 'website' } = Astro.props;
 // PUBLIC_MODE=live nur beim Veröffentlichen (GitHub Action). Lokal bleibt alles Prototyp und noindex.
 const LIVE = import.meta.env.PUBLIC_MODE === 'live';
 const robots = !LIVE || noindex ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large';
 const canonical = new URL(path, site.url).href;
 const og = await getImage({ src: photo(ogImage), width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogUrl = new URL(og.src, site.url).href;
+const portrait = await getImage({ src: photo(PORTRAIT), width: 800, format: 'jpg' });
+// Unternehmen, Website und Person auf jeder Seite, damit die #business-Verweise der Unterseiten auflösen.
+// Nur belegte Angaben (Impressum, Google-Profil, Instagram). Keine Bewertungs-Sterne im Markup.
+const entities = [
+  {
+    '@context': 'https://schema.org', '@type': 'ProfessionalService', '@id': 'https://marcelkuhls.de/#business',
+    name: 'Marcel Kuhls Photography', alternateName: 'Marcel Kuhls Hochzeitsfotografie',
+    description: 'Dokumentarische Hochzeitsfotografie in Hamburg: Hochzeitsreportagen vom Standesamt bis zum ganzen Tag.',
+    url: 'https://marcelkuhls.de/', email: site.email, telephone: '+49 176 28979148',
+    image: ogUrl, logo: 'https://marcelkuhls.de/apple-touch-icon.png',
+    address: { '@type': 'PostalAddress', streetAddress: 'Mühlenkamp 52', postalCode: '22303', addressLocality: 'Hamburg', addressCountry: 'DE' },
+    areaServed: [{ '@type': 'City', name: 'Hamburg' }, { '@type': 'State', name: 'Schleswig-Holstein' }, { '@type': 'State', name: 'Niedersachsen' }],
+    knowsAbout: ['Hochzeitsfotografie', 'Standesamtliche Trauung', 'Hochzeitsreportage', 'Verlobungsshooting'],
+    founder: { '@id': 'https://marcelkuhls.de/#marcel' },
+    sameAs: [site.instagram, site.google],
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'Person', '@id': 'https://marcelkuhls.de/#marcel',
+    name: 'Marcel Kuhls', jobTitle: 'Hochzeitsfotograf', url: 'https://marcelkuhls.de/ueber-mich/',
+    image: new URL(portrait.src, site.url).href, worksFor: { '@id': 'https://marcelkuhls.de/#business' }, sameAs: [site.instagram],
+  },
+  { '@context': 'https://schema.org', '@type': 'WebSite', '@id': 'https://marcelkuhls.de/#website', url: 'https://marcelkuhls.de/', name: 'Marcel Kuhls Hochzeitsfotografie', inLanguage: 'de-DE', publisher: { '@id': 'https://marcelkuhls.de/#business' } },
+];
+const allSchema = [...entities, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
 const current = Astro.url.pathname;
 const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, format: 'webp' });
+// Schriften vorladen (gleiche Dateien wie in fonts.css), damit der Wechsel von der Ersatzschrift kein Layout verschiebt
+import frauncesN from '@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url';
+import frauncesI from '@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2?url';
+import interN from '@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2?url';
 ---
 <!doctype html>
 <html lang="de" class:list={[{ 'page-dark': dark, live: LIVE }]}>
@@ -34,24 +64,29 @@ const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, fo
   {LIVE && (
     <>
       {/* Bestätigungen von der alten Seite, damit Search Console und Meta den Zugriff behalten */}
-      <meta name="google-site-verification" content="google-site-verification=KtePhZwmQ3oCNU0_gGkRyZODEvwdKIb_DH6I6ESWgH0" />
+      <meta name="google-site-verification" content="KtePhZwmQ3oCNU0_gGkRyZODEvwdKIb_DH6I6ESWgH0" />
       <meta name="google-site-verification" content="EAy4-B2aq9e0dEJIsn5vV_AT_sKUoZ_BfsDVxBkPYYk" />
       <meta name="facebook-domain-verification" content="svt1soedi4fhsi7n63m6a79z0xwmmh" />
     </>
   )}
   <!-- Canonical auf die Live-URL -->
   <link rel="canonical" href={canonical} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:locale" content="de_DE" />
   <meta property="og:site_name" content="Marcel Kuhls Hochzeitsfotografie" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={new URL(og.src, Astro.url).href} />
+  <meta property="og:image" content={ogUrl} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#f5f1ea" />
+  <link rel="preload" href={frauncesN} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={frauncesI} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={interN} as="font" type="font/woff2" crossorigin />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script type="application/ld+json" set:html={JSON.stringify(allSchema)} />
   <script is:inline>
     // Startzustände der Animationen nur setzen, wenn Bewegung erwünscht ist
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {

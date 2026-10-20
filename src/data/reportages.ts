@@ -177,6 +177,7 @@ export const reportages: Reportage[] = [
   },
   {
     slug: 'uinny-sidney-standesamt-altona',
+    seoTitle: 'Standesamt Altona im Schnee: Uinny & Sidney',
     location: '/hochzeit-standesamt-altona/',
     date: 'Februar 2026',
     couple: 'Uinny & Sidney',
@@ -325,6 +326,7 @@ export const reportages: Reportage[] = [
   },
   {
     slug: 'lynn-ersin-standesamt-altona',
+    seoTitle: 'Standesamt Altona im Frühling: Lynn & Ersin',
     location: '/hochzeit-standesamt-altona/',
     couple: 'Lynn & Ersin',
     place: 'Standesamt Altona',
@@ -345,6 +347,7 @@ export const reportages: Reportage[] = [
   },
   {
     slug: 'sophia-behnam-standesamt-altona',
+    seoTitle: 'Standesamt Altona im März: Sophia & Behnam',
     location: '/hochzeit-standesamt-altona/',
     couple: 'Sophia & Behnam',
     place: 'Standesamt Altona',
@@ -414,6 +417,7 @@ export const reportages: Reportage[] = [
   },
   {
     slug: 'isabelle-kenny-standesamt-altona',
+    seoTitle: 'Standesamt Altona im Sommer: Isabelle & Kenny',
     location: '/hochzeit-standesamt-altona/',
     couple: 'Isabelle & Kenny',
     place: 'Standesamt Altona',

@@ -28,11 +28,12 @@ const srcset = async (key: string) => {
 };
 const main = await srcset(src);
 const mob = mobile ? await srcset(mobile) : null;
+// priority-Bilder (Hero, oberstes Bild) bekommen keine Vorhang-Animation, sonst verzögert sich das LCP
 ---
 <figure
   class:list={['ph', cls]}
   style={ratio ? `--ratio:${ratio}` : undefined}
-  data-reveal={reveal || undefined}
+  data-reveal={(!priority && reveal) || undefined}
   data-parallax={parallax || undefined}
 >
   <picture>

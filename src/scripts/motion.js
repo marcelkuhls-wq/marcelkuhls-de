@@ -261,8 +261,8 @@ function initMotion() {
 
   // Fließtext und kleine Elemente: weiches Einblenden
   gsap.utils.toArray('[data-fade]').forEach((el) => {
-    gsap.fromTo(el, { y: 28, autoAlpha: 0 }, {
-      y: 0, autoAlpha: 1, duration: 1, ease: 'power3.out',
+    gsap.fromTo(el, { y: 28, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 1, ease: 'power3.out',
       delay: parseFloat(el.dataset.fade) || 0,
       scrollTrigger: { trigger: el, start: 'top 92%' },
     });
