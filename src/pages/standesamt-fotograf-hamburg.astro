@@ -9,14 +9,15 @@ import { faqs, pick, faqSchema } from '../data/faq';
 const examples = ['lynn-ersin-standesamt-altona', 'uinny-sidney-standesamt-altona', 'jill-henning-standesamt-eimsbuettel', 'isabelle-kenny-standesamt-altona', 'patricia-alexander-standesamt-eimsbuettel', 'eliana-mahan', 'sophia-behnam-standesamt-altona', 'standesamt-hamburg-larissa-und-alex'].map(bySlug);
 
 // Die sieben Hamburger Bezirke haben je ein Standesamt. „mine“ = eigene Reportage vorhanden.
+// f = Eckdaten von hamburg.de (abgerufen 21.10.2026, Quellen in research/08-content-plan.md, Abschnitt 1)
 const aemter = [
-  { n: 'Altona', mine: '/hochzeit-standesamt-altona/', note: 'Lynn & Ersin, Uinny & Sidney, Isabelle & Kenny, Sophia & Behnam' },
-  { n: 'Eimsbüttel', mine: '/portfolio/jill-henning-standesamt-eimsbuettel/', note: 'Jill & Henning, Patricia & Alexander' },
-  { n: 'Hamburg-Mitte', mine: '/portfolio/standesamt-hamburg-larissa-und-alex/', note: 'Larissa & Alex', check: true },
-  { n: 'Hamburg-Nord', mine: null },
-  { n: 'Wandsbek', mine: null },
-  { n: 'Bergedorf', mine: null },
-  { n: 'Harburg', mine: null },
+  { n: 'Altona', f: 'Rathaus Altona, Platz der Republik 1 · bis 30 Gäste', mine: '/hochzeit-standesamt-altona/', note: 'Lynn & Ersin, Uinny & Sidney, Isabelle & Kenny, Sophia & Behnam' },
+  { n: 'Eimsbüttel', f: 'Grindelberg 66 · max. 15 Personen inkl. Paar, der Fotograf zählt mit · Di, Do, Fr', mine: '/portfolio/jill-henning-standesamt-eimsbuettel/', note: 'Jill & Henning, Patricia & Alexander' },
+  { n: 'Hamburg-Mitte', f: 'Caffamacherreihe 1–3 · Paar plus max. 17 Gäste, der Fotograf zählt mit', mine: '/portfolio/standesamt-hamburg-larissa-und-alex/', note: 'Larissa & Alex', check: true },
+  { n: 'Hamburg-Nord', f: 'Kümmellstraße 5–7 · Trauzimmer für 15 oder 12 Personen', mine: null },
+  { n: 'Wandsbek', f: 'Schloßstraße 60 · im Sommer auch Berner Schloss, Ohlendorff’sche Villa und Museumsdorf Volksdorf', mine: null },
+  { n: 'Bergedorf', f: 'Haus im Park, Gräpelweg 8 · bis 40 Personen, außerdem Bergedorfer Schloss', mine: null },
+  { n: 'Harburg', f: 'Rathaus Harburg · Trauungen freitags', mine: null },
 ];
 const timeline = [
   ['Vor der Trauung', 'Ich bin vor euch da. Die ersten Bilder entstehen oft schon beim Aussteigen aus dem Auto, wenn die Familie vor dem Eingang wartet.'],
@@ -31,7 +32,8 @@ const spots = [
   { img: 'sb-jill-henning/109', t: 'Mit dem Cabrio', d: 'Jill & Henning sind nach dem Standesamt Eimsbüttel mit einem weißen Cabrio ans Wasser gefahren.', href: '/portfolio/jill-henning-standesamt-eimsbuettel/' },
   { img: 'sb-lynn-ersin/060', t: 'Vor dem Tor', d: 'Manchmal braucht es gar keinen Ortswechsel. Das schwarze Tor in Altona ist Kulisse genug.', href: '/portfolio/lynn-ersin-standesamt-altona/' },
 ];
-const faq = [...faqs.filter((f) => f.cat === 'Standesamt'), ...pick('Wie viele Stunden', 'Wann bekommen', 'Was machen wir bei Regen', 'Wie weit im Voraus')];
+const guestFaq = { cat: 'Standesamt', q: 'Zählt der Fotograf im Standesamt zur Gästezahl?', a: 'In vielen Hamburger Standesämtern ja. In Eimsbüttel passen maximal 15 Personen ins Trauzimmer, Paar und Standesbeamtin eingerechnet, und Fotografen zählen ausdrücklich mit. In Hamburg-Mitte sind es das Paar plus 17 Gäste, auch hier zählt jede Person. Plant meinen Platz also ein, ich brauche nur einen.' };
+const faq = [guestFaq, ...faqs.filter((f) => f.cat === 'Standesamt'), ...pick('Wie viele Stunden', 'Wann bekommen', 'Was machen wir bei Regen', 'Wie weit im Voraus')];
 const schema = [
   { '@context': 'https://schema.org', '@type': 'Service', name: 'Fotograf für standesamtliche Hochzeiten in Hamburg', serviceType: 'Hochzeitsfotografie Standesamt', provider: { '@id': 'https://marcelkuhls.de/#business' }, areaServed: { '@type': 'City', name: 'Hamburg' } },
   faqSchema(faq),
@@ -88,6 +90,7 @@ const lynn = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
         {aemter.map((a) => (
           <li>
             <span class="aemter__n">Standesamt {a.n}</span>
+            <span class="aemter__f">{a.f}</span>
             {a.mine ? <a class="link" href={a.mine}>{a.note}</a> : <span class="muted">noch keine eigene Reportage</span>}
             {a.check ? <span class="todo">Amt prüfen</span> : <span></span>}
           </li>
@@ -168,6 +171,7 @@ const lynn = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
   .aemter { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
   .aemter li { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
   .aemter__n { font-family: var(--f-display); font-size: 1.35rem; letter-spacing: -0.02em; }
+  .aemter__f { grid-column: 1 / -1; grid-row: 2; color: var(--ink-2); font-size: var(--fs-micro); letter-spacing: .02em; margin-top: -8px; }
   .spots3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
   .sa-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(28px, 3vw, 44px) var(--gap); }
   .sa-list a { text-decoration: none; }
@@ -179,6 +183,7 @@ const lynn = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
     .sa-hero__cap, .sa-col-a, .sa-col-b { grid-column: 1 / -1; }
     .sa-col-b { margin-top: 24px; }
     .aemter li { grid-template-columns: 1fr; gap: 4px; }
+    .aemter__f { grid-row: auto; margin-top: 0; }
     .spots3 { grid-template-columns: 1fr; }
     .sa-list { grid-template-columns: 1fr 1fr; }
   }
