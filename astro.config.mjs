@@ -19,6 +19,7 @@ const redirects = {
   '/cookie-richtlinie/': '/datenschutzerklaerung/',
   '/standesamtliche-hochzeit-hamburg/': '/standesamt-fotograf-hamburg/',
   '/clients-2/': '/clients/',
+  '/author/marcelkuhls/': '/ueber-mich/',
 };
 
 export default defineConfig({
