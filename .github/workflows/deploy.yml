@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLIC_MODE: live # indexierbar, Verifizierungs-Tags, echtes Formular
-      PUBLIC_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
+      PUBLIC_WEB3FORMS_KEY: 664083ae-c3e2-42df-8b2c-530a66df901d # öffentlicher Schlüssel (Web3Forms), Anfragen gehen an marcel.kuhls@web.de
     steps:
       - name: Checkout
         uses: actions/checkout@v7

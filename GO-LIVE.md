@@ -58,7 +58,8 @@ Stand 20.10.2026. Nichts davon ist passiert. Es startet erst, wenn Marcel „go�
    - Prüfen, dass die Property verifiziert bleibt.
    - `https://marcelkuhls.de/sitemap-index.xml` einreichen.
    - Für die wichtigsten Seiten eine URL-Prüfung starten: Start, Standesamt, Kosten, Gut Pronstorf, Hochzeitsfotos.
-7. **WordPress-Tarif:** erst kündigen, wenn die neue Seite eine Woche stabil läuft. Wenn die Domain dort registriert ist, muss sie vorher umziehen (z. B. zu united-domains) oder als reine Domain weiterlaufen. Sonst fallen Website und Mail aus.
+7. **Achtung DNS beim Kündigen:** marcelkuhls.de ist bei WordPress.com nur verbunden (registriert vermutlich bei united-domains), der DNS läuft aber über die WordPress.com-Nameserver. Vor der Kündigung die Nameserver beim Registrar wieder auf dessen eigene DNS stellen und dort dieselben Einträge anlegen: GitHub-A/AAAA, www-CNAME, MX udag, SPF, DMARC. Sonst sind Website und Mail weg.
+8. **WordPress-Tarif:** erst kündigen, wenn die neue Seite eine Woche stabil läuft. Wenn die Domain dort registriert ist, muss sie vorher umziehen (z. B. zu united-domains) oder als reine Domain weiterlaufen. Sonst fallen Website und Mail aus.
 
 ## Nach dem Start (Woche 1 bis 4)
 
