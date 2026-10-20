@@ -9,7 +9,7 @@ const spots = [
   { img: 'michelle-benjamin/27', t: 'Der Festsaal', d: 'Holzbalken, Kronleuchter, warmes Licht am Abend. Später die Tanzfläche.', r: '2/3' },
 ];
 const faq = [
-  { q: 'Hast du schon auf Gut Pronstorf fotografiert?', a: 'Ja, die ganze Hochzeit von Michelle & Benjamin, vom Getting Ready über die Trauung in der Kirche bis zur Party im Festsaal. Die Reportage findet ihr verlinkt auf dieser Seite.' },
+  { q: 'Hast du schon auf Gut Pronstorf fotografiert?', a: 'Ja, mehrfach. Die ganze Hochzeit von Michelle & Benjamin, vom Getting Ready über die Trauung in der Kirche bis zur Party im Festsaal, und das Brautpaarshooting von Tessa & Jan. Beide Reportagen sind auf dieser Seite verlinkt.' },
   { q: 'Kommen für Gut Pronstorf Anfahrtskosten dazu?', a: 'In Norddeutschland berechne ich keine Reisekosten. Pronstorf liegt mittendrin.' },
   { q: 'Wie viel Zeit sollten wir für Paarbilder auf dem Gut einplanen?', a: 'Eine halbe bis ganze Stunde reicht, mit so viel Anleitung, wie ihr braucht, und so wenig wie möglich.' },
 ];
@@ -99,6 +99,18 @@ const schema = [
           <span class="btn" style="margin-top:24px">Reportage ansehen <span class="arr">→</span></span>
         </div>
       </a>
+      <a class="feat feat--second" href="/portfolio/tessa-jan/" data-cursor="Ansehen">
+        <div class="feat__imgs">
+          <Photo src="sb-tessa-jan/033" alt="Tessa und Jan beim Brautpaarshooting auf Gut Pronstorf" ratio="2/3" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+          <Photo src="sb-tessa-jan/044" alt="Tessa und Jan unter alten Bäumen auf Gut Pronstorf" ratio="2/3" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+        </div>
+        <div>
+          <p class="eyebrow">Noch eine Hochzeit auf Gut Pronstorf</p>
+          <h2 class="h1" data-split>Tessa <span class="amp">&amp;</span> <em>Jan</em></h2>
+          <p class="muted" style="max-width:36ch">Backstein, alte Bäume und ein bunter Strauß. Das Brautpaarshooting auf dem Gut.</p>
+          <span class="btn" style="margin-top:24px">Reportage ansehen <span class="arr">→</span></span>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -132,6 +144,7 @@ const schema = [
   .lt-b p { color: var(--ink-2); }
   .lt-c { grid-column: 1 / 5; }
   .lt-d { grid-column: 6 / 13; }
+  .feat--second { margin-top: clamp(56px, 7vw, 110px); }
   .feat { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; text-decoration: none; }
   .feat__imgs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
   .feat__imgs > :last-child { margin-top: 18%; }

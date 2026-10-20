@@ -56,7 +56,7 @@ export const reportages: Reportage[] = [
       { title: 'Raus', titleEm: 'aufs Gut', photos: [...r('michelle-benjamin', 13, 18), ...r('michelle-benjamin', 22, 26)] },
       { title: 'Bis spät', titleEm: 'in die Nacht', photos: [...r('michelle-benjamin', 19, 21), ...r('michelle-benjamin', 27, 42)] },
     ],
-    related: ['hochzeit-hotel-atlantic-verena-tobias', 'eliana-mahan'],
+    related: ['tessa-jan', 'hochzeit-hotel-atlantic-verena-tobias'],
   },
   {
     slug: 'hochzeit-hotel-atlantic-verena-tobias',
@@ -295,15 +295,17 @@ export const reportages: Reportage[] = [
   },
   {
     slug: 'tessa-jan',
+    location: '/hochzeit-gut-pronstorf-fotograf/',
+    seoTitle: 'Brautpaarshooting auf Gut Pronstorf: Tessa & Jan',
     couple: 'Tessa & Jan',
-    place: null,
-    region: null,
+    place: 'Gut Pronstorf',
+    region: 'Schleswig-Holstein',
     kind: 'Hochzeit',
     cover: 'sb-tessa-jan/033',
     side: 'sb-tessa-jan/010',
     hero: 'sb-tessa-jan/044',
     dek: 'Backstein, alte Bäume und ein bunter Strauß, der überall Farbe reinbringt. Ein Brautpaarshooting, bei dem man das Lachen fast hört.',
-    source: 'Bilder aus dem Scrappbook-Album „Brautpaarshooting“. Location und Datum bitte ergänzen.',
+    source: 'Bilder aus dem Scrappbook-Album „Brautpaarshooting“. Ort von Marcel bestätigt (21.10.2026): Gut Pronstorf. Datum bitte ergänzen.',
     chapters: [{ title: 'Unter', titleEm: 'alten Bäumen', photos: sb('tessa-jan', [1, 5, 10, 13, 18, 22, 25, 29, 33, 35, 40, 43, 44, 52, 57, 60, 67]) }],
     related: ['isabelle-kenny', 'hochzeit-gut-pronstorf'],
   },
@@ -369,14 +371,14 @@ export const reportages: Reportage[] = [
   {
     slug: 'anastasia-christopher',
     couple: 'Anastasia & Christopher',
-    place: null,
-    region: null,
+    place: 'Belgrad',
+    region: 'Serbien',
     kind: 'Destination',
     cover: 'sb-anastasia-christopher/181',
     side: 'sb-anastasia-christopher/163',
     hero: 'sb-anastasia-christopher/116',
     dek: 'Eine Trauung unter freiem Himmel zwischen Felswand und Blumen, ein weißes Dinnerjacket und eine Braut, die über eine Steintreppe zu ihm kommt.',
-    source: 'Bilder aus dem Scrappbook-Album „Ceremony“. Ort, Land und Datum bitte ergänzen.',
+    source: 'Bilder aus dem Scrappbook-Album „Ceremony“. Ort von Marcel bestätigt (21.10.2026): Belgrad. Datum bitte ergänzen.',
     chapters: [{ title: 'Die', titleEm: 'Trauung', photos: sb('anastasia-christopher', [116, 121, 138, 144, 159, 163, 171, 179, 181, 186, 189, 190]) }],
     related: ['hochzeit-castillo-bendinat', 'uinny-sidney-villa-mignon'],
   },
@@ -479,7 +481,7 @@ export function venueTitle(r: Reportage): string {
   if (r.kind === 'Verlobung') return r.place ? `Verlobung in den ${r.place}` : 'Verlobung';
   if (!r.place) return r.couple; // bis der Ort ergänzt ist
   if (r.place.startsWith('Standesamt')) return r.place;
-  if (/^Ulsnis/.test(r.place)) return `Hochzeit in ${r.place}`;
+  if (/^(Ulsnis|Belgrad)/.test(r.place)) return `Hochzeit in ${r.place}`; // Orte und Städte: „in“
   const art = /^(Hotel|Rathaus|Castillo|Leuchtturm|Parkhotel|Schloss|Haus)/.test(r.place) ? 'im' : /^(Villa|Horster)/.test(r.place) ? 'in der' : /^Elbterrassen/.test(r.place) ? 'auf den' : 'auf';
   return `Hochzeit ${art} ${r.place}`;
 }
