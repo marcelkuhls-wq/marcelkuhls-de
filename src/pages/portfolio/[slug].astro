@@ -26,13 +26,31 @@ const shorten = (t: string) => {
 const title = r.seoTitle ?? shorten(autoTitle);
 const related = (r.related ?? []).map(bySlug);
 const total = r.chapters.reduce((n, c) => n + c.photos.length, 0);
-const schema = {
-  '@context': 'https://schema.org', '@type': 'ImageGallery',
-  name: `${r.couple}${r.place ? `, ${r.place}` : ''}`,
-  description: r.dek,
-  author: { '@type': 'Person', name: 'Marcel Kuhls' },
-  ...(r.place ? { contentLocation: { '@type': 'Place', name: r.place, address: r.region } } : {}),
-};
+const url = `https://marcelkuhls.de/portfolio/${r.slug}/`;
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'ImageGallery', url,
+    name: `${r.couple}${r.place ? `, ${r.place}` : ''}`,
+    description: r.dek,
+    image: new URL(photo(r.cover).src, 'https://marcelkuhls.de').href,
+    author: { '@id': 'https://marcelkuhls.de/#marcel' },
+    ...(r.place ? { contentLocation: { '@type': 'Place', name: r.place, address: r.region } } : {}),
+  },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Reportagen', item: 'https://marcelkuhls.de/portfolio/' },
+    { '@type': 'ListItem', position: 3, name: r.couple },
+  ] },
+];
+// Themen-Links unter jeder Reportage (interne Verlinkung zu den Ratgeber- und Leistungsseiten)
+const gutshaus = ['hochzeit-gut-pronstorf', 'joana-dennis', 'mariana-mirco'].includes(r.slug);
+const topic = r.kind === 'Standesamt'
+  ? { href: '/standesamt-fotograf-hamburg/', label: 'Fotograf fürs Standesamt in Hamburg' }
+  : r.kind === 'Verlobung'
+    ? { href: '/verlobungsshooting-hamburg/', label: 'Verlobungsshooting in Hamburg' }
+    : gutshaus
+      ? { href: '/hochzeit-gutshaus-norddeutschland/', label: 'Hochzeit im Gutshaus: Tipps vom Fotografen' }
+      : { href: '/leistungen/', label: 'Pakete und Leistungen' };
 ---
 <Base title={title} description={`${r.dek} Hochzeitsreportage von Marcel Kuhls${where ? ` in ${where}` : ''}.`} path={`/portfolio/${r.slug}/`} ogImage={r.cover} schema={schema} dark>
   <section class="rhero" data-hero data-theme-dark>
@@ -87,6 +105,7 @@ const schema = {
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px" data-fade>
         <a class="btn btn--solid" href="/kontakt/">Anfrage senden <span class="arr">→</span></a>
         {r.location && <a class="btn" href={r.location}>Mehr zu {r.place}</a>}
+        <a class="btn" href={topic.href}>{topic.label}</a>
       </div>
     </div>
   </section>
