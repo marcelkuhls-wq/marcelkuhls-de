@@ -18,7 +18,12 @@ const where = [r.place, r.region].filter(Boolean).join(', ');
 const vt = venueTitle(r);
 const autoTitle = r.kind === 'Verlobung' || !r.place ? `${r.place ? vt : `Hochzeitsreportage ${r.couple}`} | Marcel Kuhls` : `${vt}${r.region && !vt.includes(r.region) ? ` ${r.region === 'Hamburg' ? 'Hamburg' : `(${r.region})`}` : ''}: ${r.couple} | Marcel Kuhls`;
 // Titel über 60 Zeichen kürzt Google selbst: dann ohne Markenzusatz
-const title = r.seoTitle ?? (autoTitle.length > 60 ? autoTitle.replace(/ \| Marcel Kuhls$/, '') : autoTitle);
+const shorten = (t: string) => {
+  if (t.length > 60) t = t.replace(/ \| Marcel Kuhls$/, '');
+  if (t.length > 60) t = t.replace(/ \([^)]+\)(?=:)/, ''); // Region in Klammern weglassen
+  return t;
+};
+const title = r.seoTitle ?? shorten(autoTitle);
 const related = (r.related ?? []).map(bySlug);
 const total = r.chapters.reduce((n, c) => n + c.photos.length, 0);
 const schema = {

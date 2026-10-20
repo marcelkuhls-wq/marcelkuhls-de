@@ -1,0 +1,21 @@
+---
+// Weiterleitungsseiten für alte Adressen (Liste in src/data/redirects.mjs).
+// Ohne noindex: Canonical und Sofort-Weiterleitung zeigen Google eindeutig das neue Ziel.
+import { redirects } from '../data/redirects.mjs';
+export function getStaticPaths() {
+  return Object.entries(redirects).map(([from, to]) => ({ params: { alt: from.replace(/^\/|\/$/g, '') }, props: { to } }));
+}
+const { to } = Astro.props as { to: string };
+const url = new URL(to, 'https://marcelkuhls.de').href;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Weiterleitung zu {url}</title>
+    <link rel="canonical" href={url} />
+    <meta http-equiv="refresh" content={`0;url=${to}`} />
+    <script is:inline define:vars={{ to }}>location.replace(to);</script>
+  </head>
+  <body><a href={to}>Diese Seite ist umgezogen: {url}</a></body>
+</html>
