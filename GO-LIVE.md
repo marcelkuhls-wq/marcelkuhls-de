@@ -1,6 +1,16 @@
 # Go-Live marcelkuhls.de
 
-Stand 20.10.2026. Nichts davon ist passiert. Es startet erst, wenn Marcel „go“ schreibt.
+**Live seit 21.10.2026.** Repo github.com/marcelkuhls-wq/marcelkuhls-de, GitHub Pages, DNS bei WordPress.com umgestellt (MX udag unverändert). GA4-Property „marcelkuhls.de Hochzeit“ (G-V3306E4200, p559872415) hinter Opt-in-Banner, Sitemap in der Search Console eingereicht, alte WordPress-Sitemap entfernt.
+
+Offen nach dem Start:
+- www-Zertifikat abwarten, dann in GitHub Pages „Enforce HTTPS“ aktivieren
+- Nach der ersten echten Anfrage `generate_lead` in GA4 als Schlüsselereignis markieren (Verwaltung → Ereignisse → Stern)
+- Web3Forms läuft über das Konto marcel.kuhls@web.de (Anfragen landen dort)
+- Altes GA4-Tag G-VMXBV47J77 und Google Ads AW-16714662548 der WordPress-Seite sind nicht mehr eingebunden
+
+---
+
+Ursprünglicher Plan:
 
 ## Was schon fertig im Projekt liegt
 
