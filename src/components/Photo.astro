@@ -21,7 +21,8 @@ interface Props {
 const { src, mobile, alt, sizes = '100vw', ratio, priority = false, reveal = false, parallax = false, position = 'center', class: cls = '', imgAttrs = {} } = Astro.props;
 const srcset = async (key: string) => {
   const img = photo(key);
-  const widths = [640, 1024, 1600, 2000].filter((w) => w <= img.width);
+  const fit = [640, 1024, 1600, 2000].filter((w) => w <= img.width);
+  const widths = fit.length ? fit : [img.width]; // kleine Bilder (z. B. Bewertungsfotos) in Originalgröße
   const set = await Promise.all(widths.map((w) => getImage({ src: img, width: w, format: 'webp', quality: 82 })));
   return { img, set: set.map((s, i) => `${s.src} ${widths[i]}w`).join(', '), fallback: set[set.length - 1].src };
 };

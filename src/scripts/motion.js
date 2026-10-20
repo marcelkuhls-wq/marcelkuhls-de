@@ -175,6 +175,7 @@ function initForms() {
           const json = await res.json();
           if (!json.success) throw new Error(json.message);
           window.mkTrack?.('generate_lead', { form: 'kontakt', kind: String(data.get('kind') || ''), page: location.pathname });
+          window.mkAdsLead?.();
         } catch {
           btn.disabled = false;
           if (err) err.hidden = false;

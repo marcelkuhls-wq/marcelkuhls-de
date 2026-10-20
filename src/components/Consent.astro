@@ -1,46 +1,56 @@
 ---
 /**
- * Cookie-Einwilligung + Google Analytics 4 (Aufbau wie bei Studio Kuhls, eigene Property).
+ * Cookie-Einwilligung mit zwei Kategorien (Aufbau wie bei Studio Kuhls, eigene Property):
+ *   Statistik  → Google Analytics 4 (site.analytics.ga4)
+ *   Marketing  → Google Ads Conversion-Tracking (site.analytics.ads + adsLead)
  *
- * - Nur live und nur mit Messungs-ID (site.analytics.ga4). Sonst kein Banner, kein Skript.
- * - Google Analytics lädt erst NACH Zustimmung (vorher keine Verbindung zu Google).
+ * - Nur live. Ohne Zustimmung wird kein Google-Skript geladen (Consent Mode „basic“).
  * - Die Entscheidung liegt im localStorage (technisch notwendig, § 25 Abs. 2 TDDDG)
  *   und lässt sich über „Cookie-Einstellungen“ im Footer jederzeit ändern.
- * - Gemessen werden Seitenaufrufe und Anfrage-Signale: Formular abgeschickt (generate_lead),
+ * - Anfrage-Signale: Formular abgeschickt (GA4 generate_lead + Google-Ads-Conversion „Kontakt“),
  *   Klicks auf Anfragen/E-Mail/Telefon/Instagram, angesehene Reportagen.
  */
 import { site } from '../data/site';
 const LIVE = import.meta.env.PUBLIC_MODE === 'live';
-const ga4 = LIVE ? site.analytics.ga4 : '';
+const { ga4, ads, adsLead } = site.analytics;
+const on = LIVE && Boolean(ga4 || ads);
 ---
 
 {
-  ga4 && (
+  on && (
     <>
       <div id="consent" class="consent" hidden role="dialog" aria-labelledby="consent-title" aria-describedby="consent-text">
         <p id="consent-title" class="eyebrow eyebrow--plain">Datenschutz-Einstellungen</p>
         <p id="consent-text">
-          Darf ich mit Google Analytics sehen, welche Seiten euch interessieren? Dafür werden Cookies gesetzt und Daten an Google
-          übermittelt, auch in die USA. Das passiert nur, wenn ihr zustimmt, und lässt sich jederzeit widerrufen. Mehr in der{' '}
-          <a class="link" href="/datenschutzerklaerung/">Datenschutzerklärung</a>.
+          Darf ich sehen, welche Seiten euch interessieren, und messen, ob meine Anzeigen bei Google ankommen? Dafür werden Cookies
+          gesetzt und Daten an Google übermittelt, auch in die USA. Das passiert nur mit eurer Zustimmung und lässt sich jederzeit
+          widerrufen. Mehr in der <a class="link" href="/datenschutzerklaerung/">Datenschutzerklärung</a>.
         </p>
+        <div class="consent__opts">
+          <label class="check check--mini"><input type="checkbox" checked disabled /> <span>Notwendig</span></label>
+          {ga4 && <label class="check check--mini"><input type="checkbox" data-consent-cat="stats" /> <span>Statistik (Google Analytics)</span></label>}
+          {ads && <label class="check check--mini"><input type="checkbox" data-consent-cat="ads" /> <span>Marketing (Google Ads)</span></label>}
+        </div>
         <div class="consent__btns">
           <button type="button" class="btn" data-consent="deny">Ablehnen</button>
-          <button type="button" class="btn" data-consent="grant">Akzeptieren</button>
+          <button type="button" class="btn" data-consent="save">Auswahl speichern</button>
+          <button type="button" class="btn btn--solid consent__all" data-consent="all">Alle akzeptieren</button>
         </div>
       </div>
 
-      <script is:inline define:vars={{ ga4 }}>
+      <script is:inline define:vars={{ ga4, ads, adsLead }}>
         (function () {
           var KEY = 'mk-consent';
           var box = document.getElementById('consent');
+          var boxes = box.querySelectorAll('[data-consent-cat]');
+          var state = { stats: false, ads: false };
           var loaded = false;
           function read() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
-          function save(granted) { try { localStorage.setItem(KEY, JSON.stringify({ analytics: granted, v: 1, ts: Date.now() })); } catch (e) {} }
-          function clearGaCookies() {
+          function save(s) { try { localStorage.setItem(KEY, JSON.stringify({ analytics: s.stats, ads: s.ads, v: 2, ts: Date.now() })); } catch (e) {} }
+          function clearCookies() {
             document.cookie.split(';').forEach(function (c) {
               var name = c.split('=')[0].trim();
-              if (/^_ga/.test(name)) {
+              if (/^(_ga|_gcl|_gac)/.test(name)) {
                 [location.hostname, '.' + location.hostname.replace(/^www\./, '')].forEach(function (d) {
                   document.cookie = name + '=; Max-Age=0; path=/; domain=' + d;
                 });
@@ -50,10 +60,11 @@ const ga4 = LIVE ? site.analytics.ga4 : '';
           }
           window.dataLayer = window.dataLayer || [];
           window.gtag = function () { window.dataLayer.push(arguments); };
-          // Ereignisse ohne Zustimmung werden verworfen
-          window.mkTrack = function (name, params) { if (loaded) window.gtag('event', name, params || {}); };
+          // GA4-Ereignisse nur mit Statistik-Zustimmung
+          window.mkTrack = function (name, params) { if (loaded && state.stats) window.gtag('event', name, params || {}); };
+          // Google-Ads-Conversion „Kontakt“ nur mit Marketing-Zustimmung
+          window.mkAdsLead = function () { if (loaded && state.ads && ads && adsLead) window.gtag('event', 'conversion', { send_to: ads + '/' + adsLead }); };
 
-          // Seitenbereich für Berichte („Inhaltsgruppe“)
           function contentGroup(p) {
             if (document.title.indexOf('Seite nicht gefunden') === 0) return 'Fehlerseite 404';
             p = p.replace(/\/$/, '') || '/';
@@ -71,32 +82,49 @@ const ga4 = LIVE ? site.analytics.ga4 : '';
             return 'Sonstiges';
           }
           function load() {
-            if (loaded) return;
+            if (loaded || (!state.stats && !state.ads)) return;
             loaded = true;
-            window.gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+            var g = state.ads ? 'granted' : 'denied';
+            window.gtag('consent', 'default', { ad_storage: g, ad_user_data: g, ad_personalization: 'denied', analytics_storage: state.stats ? 'granted' : 'denied' });
             window.gtag('js', new Date());
-            window.gtag('config', ga4, { content_group: contentGroup(location.pathname) });
+            if (state.stats && ga4) window.gtag('config', ga4, { content_group: contentGroup(location.pathname) });
+            if (state.ads && ads) window.gtag('config', ads);
             var s = document.createElement('script');
             s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + (state.stats && ga4 ? ga4 : ads);
             document.head.appendChild(s);
             document.dispatchEvent(new Event('mk:analytics'));
+          }
+          function apply(s) {
+            var before = { stats: state.stats, ads: state.ads };
+            state = s;
+            save(s);
+            box.hidden = true;
+            if (loaded && ((before.stats && !s.stats) || (before.ads && !s.ads))) { clearCookies(); location.reload(); return; } // Widerruf
+            load();
+          }
+          function open() {
+            boxes.forEach(function (b) { b.checked = !!state[b.getAttribute('data-consent-cat')]; });
+            box.hidden = false;
           }
           box.addEventListener('click', function (e) {
             var b = e.target.closest('[data-consent]');
             if (!b) return;
-            var granted = b.getAttribute('data-consent') === 'grant';
-            save(granted);
-            box.hidden = true;
-            if (granted) load();
-            else if (loaded) { clearGaCookies(); location.reload(); } // Widerruf
+            var a = b.getAttribute('data-consent');
+            if (a === 'all') apply({ stats: true, ads: true });
+            else if (a === 'deny') apply({ stats: false, ads: false });
+            else {
+              var s = { stats: false, ads: false };
+              boxes.forEach(function (x) { s[x.getAttribute('data-consent-cat')] = x.checked; });
+              apply(s);
+            }
           });
           document.addEventListener('click', function (e) {
-            if (e.target.closest('[data-consent-open]')) { e.preventDefault(); box.hidden = false; }
+            if (e.target.closest('[data-consent-open]')) { e.preventDefault(); open(); }
           });
           var c = read();
-          if (c && c.analytics) load();
-          else if (!c) box.hidden = false;
+          if (c) { state = { stats: !!c.analytics, ads: !!c.ads }; load(); }
+          else open();
         })();
       </script>
 
@@ -104,7 +132,7 @@ const ga4 = LIVE ? site.analytics.ga4 : '';
         // Anfrage-Signale mit Herkunft auf der Seite
         const track = (name: string, params: Record<string, unknown> = {}) =>
           (window as unknown as { mkTrack?: (n: string, p: Record<string, unknown>) => void }).mkTrack?.(name, params);
-        const where = (el: Element) => (el.closest('header') ? 'Kopfzeile' : el.closest('footer') ? 'Footer' : el.closest('.nav-menu, [data-menu]') ? 'Menü' : 'Inhalt');
+        const where = (el: Element) => (el.closest('header') ? 'Kopfzeile' : el.closest('footer') ? 'Footer' : el.closest('[data-menu]') ? 'Menü' : 'Inhalt');
         document.addEventListener('click', (e) => {
           const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
           if (!a) return;
@@ -129,10 +157,11 @@ const ga4 = LIVE ? site.analytics.ga4 : '';
 }
 
 <style>
-  .consent { position: fixed; z-index: 90; left: 16px; right: 16px; bottom: 16px; max-width: 30rem; background: var(--paper); color: var(--ink); border: 1px solid var(--line); padding: 22px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14); font-size: 0.95rem; }
-  .consent[hidden] { display: none; }
+  .consent { position: fixed; z-index: 90; left: 16px; right: 16px; bottom: 16px; max-width: 32rem; max-height: calc(100svh - 32px); overflow: auto; background: var(--paper); color: var(--ink); border: 1px solid var(--line); padding: 22px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14); font-size: 0.95rem; }
   .consent p { margin: 0 0 14px; }
+  .consent__opts { display: grid; gap: 8px; margin: 0 0 16px; }
   .consent__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .consent__btns .btn { justify-content: center; }
+  .consent__all { grid-column: 1 / -1; }
   @media (min-width: 900px) { .consent { left: 32px; right: auto; bottom: 32px; } }
 </style>

@@ -5,8 +5,9 @@ export const site = {
   url: 'https://marcelkuhls.de',
   email: 'info@marcelkuhls.de', // laut Impressum
   instagram: 'https://www.instagram.com/marcelkuhls.photography/',
-  // Google Analytics 4, Property „marcelkuhls.de Hochzeit“ (Konto a331012768). Leer = kein Banner, kein Tracking.
-  analytics: { ga4: 'G-V3306E4200' },
+  // Google Analytics 4, Property „marcelkuhls.de Hochzeit“ (Konto a331012768), und Google Ads 481-159-1837
+  // mit der Conversion „Kontakt“. Leer = kein Banner, kein Tracking.
+  analytics: { ga4: 'G-V3306E4200', ads: 'AW-16714662548', adsLead: 'jbwQCJ-JxtcZEJSFlqI-' },
 };
 
 export const nav = [
