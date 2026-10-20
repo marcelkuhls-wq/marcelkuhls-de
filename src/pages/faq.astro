@@ -5,7 +5,7 @@ import FaqList from '../components/FaqList.astro';
 import { faqs, faqSchema } from '../data/faq';
 const cats = ['Kosten', 'Buchung', 'Ablauf', 'Standesamt', 'Bilder'] as const;
 ---
-<Base title="FAQ Hochzeitsfotograf Hamburg: Kosten, Ablauf, Bilder | Marcel Kuhls" description="Häufige Fragen an einen Hochzeitsfotografen in Hamburg: Kosten, Vorlauf, Dauer, Lieferzeit, Bildanzahl, Standesamt, Regen und Krankheit. Ehrlich beantwortet." schema={faqSchema(faqs)}>
+<Base title="FAQ Hochzeitsfotograf Hamburg: Kosten, Ablauf, Bilder" description="Häufige Fragen an einen Hochzeitsfotografen in Hamburg: Kosten, Vorlauf, Dauer, Lieferzeit, Bildanzahl, Standesamt, Regen und Krankheit. Ehrlich beantwortet." schema={faqSchema(faqs)}>
   <PageHero crumbs={[{ label: 'FAQ' }]}>
     <h1 slot="title"><span class="h1-kw" data-fade="0.2">Hochzeitsfotograf FAQ</span><span data-split data-split-now>Fragen, <em>die ihr wirklich stellt</em></span></h1>
     <p slot="aside" data-fade="0.4">Eure Frage ist nicht dabei? <a class="link" href="/kontakt/">Schreibt mir</a>, ich antworte innerhalb von 24 Stunden.</p>

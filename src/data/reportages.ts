@@ -13,6 +13,7 @@ export type Reportage = {
   kind: 'Hochzeit' | 'Standesamt' | 'Verlobung' | 'Destination';
   cover: string;
   side: string;              // zweites Bild für Listen
+  seoTitle?: string;         // eigener <title>, wenn der automatische zu lang oder unpassend ist
   hero: string;
   dek: string;               // kurze, faktische Einleitung
   source: string;            // woher die Fakten stammen
@@ -43,6 +44,7 @@ export const reportages: Reportage[] = [
     region: 'Schleswig-Holstein',
     kind: 'Hochzeit',
     cover: 'michelle-benjamin/17',
+    seoTitle: 'Hochzeitsfotos Gut Pronstorf: Michelle & Benjamin',
     side: 'michelle-benjamin/14',
     hero: 'michelle-benjamin/18',
     dek: 'Getting Ready mit weißen Rosen, Trauung in der Kirche von Pronstorf, Feier im Festsaal mit Kronleuchtern. Ein ganzer Tag auf dem Gut.',

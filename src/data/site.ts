@@ -5,6 +5,8 @@ export const site = {
   url: 'https://marcelkuhls.de',
   email: 'info@marcelkuhls.de', // laut Impressum
   instagram: 'https://www.instagram.com/marcelkuhls.photography/',
+  // Google-Unternehmensprofil (Maps, CID). Stand 21.10.2026: 5,0 Sterne, 18 Bewertungen
+  google: 'https://maps.google.com/?cid=2829761485552863488',
   // Google Analytics 4, Property „marcelkuhls.de Hochzeit“ (Konto a331012768), und Google Ads 481-159-1837
   // mit der Conversion „Kontakt“. Leer = kein Banner, kein Tracking.
   analytics: { ga4: 'G-V3306E4200', ads: 'AW-16714662548', adsLead: 'jbwQCJ-JxtcZEJSFlqI-' },

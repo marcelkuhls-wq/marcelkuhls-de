@@ -1,4 +1,5 @@
 ---
+import { site } from '../data/site';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
@@ -7,10 +8,10 @@ import { testimonials, reportages } from '../data/reportages';
 const extra = reportages.filter((r) => r.quote && !testimonials.some((t) => t.by === r.quote!.by)).map((r) => ({ by: r.quote!.by, where: r.place ?? 'Hochzeit', text: r.quote!.text, img: r.side }));
 const all = [...testimonials, ...extra];
 ---
-<Base title="Bewertungen: Erfahrungen mit Hochzeitsfotograf Marcel Kuhls" description="5,0 von 5 Sternen bei 17 Google-Bewertungen. Was Paare über ihre Hochzeitsreportage mit Marcel Kuhls in Hamburg sagen.">
+<Base title="Bewertungen: Erfahrungen mit Hochzeitsfotograf Marcel Kuhls" description="5,0 von 5 Sternen bei 18 Google-Bewertungen. Was Paare über ihre Hochzeitsreportage mit Marcel Kuhls in Hamburg sagen.">
   <PageHero crumbs={[{ label: 'Bewertungen' }]}>
     <h1 slot="title"><span class="h1-kw" data-fade="0.2">Bewertungen &amp; Erfahrungen</span><span data-split data-split-now>Was Paare <em>sagen</em></span></h1>
-    <div slot="aside" data-fade="0.4" class="rv-score"><span class="rv-stars" aria-hidden="true">★★★★★</span><p><strong>5,0 von 5</strong><br />bei 17 Bewertungen auf Google</p><p class="todo">Link zum Google-Profil ergänzen</p></div>
+    <div slot="aside" data-fade="0.4" class="rv-score"><span class="rv-stars" aria-hidden="true">★★★★★</span><p><strong>5,0 von 5</strong><br />bei 18 Bewertungen auf Google</p><p><a class="link" href={site.google} rel="noopener" target="_blank">Alle Bewertungen auf Google</a></p></div>
   </PageHero>
   <section class="wrap" style="padding-bottom: var(--space)">
     <div class="rv-list">
