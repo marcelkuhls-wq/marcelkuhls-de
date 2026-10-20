@@ -1,0 +1,17 @@
+---
+// Text 1:1 von marcelkuhls.de/heiraten-in-hamburg/ übernommen (Stand 20.10.2026), neues Layout und neue Fotos.
+import Base from '../layouts/Base.astro';
+import LegacyArticle from '../components/LegacyArticle.astro';
+import { series } from '../data/photos';
+import { articleSchema } from '../data/article';
+import html from '../data/legacy/heiraten-in-hamburg.html?raw';
+
+const u = series('uinny-sidney-standesamt-altona-2'), s = series('sophia-behnam-standesamt-altona-2'), v = series('verena-toby-2-hotel-atlantik'), l = series('lynn-ersin-standesamt-altona');
+const hero = series('uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg')[13];
+const photos = [s[6], l[8], v[20], u[5], series('sb-uinny-sidney-sta')[10], v[40]];
+---
+<Base title="Heiraten in Hamburg: Planungshilfe vom Hochzeitsfotografen" description="Hochzeit in Hamburg planen: Standesämter, Zeitplan, Kosten, Jahreszeit und Regen-Plan-B. Praxistipps von einem Hochzeitsfotografen aus Hamburg." ogImage={hero} schema={articleSchema('/heiraten-in-hamburg/', 'Heiraten in Hamburg: Planungshilfe von eurem Hochzeitsfotografen'.trim(), 'Heiraten in Hamburg')}>
+  <LegacyArticle html={html} title="Heiraten in Hamburg:" titleEm="Planungshilfe von eurem Hochzeitsfotografen" eyebrow="Ratgeber · Hochzeitsplanung" crumb="Heiraten in Hamburg" hero={hero} photos={photos}>
+    <p style="margin-top:2.4em"><a class="btn btn--solid" href="/kontakt/">Verfügbarkeit anfragen <span class="arr">→</span></a></p>
+  </LegacyArticle>
+</Base>

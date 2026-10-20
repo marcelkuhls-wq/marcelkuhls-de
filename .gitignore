@@ -1,0 +1,8 @@
+node_modules
+dist
+.astro
+Fotos/*
+!Fotos/LIES-MICH.md
+research/
+.DS_Store
+.env*

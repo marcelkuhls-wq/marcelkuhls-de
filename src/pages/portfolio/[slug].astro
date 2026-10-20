@@ -1,0 +1,114 @@
+---
+const LIVE = import.meta.env.PUBLIC_MODE === 'live';
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Gallery from '../../components/Gallery.astro';
+import { reportages, bySlug, venueTitle } from '../../data/reportages';
+
+export function getStaticPaths() {
+  return reportages.map((r) => ({ params: { slug: r.slug } }));
+}
+const r = bySlug(Astro.params.slug!);
+const [a, b] = r.couple.includes(' & ') ? r.couple.split(' & ') : [r.couple, ''];
+const where = [r.place, r.region].filter(Boolean).join(', ');
+const vt = venueTitle(r);
+const title = r.kind === 'Verlobung' || !r.place ? `${r.place ? vt : `Hochzeitsreportage ${r.couple}`} | Marcel Kuhls` : `${vt}${r.region && !vt.includes(r.region) ? ` ${r.region === 'Hamburg' ? 'Hamburg' : `(${r.region})`}` : ''}: ${r.couple} | Marcel Kuhls`;
+const related = (r.related ?? []).map(bySlug);
+const total = r.chapters.reduce((n, c) => n + c.photos.length, 0);
+const schema = {
+  '@context': 'https://schema.org', '@type': 'ImageGallery',
+  name: `${r.couple}${r.place ? `, ${r.place}` : ''}`,
+  description: r.dek,
+  author: { '@type': 'Person', name: 'Marcel Kuhls' },
+  ...(r.place ? { contentLocation: { '@type': 'Place', name: r.place, address: r.region } } : {}),
+};
+---
+<Base title={title} description={`${r.dek} Hochzeitsreportage von Marcel Kuhls${where ? ` in ${where}` : ''}.`} path={`/portfolio/${r.slug}/`} ogImage={r.cover} schema={schema} dark>
+  <section class="rhero" data-hero data-theme-dark>
+    <div class="rhero__media" data-hero-media>
+      <Photo src={r.hero} alt={`${r.couple}${r.place ? ` bei ihrer Hochzeit, ${r.place}` : ''}`} priority imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="rhero__type wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/portfolio/">Reportagen</a></li><li><span aria-current="page">{r.couple}</span></li></ol></nav>
+      <h1 class:list={[b ? 'mega' : 'h1 rhero__long', 'display']}>
+        <span class="rhero__venue">{r.place ? vt : 'Hochzeitsreportage'}{r.region && !vt.includes(r.region) ? ` · ${r.region}` : ''}</span>
+        <span class="row" data-split data-split-now data-hero-shift="-4">{a}</span>
+        {b && <span class="row row--r" data-split data-split-now data-hero-shift="4"><span class="amp">&amp;</span> <em>{b}</em></span>}
+      </h1>
+    </div>
+  </section>
+
+  <section class="wrap section--tight">
+    <div class="intro">
+      <p class="eyebrow intro__label">{r.kind}</p>
+      <p class="statement intro__text" data-scrub-text>{r.dek}</p>
+    </div>
+    <dl class="facts">
+      {(r.place || !LIVE) && <div><dt>Location</dt><dd>{r.place ?? <span class="todo">Location ergänzen</span>}</dd></div>}
+      {(r.region || !LIVE) && <div><dt>Region</dt><dd>{r.region ?? <span class="todo">ergänzen</span>}</dd></div>}
+      {(r.date || !LIVE) && <div><dt>Datum</dt><dd>{r.date ?? <span class="todo">ergänzen</span>}</dd></div>}
+      {!LIVE && <div><dt>Dienstleister</dt><dd><span class="todo">optional ergänzen</span></dd></div>}
+    </dl>
+    {!LIVE && <p class="source">Quelle der Angaben: {r.source}</p>}
+  </section>
+
+  {r.chapters.map((c, i) => (
+    <section>
+      <div class="chapter wrap">
+        <span class="chapter__n">{String(i + 1).padStart(2, '0')}</span>
+        <h2 class="chapter__t h2" data-split>{c.title} <em>{c.titleEm}</em></h2>
+        {c.note && <p class="chapter__d">{c.note}</p>}
+      </div>
+      <Gallery photos={c.photos} alt={`${r.couple}${r.place ? `, ${r.place}` : ''}`} seed={i * 2} />
+      {i === 0 && r.quote && (
+        <figure class="quote section wrap">
+          <blockquote data-split>„{r.quote.text}“</blockquote>
+          <figcaption>{r.quote.by}</figcaption>
+        </figure>
+      )}
+    </section>
+  ))}
+
+  <section class="section wrap">
+    <div class="endcta">
+      <p class="eyebrow">Euer Datum steht schon?</p>
+      <h2 class="h1" data-split>Schreibt mir, <em>bevor es weg ist.</em></h2>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px" data-fade>
+        <a class="btn btn--solid" href="/kontakt/">Anfrage senden <span class="arr">→</span></a>
+        {r.location && <a class="btn" href={r.location}>Mehr zu {r.place}</a>}
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="wrap" style="padding-bottom: var(--space)">
+      <p class="eyebrow">Weitere Reportagen</p>
+      <div class="cards">
+        {related.map((s, i) => (
+          <a class:list={['card', i === 0 ? 'card--wide' : 'card--side']} href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
+            <Photo src={i === 0 ? s.cover : s.side} alt={s.couple} reveal="up" sizes="(max-width: 899px) 100vw, 50vw" />
+            <h3>{venueTitle(s)}</h3>
+            <p>{s.couple}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .rhero { position: relative; height: 100svh; min-height: 600px; color: #fff; background: var(--night); overflow: hidden; }
+  .rhero__media { position: absolute; inset: 0; transform-origin: 50% 0; overflow: hidden; }
+  .rhero__media :global(.ph) { position: absolute; inset: 0; }
+  .rhero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,0) 35%, rgba(0,0,0,.5)); }
+  .rhero__type { position: absolute; inset: auto 0 0; left: 50%; transform: translateX(-50%); padding-bottom: clamp(24px, 4vw, 56px); z-index: 2; }
+  .rhero .crumbs { color: rgba(255,255,255,.7); }
+  .rhero h1 .row { display: block; white-space: nowrap; }
+  .rhero h1.rhero__long .row { white-space: normal; max-width: 14ch; }
+  .rhero h1 .row--r { text-align: right; }
+  .rhero__venue { display: block; font-family: var(--f-text); font-size: var(--fs-micro); font-weight: 560; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 18px; opacity: .85; }
+  .source { font-size: var(--fs-micro); color: var(--ink-3); margin-top: 18px; letter-spacing: 0.02em; }
+  .endcta { text-align: center; display: grid; justify-items: center; }
+  .endcta .eyebrow::before { display: none; }
+  @media (max-width: 899px) { .rhero h1 .row--r { text-align: left; padding-left: 8vw; } }
+</style>

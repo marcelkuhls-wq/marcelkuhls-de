@@ -1,0 +1,14 @@
+---
+// Ersatz für das alte WordPress-Kundenportal (Login-Plugin, auf einer statischen Seite nicht möglich).
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<Base title="Kundenbereich | Marcel Kuhls" description="Kundenbereich für Brautpaare von Marcel Kuhls." noindex>
+  <PageHero crumbs={[{ label: 'Kundenbereich' }]} eyebrow="Kundenbereich">
+    <h1 slot="title" data-split data-split-now>Eure Unterlagen <em>kommen per Mail</em></h1>
+    <p slot="aside" data-fade="0.4">Vertrag, Ablaufplan und den Link zu eurer Online-Galerie schicke ich euch direkt. Fehlt etwas oder findet ihr einen Link nicht mehr? Schreibt mir kurz, ihr bekommt innerhalb von 24 Stunden eine Antwort.</p>
+  </PageHero>
+  <section class="wrap" style="padding-bottom:var(--space)">
+    <p><a class="btn btn--solid" href="mailto:info@marcelkuhls.de">info@marcelkuhls.de <span class="arr">→</span></a></p>
+  </section>
+</Base>

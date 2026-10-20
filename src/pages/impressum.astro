@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+// Text 1:1 von marcelkuhls.de/impressum/ übernommen (Stand 20.10.2026).
+import text from '../data/legal/impressum.html?raw';
+---
+<Base title="Impressum | Marcel Kuhls" description="Impressum von Marcel Kuhls Photography, Hochzeitsfotograf in Hamburg.">
+  <PageHero crumbs={[{ label: 'Impressum' }]}>
+    <h1 slot="title">Impressum</h1>
+  </PageHero>
+  <section class="wrap" style="padding-bottom: var(--space)">
+    
+    <div class="legal" set:html={text} />
+  </section>
+</Base>
+
+<style>
+  .legal { max-width: 72ch; font-size: 1rem; line-height: 1.7; color: var(--ink-2); }
+  .legal :global(p) { margin: 0 0 1.1em; }
+  .legal :global(strong) { color: var(--ink); font-weight: 560; }
+  .legal :global(p > strong:first-child) { display: inline-block; margin-top: 0.6em; }
+  .legal :global(a) { color: var(--ink); }
+  .legal :global(ul) { padding-left: 1.2em; }
+  .legal-notes { max-width: 72ch; display: grid; gap: 8px; margin-bottom: 40px; }
+</style>

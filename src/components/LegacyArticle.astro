@@ -1,0 +1,74 @@
+---
+// Übernommene Artikel von marcelkuhls.de: Originaltext, neues Layout.
+// Der Text wird an den H2 geteilt, zwischen die Abschnitte kommen Fotos.
+import Photo from './Photo.astro';
+import { getImage } from 'astro:assets';
+import { photo, PORTRAIT_FRONT } from '../data/photos';
+
+interface Props {
+  html: string;
+  title: string;          // H1
+  titleEm?: string;
+  eyebrow: string;
+  crumb: string;
+  hero: string;
+  photos: string[];       // werden nach je einem Abschnitt eingestreut
+  updated?: string;
+}
+const { html, title, titleEm, eyebrow, crumb, hero, photos, updated = '20. Oktober 2026' } = Astro.props;
+const slug = (s: string) => s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const strip = (s: string) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+// Alte Sprungmarken-Zeile entfernen, wir bauen ein eigenes Inhaltsverzeichnis
+const clean = html.replace(/<p><strong>In diesem Artikel:<\/strong>.*?<\/p>/, '');
+const parts = clean.split(/(?=<h2>)/);
+const sections = parts.map((p) => {
+  const m = p.match(/^<h2>(.*?)<\/h2>/);
+  return m ? { id: slug(strip(m[1])), h: strip(m[1]), body: p.replace(/^<h2>.*?<\/h2>/, '') } : { id: '', h: '', body: p };
+});
+const toc = sections.filter((s) => s.h && !/^(Weiterlesen|Weitere Planungshilfe|Teilen|Ihr feiert|Fragen zur Planung)/.test(s.h));
+const avatar = await getImage({ src: photo(PORTRAIT_FRONT), width: 160, height: 160, fit: 'cover', position: 'top', format: 'webp' });
+---
+<article>
+  <header class="lhead wrap">
+    <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/journal/">Journal</a></li><li><span aria-current="page">{crumb}</span></li></ol></nav>
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="lhead__title" data-split data-split-now>{title} {titleEm && <em>{titleEm}</em>}</h1>
+    <div class="lhead__meta" data-fade="0.5">
+      <img src={avatar.src} alt="" width="40" height="40" />
+      <span>Marcel Kuhls</span><span>·</span><span>Aktualisiert am {updated}</span>
+    </div>
+  </header>
+  <div class="wrap">
+    <Photo src={hero} alt={`${title} ${titleEm ?? ''}`.trim()} ratio="21/9" priority reveal="center" sizes="100vw" />
+  </div>
+  <div class="wrap section--tight">
+    <div class="article">
+      <aside class="article__toc" aria-label="Inhaltsverzeichnis">
+        <p class="eyebrow eyebrow--plain">Inhalt</p>
+        <ol>{toc.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}</ol>
+      </aside>
+      <div class="article__body legacy">
+        {sections.map((s, i) => (
+          <>
+            {s.h && <h2 id={s.id}>{s.h}</h2>}
+            <Fragment set:html={s.body} />
+            {i > 0 && photos[i - 1] && <Photo src={photos[i - 1]} alt={`${s.h}: Foto aus einer Hochzeitsreportage von Marcel Kuhls`} ratio={i % 2 ? '3/2' : '4/5'} reveal="up" sizes="(max-width: 899px) 100vw, 60vw" />}
+          </>
+        ))}
+        <slot />
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .lhead { padding-top: clamp(110px, 11vw, 170px); padding-bottom: clamp(28px, 3vw, 48px); }
+  .lhead__title { font-size: clamp(2.4rem, 6.4vw, 6.6rem); max-width: 16ch; }
+  .lhead__meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: clamp(20px, 2.5vw, 36px); font-size: var(--fs-small); color: var(--ink-2); }
+  .lhead__meta img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .legacy :global(h2) { scroll-margin-top: 100px; }
+  .legacy :global(h3) { font-size: clamp(1.3rem, 2vw, 1.7rem); }
+  .legacy :global(.ph) { margin: 2em 0; }
+  .legacy :global(table) { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 1rem; }
+  .legacy :global(td), .legacy :global(th) { border-bottom: 1px solid var(--line); padding: 12px 10px 12px 0; text-align: left; vertical-align: top; }
+</style>

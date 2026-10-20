@@ -1,0 +1,143 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import Reviews from '../components/Reviews.astro';
+import { pick, faqSchema } from '../data/faq';
+
+// Paketnamen und Inhalte laut /angebot/ auf marcelkuhls.de. Preise bewusst auf Anfrage.
+const packages = [
+  { name: 'Standesamt', em: '& kleine Hochzeit', h: '3 bis 5 Stunden', img: 'sb-lynn-ersin/048', text: 'Ankunft, Jawort, Ringe, Gratulationen vor der Tür, Paarbilder in der Nähe und der Sekt danach.', href: '/standesamt-fotograf-hamburg/' },
+  { name: 'Der kleine', em: 'Rahmen', h: '8 Stunden', img: 'sb-isabelle-kenny/022', text: 'Von der Trauung über die Gratulationen und Paarbilder bis in den Abend.', href: '/portfolio/isabelle-kenny/' },
+  { name: 'Der ganze', em: 'Tag', h: '10 Stunden', img: 'michelle-benjamin/17', text: 'Vom Getting Ready bis zum ersten Tanz. Das Paket, das am häufigsten gebucht wird.', badge: 'am häufigsten gebucht', href: '/portfolio/hochzeit-gut-pronstorf/' },
+  { name: 'Von morgens', em: 'bis Mitternacht', h: '12 Stunden', img: 'michelle-benjamin/31', text: 'Für alle, die auch die Tanzfläche, die Reden und die lange Nacht festgehalten haben wollen.', href: '/portfolio/mariana-mirco/' },
+];
+const included = [
+  'kostenloses Kennenlerngespräch und Beratung zum Tagesablauf',
+  'komplette Reportage im gebuchten Zeitraum',
+  'mehrere hundert bearbeitete Bilder, in voller Auflösung und webfertig',
+  'private Online-Galerie zum Ansehen, Teilen und Herunterladen',
+  'Vorschau bei längeren Reportagen, Galerie nach etwa zwei Wochen',
+  'doppelte Datensicherung',
+  'Anfahrt im Raum Hamburg',
+  'Ersatz aus meinem Netzwerk, falls ich krank werde',
+];
+const extras = [
+  ['Zweiter Fotograf', 'wenn das Getting Ready an zwei Orten stattfindet oder viele Gäste kommen'],
+  ['Paar- oder Verlobungsshooting', 'etwa 90 Minuten vor der Hochzeit, um sich an die Kamera zu gewöhnen'],
+  ['Weitere Stunden', 'wenn der Abend länger wird als geplant'],
+  ['Express-Vorauswahl', 'eine kleine Auswahl schon nach wenigen Tagen'],
+  ['Fotobuch und Fine-Art-Prints', 'damit die Bilder nicht nur auf dem Handy bleiben'],
+];
+const faq = pick('Wie viele Stunden', 'Wann bekommen', 'Wie viele Bilder', 'Was passiert, wenn', 'Kommen Anfahrt', 'Wie läuft die Buchung', 'Dürfen wir die Bilder');
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Service',
+    name: 'Hochzeitsfotografie Hamburg', serviceType: 'Hochzeitsreportage',
+    provider: { '@id': 'https://marcelkuhls.de/#business' }, areaServed: ['Hamburg', 'Schleswig-Holstein', 'Niedersachsen'],
+    hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Pakete', itemListElement: packages.map((p) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: `${p.name} ${p.em}`, description: `${p.h}. ${p.text}` } })) },
+  },
+  faqSchema(faq),
+];
+---
+<Base title="Leistungen: Hochzeitsfotografie Hamburg, Pakete & Ablauf | Marcel Kuhls" description="Hochzeitsfotografie in Hamburg: Pakete von Standesamt bis zwölf Stunden Reportage, was immer enthalten ist, Zusatzleistungen und Ablauf. Angebot innerhalb von 24 Stunden." ogImage="michelle-benjamin/17" schema={schema}>
+  <PageHero crumbs={[{ label: 'Leistungen' }]}>
+    <h1 slot="title"><span class="h1-kw" data-fade="0.2">Hochzeitsfotografie Hamburg</span><span data-split data-split-now>Leistungen <em>und Pakete</em></span></h1>
+    <p slot="aside" data-fade="0.4">Vom Standesamt bis zur langen Nacht. Den Preis bekommt ihr passend zu eurem Tag innerhalb von 24 Stunden.</p>
+  </PageHero>
+
+  <section class="wrap">
+    <ul class="pk">
+      {packages.map((p, i) => (
+        <li class="pk__item" data-fade={String(i * 0.06)}>
+          <a href={p.href} data-cursor="Ansehen">
+            <Photo src={p.img} alt={`${p.name} ${p.em}: Beispiel aus einer Reportage`} ratio="4/5" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+            {p.badge && <span class="pk__badge">{p.badge}</span>}
+          </a>
+          <span class="num">{p.h}</span>
+          <h2 class="h3">{p.name} <em>{p.em}</em></h2>
+          <p>{p.text}</p>
+          <p class="pk__price">Preis auf Anfrage</p>
+        </li>
+      ))}
+    </ul>
+    <p class="pk__cta" data-fade><a class="btn btn--solid" href="/kontakt/">Verfügbarkeit &amp; Angebot anfragen <span class="arr">→</span></a> <a class="link" href="/was-kostet-ein-hochzeitsfotograf-hamburg/">Was kostet ein Hochzeitsfotograf in Hamburg?</a></p>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--incl">
+      <div class="incl-a">
+        <p class="eyebrow">In jedem Paket</p>
+        <h2 class="h2" data-split>Immer <em>dabei</em></h2>
+      </div>
+      <ul class="incl-list">
+        {included.map((x) => <li data-fade>{x}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section--tight dark" data-theme-dark>
+    <div class="wrap">
+      <p class="eyebrow">Zubuchbar</p>
+      <div class="rows">
+        {extras.map(([t, d], i) => (
+          <div class="row-item" data-fade><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}{t.startsWith('Paar') && <> · <a class="link" href="/verlobungsshooting-hamburg/">Mehr zum Verlobungsshooting</a></>}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 64px)">
+      <p class="eyebrow intro__label">Ablauf</p>
+      <h2 class="intro__text h2" data-split>Von der Anfrage <em>bis zur Galerie</em></h2>
+    </div>
+    <ol class="steps5">
+      <li data-fade><span>1</span><h3>Anfrage</h3><p>Datum und Location reichen.</p></li>
+      <li data-fade="0.06"><span>2</span><h3>Antwort in 24&nbsp;Stunden</h3><p>Mit Verfügbarkeit und Angebot.</p></li>
+      <li data-fade="0.12"><span>3</span><h3>Kennenlernen</h3><p>Kurz per Video oder Telefon.</p></li>
+      <li data-fade="0.18"><span>4</span><h3>Datum sichern</h3><p>Vertrag und Anzahlung.</p></li>
+      <li data-fade="0.24"><span>5</span><h3>Eure Galerie</h3><p>Nach etwa zwei Wochen.</p></li>
+    </ol>
+  </section>
+
+  <Reviews />
+
+  <section class="section wrap">
+    <div class="g">
+      <div class="lf-a"><p class="eyebrow">Fragen zu den Leistungen</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2><p style="margin-top:24px"><a class="link" href="/faq/">Alle Fragen ansehen</a></p></div>
+      <div class="lf-b"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pk { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(24px, 3vw, 40px) var(--gap); }
+  .pk__item { display: grid; gap: 10px; align-content: start; }
+  .pk__item > a { position: relative; display: block; margin-bottom: 6px; }
+  .pk__item :global(.ph img) { transition: transform 1.4s var(--ease); }
+  .pk__item > a:hover :global(.ph img) { transform: scale(1.05); }
+  .pk__badge { position: absolute; left: 12px; top: 12px; background: var(--accent); color: #fff; font-size: var(--fs-micro); letter-spacing: .12em; text-transform: uppercase; font-weight: 560; padding: 6px 10px; border-radius: 999px; }
+  .pk__item p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .pk__item .pk__price { color: var(--ink); font-weight: 520; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 6px; }
+  .pk__cta { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin: clamp(32px, 4vw, 56px) 0 0; }
+  .incl-a { grid-column: 1 / 5; }
+  .incl-list { grid-column: 6 / 13; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--gap); }
+  .incl-list li { border-top: 1px solid var(--line); padding: 16px 0 16px 28px; position: relative; }
+  .incl-list li::before { content: '✓'; position: absolute; left: 0; top: 16px; color: var(--accent); }
+  .steps5 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); }
+  .steps5 li { border-top: 1px solid var(--line); padding-top: 20px; }
+  .steps5 span { font-family: var(--f-display); font-style: italic; font-size: clamp(2.6rem, 4vw, 4rem); line-height: 1; color: var(--accent); display: block; margin-bottom: 14px; font-weight: 300; }
+  .steps5 h3 { font-size: 1.25rem; margin-bottom: 6px; }
+  .steps5 p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .lf-a { grid-column: 1 / 5; }
+  .lf-b { grid-column: 6 / 13; }
+  @media (max-width: 899px) {
+    .pk { grid-template-columns: 1fr 1fr; }
+    .incl-a, .incl-list, .lf-a, .lf-b { grid-column: 1 / -1; }
+    .incl-list { grid-template-columns: 1fr; margin-top: 24px; }
+    .lf-b { margin-top: 24px; }
+    .steps5 { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+  }
+</style>

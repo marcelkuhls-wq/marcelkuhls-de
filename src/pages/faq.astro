@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import { faqs, faqSchema } from '../data/faq';
+const cats = ['Kosten', 'Buchung', 'Ablauf', 'Standesamt', 'Bilder'] as const;
+---
+<Base title="FAQ Hochzeitsfotograf Hamburg: Kosten, Ablauf, Bilder | Marcel Kuhls" description="Häufige Fragen an einen Hochzeitsfotografen in Hamburg: Kosten, Vorlauf, Dauer, Lieferzeit, Bildanzahl, Standesamt, Regen und Krankheit. Ehrlich beantwortet." schema={faqSchema(faqs)}>
+  <PageHero crumbs={[{ label: 'FAQ' }]}>
+    <h1 slot="title"><span class="h1-kw" data-fade="0.2">Hochzeitsfotograf FAQ</span><span data-split data-split-now>Fragen, <em>die ihr wirklich stellt</em></span></h1>
+    <p slot="aside" data-fade="0.4">Eure Frage ist nicht dabei? <a class="link" href="/kontakt/">Schreibt mir</a>, ich antworte innerhalb von 24 Stunden.</p>
+    <nav class="faq-cats" aria-label="Themen" data-fade="0.5">{cats.map((c) => <a class="chipbtn-l" href={`#${c.toLowerCase()}`}>{c}</a>)}</nav>
+  </PageHero>
+  <section class="wrap" style="padding-bottom: var(--space)">
+    {cats.map((c) => (
+      <div class="faq-block" id={c.toLowerCase()}>
+        <h2 class="h3">{c}</h2>
+        <FaqList items={faqs.filter((f) => f.cat === c)} />
+      </div>
+    ))}
+  </section>
+</Base>
+<style>
+  .faq-cats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .chipbtn-l { height: 42px; display: inline-flex; align-items: center; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-size: 0.9rem; }
+  .chipbtn-l:hover { border-color: var(--ink); }
+  .faq-block { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gap); padding-top: clamp(32px, 4vw, 56px); scroll-margin-top: 100px; }
+  .faq-block h2 { padding-top: 22px; }
+  @media (max-width: 899px) { .faq-block { grid-template-columns: 1fr; } }
+</style>

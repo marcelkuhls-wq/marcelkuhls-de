@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import PageHero from '../../components/PageHero.astro';
+import { reportages, venueTitle } from '../../data/reportages';
+const filters = ['Alle', 'Hochzeit', 'Standesamt', 'Destination', 'Verlobung'];
+---
+<Base title="Hochzeitsreportagen Hamburg: echte Hochzeitsfotos | Marcel Kuhls" description="Hochzeitsreportagen und Hochzeitsfotos aus Hamburg: Hotel Atlantic, Standesamt Altona, Gut Pronstorf und Mallorca. Ungestellt fotografiert von Marcel Kuhls." ogImage="michelle-benjamin/17">
+  <PageHero crumbs={[{ label: 'Reportagen' }]} eyebrow="Portfolio">
+    <h1 slot="title" data-split data-split-now>Hochzeits<em>reportagen</em></h1>
+    <p slot="aside" data-fade="0.4">Jede Reportage ist ein ganzer Tag oder ein ganzes Jawort. So, wie es wirklich war.</p>
+    <div class="filters" role="group" aria-label="Reportagen filtern" data-fade="0.6">
+      {filters.map((f, i) => <button type="button" class="chipbtn" aria-pressed={i === 0 ? 'true' : 'false'} data-filter={f}>{f}</button>)}
+    </div>
+  </PageHero>
+
+  <section class="wrap" style="padding-bottom: var(--space)">
+    <ul class="pf">
+      {reportages.map((s, i) => (
+        <li class:list={['pf__item', `pf__item--${i % 5}`]} data-kind={s.kind}>
+          <a href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
+            <Photo src={i % 5 === 1 || i % 5 === 3 ? s.side : s.cover} alt={`${s.couple}${s.place ? `, ${s.place}` : ''}`} ratio={i % 5 === 0 ? '3/2' : i % 5 === 4 ? '16/10' : '4/5'} reveal="up" sizes="(max-width: 899px) 100vw, 50vw" />
+            <div class="pf__meta">
+              <h2 class="h3">{venueTitle(s)}</h2>
+              <p>{s.place ? s.couple : s.kind}{s.region ? ` · ${s.region}` : ''}{!s.place && <> · <span class="todo">Ort ergänzen</span></>}</p>
+              <span class="num">{s.kind}</span>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(32px, 4vw, 56px); }
+  .chipbtn { height: 42px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: none; cursor: pointer; font-size: 0.9rem; transition: all .4s var(--ease); }
+  .chipbtn:hover { border-color: var(--ink); }
+  .chipbtn[aria-pressed='true'] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .pf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(48px, 7vw, 120px) var(--gap); }
+  .pf a { text-decoration: none; display: block; }
+  .pf :global(.ph img) { transition: transform 1.4s var(--ease); }
+  .pf a:hover :global(.ph img) { transform: scale(1.05); }
+  .pf__item--0 { grid-column: 1 / 9; }
+  .pf__item--1 { grid-column: 9 / 13; margin-top: 24vw; }
+  .pf__item--2 { grid-column: 2 / 6; }
+  .pf__item--3 { grid-column: 7 / 12; margin-top: 10vw; }
+  .pf__item--4 { grid-column: 3 / 13; }
+  .pf__meta { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; margin-top: 16px; align-items: baseline; }
+  .pf__meta p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); grid-column: 1; }
+  .pf__meta .num { grid-row: 1; grid-column: 2; }
+  .pf__item.is-hidden { display: none; }
+  @media (max-width: 899px) {
+    .pf > li { grid-column: 1 / -1 !important; margin-top: 0 !important; }
+    .pf__item--1, .pf__item--3 { padding-left: 18vw; }
+  }
+</style>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const items = document.querySelectorAll<HTMLElement>('.pf__item');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    const f = b.dataset.filter;
+    items.forEach((it) => it.classList.toggle('is-hidden', f !== 'Alle' && it.dataset.kind !== f));
+    import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => ScrollTrigger.refresh());
+  }));
+</script>

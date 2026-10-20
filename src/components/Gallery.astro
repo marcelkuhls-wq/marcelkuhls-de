@@ -1,0 +1,80 @@
+---
+// Setzt eine Bildfolge automatisch in wechselnde Kompositionen:
+// Vollbild, Paare, Dreier, groß/klein. Jedes Bild öffnet die Diashow.
+import Photo from './Photo.astro';
+import { getImage } from 'astro:assets';
+import { photo } from '../data/photos';
+
+interface Props { photos: string[]; alt: string; seed?: number }
+const { alt, seed = 0 } = Astro.props;
+const photos = [...Astro.props.photos];
+
+type Row = { kind: string; items: string[] };
+const isL = (k: string) => { const p = photo(k); return p.width > p.height * 1.1; };
+
+const rows: Row[] = [];
+let i = 0;
+let turn = seed;
+// Nur Kompositionen, die die Breite füllen. Keine Einzelbilder mit leeren Seiten.
+const portraitPatterns = ['two', 'three', 'offset', 'three', 'two'];
+while (i < photos.length) {
+  const a = photos[i], b = photos[i + 1], c = photos[i + 2];
+  if (isL(a)) {
+    if (b && !isL(b) && turn % 2 === 0) { rows.push({ kind: 'big-small', items: [a, b] }); i += 2; }
+    else if (b && isL(b) && turn % 3 === 2) { rows.push({ kind: 'two', items: [a, b] }); i += 2; }
+    else { rows.push({ kind: 'full', items: [a] }); i += 1; }
+  } else if (b && !isL(b)) {
+    const pat = portraitPatterns[turn % portraitPatterns.length];
+    if (pat === 'three' && c && !isL(c)) { rows.push({ kind: 'three', items: [a, b, c] }); i += 3; }
+    else { rows.push({ kind: pat === 'offset' ? 'offset' : 'two', items: [a, b] }); i += 2; }
+  } else if (b && isL(b)) {
+    rows.push({ kind: 'small-big', items: [a, b] }); i += 2;
+  } else {
+    rows.push({ kind: 'single-p', items: [a] }); i += 1;
+  }
+  turn++;
+}
+const ratioOf = (k: string) => (isL(k) ? '3/2' : '2/3');
+const full = Object.fromEntries(await Promise.all(photos.map(async (k) => [k, (await getImage({ src: photo(k), width: 2000, format: 'webp', quality: 82 })).src])));
+let n = 0;
+---
+<div class="gallery" data-lb-group>
+  {rows.map((row) => (
+    <div class:list={['g', `g--${row.kind}`]}>
+      {row.items.map((k, j) => {
+        n++;
+        const label = `${alt}, Bild ${n}`;
+        return (
+          <a class="lb-link" href={full[k]} data-lb data-lb-alt={label} aria-label={`${label} groß ansehen`} data-cursor="Vergrößern">
+            <Photo
+              src={k}
+              alt={label}
+              ratio={row.kind === 'full' ? undefined : row.kind === 'two' && isL(k) ? '3/2' : ratioOf(k)}
+              sizes={row.kind === 'full' ? '100vw' : row.kind === 'three' ? '(max-width: 899px) 50vw, 33vw' : '(max-width: 899px) 90vw, 50vw'}
+              reveal={row.kind === 'full' ? 'center' : 'up'}
+              parallax={row.kind === 'full' ? 8 : false}
+            />
+          </a>
+        );
+      })}
+    </div>
+  ))}
+</div>
+
+<style>
+  .gallery { padding-inline: var(--pad); max-width: var(--max); margin-inline: auto; }
+  .gallery .g { margin-top: var(--gap); }
+  .gallery .g--full { margin-inline: calc(var(--pad) * -1); }
+  .gallery .g--offset > :nth-child(1) { grid-column: 1 / 7; }
+  .gallery .g--offset > :nth-child(2) { grid-column: 7 / 12; margin-top: clamp(40px, 6vw, 110px); }
+  .gallery .g--single-p > * { grid-column: 3 / 8; }
+  .lb-link { display: block; cursor: zoom-in; }
+  .lb-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .lb-link :global(.ph img) { transition: transform 1.2s var(--ease), filter .6s; }
+  .lb-link:hover :global(.ph img) { transform: scale(1.025); }
+  @media (max-width: 899px) {
+    .gallery .g--offset > :nth-child(1) { grid-column: 1 / 7; }
+    .gallery .g--offset > :nth-child(2) { grid-column: 7 / 13; margin-top: 12vw; }
+    .gallery .g--single-p > * { grid-column: 1 / 10; }
+  }
+</style>

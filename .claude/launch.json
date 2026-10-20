@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "prototyp", "runtimeExecutable": "npx", "runtimeArgs": ["astro", "dev", "--port", "4325"], "port": 4325 }
+  ]
+}

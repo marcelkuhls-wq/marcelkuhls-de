@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import FaqList from '../components/FaqList.astro';
+import { series } from '../data/photos';
+import { faqSchema, type Faq } from '../data/faq';
+
+// Fakten: Paarshooting ca. 90 Minuten, ca. 40 Bilder, Galerie in einer Woche (laut /angebot/ auf marcelkuhls.de).
+const spots = [
+  { t: 'Boberger Dünen', d: 'Sand, Heide und Kiefern mitten in Hamburg. Hier habe ich einen Antrag mit gedecktem Tisch und Sonnenblumen fotografiert.', img: 'boberger-duenen/01', href: '/portfolio/verlobung-boberger-duenen/' },
+  { t: 'Altonaer Balkon', d: 'Hoch über der Elbe, mit Hafen und Kränen im Hintergrund. Schön bei jedem Wetter, im Winter sogar mit Schnee.', img: 'sb-uinny-sidney-sta/098', href: '/portfolio/uinny-sidney-standesamt-altona/' },
+  { t: 'An der Außenalster', d: 'Stege, Segelboote und abends tiefe Sonne über dem Wasser.', img: 'verena-toby-2-hotel-atlantik/044', href: '/portfolio/hochzeit-hotel-atlantic-verena-tobias/' },
+  { t: 'Heine Park', d: 'Alte Bäume, weiße Villa, viel Platz zum Laufen und Lachen.', img: 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/014', href: '/portfolio/uinny-sidney-villa-mignon/' },
+];
+const faq: Faq[] = [
+  { cat: 'Ablauf', q: 'Wie lange dauert ein Verlobungsshooting?', a: 'Etwa 90 Minuten. Das reicht, um sich an die Kamera zu gewöhnen, ein paar Orte zu wechseln und trotzdem nicht müde zu werden.' },
+  { cat: 'Bilder', q: 'Wie viele Bilder bekommen wir und wann?', a: 'Etwa 40 bearbeitete Bilder in einer privaten Online-Galerie, innerhalb von einer Woche.' },
+  { cat: 'Ablauf', q: 'Kannst du auch den Antrag selbst fotografieren?', a: 'Ja. Wir planen das vorher zu zweit, damit der oder die andere nichts merkt. Ich stehe dann so, dass ich alles sehe, aber nicht auffalle.' },
+  { cat: 'Ablauf', q: 'Lohnt sich ein Paarshooting vor der Hochzeit?', a: 'Ja, vor allem, wenn ihr nicht gern vor der Kamera steht. Ihr lernt meine Art zu arbeiten kennen, und am Hochzeitstag ist die Kamera schon vertraut.' },
+  { cat: 'Ablauf', q: 'Was sollen wir anziehen?', a: 'Was ihr auch sonst gern tragt, nur eine Spur schöner. Ruhige Farben und wenig große Muster funktionieren fast immer. Bequeme Schuhe helfen, besonders in den Dünen.' },
+  { cat: 'Kosten', q: 'Was kostet ein Verlobungsshooting?', a: 'Den Preis bekommt ihr auf Anfrage innerhalb von 24 Stunden. Mit einer gebuchten Hochzeit wird es günstiger.' },
+];
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Verlobungsshooting und Paarshooting in Hamburg', serviceType: 'Verlobungsfotografie', provider: { '@id': 'https://marcelkuhls.de/#business' }, areaServed: { '@type': 'City', name: 'Hamburg' } },
+  faqSchema(faq),
+];
+const bob = series('boberger-duenen');
+---
+<Base title="Verlobungsshooting Hamburg: Paarshooting & Antrag fotografieren | Marcel Kuhls" description="Verlobungsshooting in Hamburg: Paarshooting vor der Hochzeit oder den Antrag selbst festhalten. Etwa 90 Minuten, 40 Bilder, Galerie in einer Woche. Boberger Dünen, Elbe, Alster." ogImage="boberger-duenen/01" schema={schema}>
+  <PageHero crumbs={[{ href: '/leistungen/', label: 'Leistungen' }, { label: 'Verlobungsshooting' }]}>
+    <h1 slot="title"><span class="h1-kw" data-fade="0.2">Verlobungsshooting Hamburg</span><span data-split data-split-now>Bevor es <em>offiziell wird</em></span></h1>
+    <p slot="aside" data-fade="0.4">Ein Paarshooting vor der Hochzeit oder der Antrag selbst. Ungestellt, entspannt und an Orten, an denen ihr euch wohlfühlt.</p>
+  </PageHero>
+
+  <section class="wrap">
+    <div class="vb-hero">
+      <div class="vb-hero__a"><Photo src={bob[0]} alt="Verlobung in den Boberger Dünen in Hamburg" ratio="3/2" priority reveal="up" sizes="(max-width: 899px) 100vw, 60vw" /></div>
+      <div class="vb-hero__b" data-drift="40"><Photo src={bob[1]} alt="Verlobung in den Boberger Dünen, Hamburg" ratio="2/3" reveal="up" sizes="(max-width: 899px) 50vw, 28vw" /></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Dauer</dt><dd>etwa 90 Minuten</dd></div>
+      <div><dt>Bilder</dt><dd>etwa 40, bearbeitet</dd></div>
+      <div><dt>Galerie</dt><dd>innerhalb einer Woche</dd></div>
+      <div><dt>Preis</dt><dd>auf Anfrage, günstiger mit Hochzeit</dd></div>
+    </dl>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div class="prose vb-two">
+        <p class="eyebrow">Zwei Anlässe</p>
+        <h2 class="h2" data-split>Paarshooting <em>oder Antrag</em></h2>
+        <h3 class="h3" style="margin-top:28px">Vor der Hochzeit</h3>
+        <p data-fade>Ihr lernt mich und meine Art zu arbeiten kennen. Wir laufen, reden, lachen, und ich fotografiere, was dabei passiert. Am Hochzeitstag ist die Kamera dann kein Fremdkörper mehr.</p>
+        <h3 class="h3" style="margin-top:24px">Der Antrag</h3>
+        <p data-fade>Ihr plant die Überraschung, ich halte sie fest. Wir sprechen vorher ab, wo ich stehe, damit ich alles sehe und trotzdem nicht auffalle. In den Boberger Dünen wartete ein gedeckter Tisch mit roten Rosen und Sonnenblumen.</p>
+        <p data-fade><a class="link" href="/portfolio/verlobung-boberger-duenen/">Zur Verlobung in den Boberger Dünen</a></p>
+      </div>
+      <div class="gtext"><Photo src={bob[3] ?? bob[0]} alt="Verlobtes Paar in den Boberger Dünen" ratio="4/5" reveal="up" parallax={6} sizes="(max-width: 899px) 100vw, 40vw" /></div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="chapter wrap">
+      <span class="chapter__n">01</span>
+      <h2 class="chapter__t h2" data-split>Verlobung in den <em>Boberger Dünen</em></h2>
+      <p class="chapter__d">Ein Antrag mit gedecktem Tisch, roten Rosen und Sonnenblumen mitten in den Dünen.</p>
+    </div>
+    <Gallery photos={bob.slice(4)} alt="Verlobung in den Boberger Dünen" />
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <p class="eyebrow intro__label">Orte in Hamburg</p>
+      <h2 class="intro__text h2" data-split>Wo ich schon <em>Paare fotografiert habe</em></h2>
+    </div>
+    <div class="vb-spots">
+      {spots.map((s, i) => (
+        <a class="card" href={s.href} data-cursor="Ansehen" data-fade={String(i * 0.06)}>
+          <Photo src={s.img} alt={`Paarshooting Hamburg: ${s.t}`} ratio="4/5" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+          <h3>{s.t}</h3><p>{s.d}</p>
+        </a>
+      ))}
+    </div>
+    <p class="muted" style="margin-top:24px">Ihr habt einen eigenen Lieblingsort? Umso besser. Ich komme dorthin, wo ihr euch wohlfühlt.</p>
+  </section>
+
+  <section class="section--tight wrap" style="padding-bottom: var(--space)">
+    <div class="g">
+      <div class="vb-fa"><p class="eyebrow">Fragen zum Verlobungsshooting</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2><p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/?art=Verlobung">Verfügbarkeit anfragen <span class="arr">→</span></a></p></div>
+      <div class="vb-fb"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .vb-hero { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: start; }
+  .vb-hero__a { grid-column: 1 / 9; }
+  .vb-hero__b { grid-column: 9 / 13; margin-top: 10vw; }
+  .vb-two { grid-column: 1 / 7 !important; }
+  .vb-spots { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .vb-fa { grid-column: 1 / 5; }
+  .vb-fb { grid-column: 6 / 13; }
+  @media (max-width: 899px) {
+    .vb-hero__a { grid-column: 1 / -1; }
+    .vb-hero__b { grid-column: 6 / 13; margin-top: -14vw; }
+    .vb-two { grid-column: 1 / -1 !important; }
+    .vb-spots { grid-template-columns: 1fr 1fr; }
+    .vb-fa, .vb-fb { grid-column: 1 / -1; }
+    .vb-fb { margin-top: 24px; }
+  }
+</style>

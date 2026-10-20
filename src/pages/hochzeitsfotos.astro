@@ -1,0 +1,17 @@
+---
+// Text 1:1 von marcelkuhls.de/hochzeitsfotos/ übernommen (Stand 20.10.2026), neues Layout und neue Fotos.
+import Base from '../layouts/Base.astro';
+import LegacyArticle from '../components/LegacyArticle.astro';
+import { series } from '../data/photos';
+import { articleSchema } from '../data/article';
+import html from '../data/legacy/hochzeitsfotos.html?raw';
+
+const j = series('joana-dennis-gut-bardenhagen'), v = series('verena-toby-2-hotel-atlantik'), u = series('uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg'), m = series('mariana-mirco-hochzeit-haus-schnede');
+const hero = v[10];
+const photos = [j[20], u[8], m[14], series('franzi-jan-niklas-schloss-neckarbischhofsheim')[5], v[30]];
+---
+<Base title="Hochzeitsfotos Hamburg: emotional und ungestellt | Marcel Kuhls" description="Hochzeitsfotos aus Hamburg: dokumentarisch, warm und echt. So sehen eure Bilder aus, wenn niemand posieren muss." ogImage={hero} schema={articleSchema('/hochzeitsfotos/', 'Hochzeitsfotos aus Hamburg'.trim(), 'Hochzeitsfotos')}>
+  <LegacyArticle html={html} title="Hochzeitsfotos" titleEm="aus Hamburg" eyebrow="Hochzeitsfotos · Stil" crumb="Hochzeitsfotos" hero={hero} photos={photos}>
+    <p style="margin-top:2.4em"><a class="btn btn--solid" href="/kontakt/">Verfügbarkeit anfragen <span class="arr">→</span></a></p>
+  </LegacyArticle>
+</Base>

@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+
+const spots = [
+  { img: 'michelle-benjamin/17', t: 'Die Allee zum Herrenhaus', d: 'Kopfsteinpflaster, alte Bäume links und rechts. Hier sind die Bilder entstanden, auf denen Michelle und Benjamin einfach nebeneinander hergehen.', r: '3/2' },
+  { img: 'michelle-benjamin/12', t: 'Die Kirche in Pronstorf', d: 'Die Trauung fand in der Dorfkirche statt. Helles Licht durch die Fenster, Holzbänke, die Gäste sehr nah am Paar.', r: '3/2' },
+  { img: 'michelle-benjamin/26', t: 'Die Treppe am alten Eingang', d: 'Backstein, eine schwere Holztür und Stufen, auf denen ein Schleier gut aussieht.', r: '2/3' },
+  { img: 'michelle-benjamin/27', t: 'Der Festsaal', d: 'Holzbalken, Kronleuchter, warmes Licht am Abend. Später die Tanzfläche.', r: '2/3' },
+];
+const faq = [
+  { q: 'Hast du schon auf Gut Pronstorf fotografiert?', a: 'Ja, die ganze Hochzeit von Michelle & Benjamin, vom Getting Ready über die Trauung in der Kirche bis zur Party im Festsaal. Die Reportage findet ihr verlinkt auf dieser Seite.' },
+  { q: 'Kommen für Gut Pronstorf Anfahrtskosten dazu?', a: 'In Norddeutschland berechne ich keine Reisekosten. Pronstorf liegt mittendrin.' },
+  { q: 'Wie viel Zeit sollten wir für Paarbilder auf dem Gut einplanen?', a: 'Eine halbe bis ganze Stunde reicht, mit so viel Anleitung, wie ihr braucht, und so wenig wie möglich.' },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: 'Hochzeit auf Gut Pronstorf: ein Fotograf über die Location',
+    author: { '@type': 'Person', name: 'Marcel Kuhls' },
+    about: { '@type': 'Place', name: 'Gut Pronstorf', address: { '@type': 'PostalAddress', addressLocality: 'Pronstorf', addressRegion: 'Schleswig-Holstein', addressCountry: 'DE' } },
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Hochzeitslocations', item: 'https://marcelkuhls.de/hochzeitslocations-hamburg/' },
+    { '@type': 'ListItem', position: 3, name: 'Gut Pronstorf' },
+  ] },
+];
+---
+<Base title="Hochzeit auf Gut Pronstorf: Tipps vom Fotografen | Marcel Kuhls" description="Hochzeit auf Gut Pronstorf in Schleswig-Holstein: Kirche, Herrenhaus und Festsaal aus Sicht des Hochzeitsfotografen. Mit echter Reportage von Michelle & Benjamin." ogImage="michelle-benjamin/18" schema={schema} dark>
+  <section class="lhero" data-hero data-theme-dark>
+    <div class="lhero__media" data-hero-media>
+      <Photo src="michelle-benjamin/18" alt="Das rote Herrenhaus von Gut Pronstorf hinter einer großen Rasenfläche" priority imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="lhero__type wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/hochzeitslocations-hamburg/">Locations</a></li><li><span aria-current="page">Gut Pronstorf</span></li></ol></nav>
+      <p class="eyebrow" style="color:rgba(255,255,255,.8)">Hochzeitslocation · Schleswig-Holstein</p>
+      <h1 class="h1"><span data-split data-split-now>Hochzeit auf</span> <em data-split data-split-now>Gut Pronstorf</em></h1>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro">
+      <p class="eyebrow intro__label">Aus erster Hand</p>
+      <div class="intro__text">
+        <p class="statement" data-scrub-text>Ich habe auf Gut Pronstorf einen ganzen Hochzeitstag fotografiert. Hier steht, was ich dort gesehen habe, und nichts, was ich nur gelesen habe.</p>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>Ort</dt><dd>Pronstorf, Schleswig-Holstein</dd></div>
+      <div><dt>Trauung</dt><dd>Kirche in Pronstorf</dd></div>
+      <div><dt>Feier</dt><dd>Festsaal auf dem Gut</dd></div>
+      <div><dt>Anfahrt ab Hamburg</dt><dd><span class="todo">ergänzen</span></dd></div>
+    </dl>
+  </section>
+
+  <nav class="wrap toc-inline" aria-label="Inhalt">
+    <a href="#orte">Fotospots</a><a href="#licht">Licht und Ablauf</a><a href="#reportage">Reportage</a><a href="#fragen">Fragen</a>
+  </nav>
+
+  <section id="orte" class="wrap" style="padding-top: var(--space)">
+    <h2 class="h2" data-split style="margin-bottom: clamp(40px, 6vw, 100px)">Vier Orte, <em>die ihr kennen solltet</em></h2>
+    {spots.map((s, i) => (
+      <article class:list={['spot', { 'spot--rev': i % 2 }]}>
+        <div class="spot__img"><Photo src={s.img} alt={`${s.t} auf Gut Pronstorf, Hochzeit Michelle und Benjamin`} ratio={s.r} reveal={i % 2 ? 'right' : 'left'} parallax={5} sizes="(max-width: 899px) 100vw, 55vw" /></div>
+        <div class="spot__txt">
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="h3" data-split>{s.t}</h3>
+          <p class="muted" data-fade>{s.d}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section id="licht" class="section wrap">
+    <div class="g">
+      <div class="lt-a"><Photo src="michelle-benjamin/14" alt="Braut wirft lachend den Kopf zurück, Gäste im Hintergrund" ratio="2/3" reveal="up" sizes="(max-width: 899px) 70vw, 30vw" /></div>
+      <div class="lt-b prose">
+        <h2 class="h2" data-split>Licht <em>und Ablauf</em></h2>
+        <p data-fade>Plant nach der Kirche Zeit für die Gratulationen ein. Vor der Kirchentür wollen alle gleichzeitig zu euch, und genau dort entstehen oft die lebendigsten Bilder des Tages.</p>
+        <p data-fade>Im Festsaal wird das Licht am Abend warm und gelb. Auf den Bildern bleibt diese Stimmung erhalten, wie bei Michelle und Benjamin.</p>
+        <p class="todo" data-fade>Marcel: bitte eigene Tipps zu Zeitplan, Sonnenstand und Wetter-Alternativen ergänzen</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reportage" class="section dark" data-theme-dark>
+    <div class="wrap">
+      <a class="feat" href="/portfolio/hochzeit-gut-pronstorf/" data-cursor="Ansehen">
+        <div class="feat__imgs">
+          <Photo src="michelle-benjamin/20" alt="Michelle und Benjamin schneiden lachend die Torte an" ratio="2/3" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+          <Photo src="michelle-benjamin/30" alt="Umarmung auf der Tanzfläche im Festsaal" ratio="2/3" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+        </div>
+        <div>
+          <p class="eyebrow">Die ganze Reportage</p>
+          <h2 class="h1" data-split>Michelle <span class="amp">&amp;</span> <em>Benjamin</em></h2>
+          <p class="muted" style="max-width:36ch">Getting Ready mit weißen Rosen, Kirche, Gut, Tanzfläche. 42 Bilder eines ganzen Tages.</p>
+          <span class="btn" style="margin-top:24px">Reportage ansehen <span class="arr">→</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="fragen" class="section wrap">
+    <div class="g">
+      <div class="lt-c"><p class="eyebrow">Fragen zu Gut Pronstorf</p><h2 class="h2" data-split>Häufig <em>gefragt</em></h2></div>
+      <div class="faq lt-d">{faq.map((f) => <details><summary>{f.q}</summary><div><p>{f.a}</p></div></details>)}</div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lhero { position: relative; height: 92svh; min-height: 560px; color: #fff; overflow: hidden; background: var(--night); }
+  .lhero__media { position: absolute; inset: 0; transform-origin: 50% 0; }
+  .lhero__media :global(.ph) { position: absolute; inset: 0; }
+  .lhero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,0) 40%, rgba(0,0,0,.55)); }
+  .lhero__type { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; padding-bottom: clamp(28px, 4vw, 64px); z-index: 2; }
+  .lhero .crumbs { color: rgba(255,255,255,.7); }
+  .lhero .eyebrow::before { background: #fff; }
+  .toc-inline { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: var(--fs-small); border-block: 1px solid var(--line); padding-block: 16px; position: sticky; top: 64px; background: var(--paper); z-index: 5; }
+  .toc-inline a { text-decoration: none; color: var(--ink-2); }
+  .toc-inline a:hover { color: var(--ink); }
+  .spot { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: end; margin-bottom: clamp(72px, 10vw, 160px); }
+  .spot__img { grid-column: 1 / 8; }
+  .spot__txt { grid-column: 9 / 13; display: grid; gap: 14px; }
+  .spot--rev .spot__img { grid-column: 6 / 13; grid-row: 1; }
+  .spot--rev .spot__txt { grid-column: 1 / 5; grid-row: 1; }
+  .spot:nth-child(4) .spot__img, .spot:nth-child(5) .spot__img { grid-column-end: span 4; }
+  .lt-a { grid-column: 2 / 6; }
+  .lt-b { grid-column: 7 / 12; align-self: center; }
+  .lt-b p { color: var(--ink-2); }
+  .lt-c { grid-column: 1 / 5; }
+  .lt-d { grid-column: 6 / 13; }
+  .feat { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; text-decoration: none; }
+  .feat__imgs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .feat__imgs > :last-child { margin-top: 18%; }
+  @media (max-width: 899px) {
+    .spot__img, .spot--rev .spot__img { grid-column: 1 / -1 !important; grid-row: 1; }
+    .spot__txt, .spot--rev .spot__txt { grid-column: 1 / -1; grid-row: 2; }
+    .lt-a { grid-column: 1 / 9; }
+    .lt-b, .lt-c, .lt-d { grid-column: 1 / -1; }
+    .lt-b, .lt-d { margin-top: 28px; }
+    .feat { grid-template-columns: 1fr; }
+    .toc-inline { top: 58px; overflow-x: auto; flex-wrap: nowrap; white-space: nowrap; }
+  }
+</style>

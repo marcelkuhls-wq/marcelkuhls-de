@@ -1,0 +1,17 @@
+---
+// Text 1:1 von marcelkuhls.de/kleine-hochzeit-hamburg/ übernommen (Stand 20.10.2026), neues Layout und neue Fotos.
+import Base from '../layouts/Base.astro';
+import LegacyArticle from '../components/LegacyArticle.astro';
+import { series } from '../data/photos';
+import { articleSchema } from '../data/article';
+import html from '../data/legacy/kleine-hochzeit-hamburg.html?raw';
+
+const l = series('lynn-ersin-standesamt-altona'), s = series('sophia-behnam-standesamt-altona-2'), la = series('larissa-alex-standesamt');
+const hero = l[3];
+const photos = [s[8], la[8], l[12], s[16], la[16]];
+---
+<Base title="Kleine Hochzeit in Hamburg: Locations, Ablauf und Tipps | Marcel Kuhls" description="Kleine Hochzeit in Hamburg planen: Wo ihr mit wenigen Gästen feiern könnt, wie viel Fotografie ihr braucht und was fotografisch anders ist." ogImage={hero} schema={articleSchema('/kleine-hochzeit-hamburg/', 'Kleine Hochzeit in Hamburg'.trim(), 'Kleine Hochzeit')}>
+  <LegacyArticle html={html} title="Kleine Hochzeit" titleEm="in Hamburg" eyebrow="Ratgeber · Kleine Hochzeit" crumb="Kleine Hochzeit" hero={hero} photos={photos}>
+    <p style="margin-top:2.4em"><a class="btn btn--solid" href="/kontakt/?art=Kleine%20Hochzeit">Verfügbarkeit anfragen <span class="arr">→</span></a></p>
+  </LegacyArticle>
+</Base>

@@ -1,0 +1,350 @@
+---
+import { PORTRAIT_FRONT } from '../data/photos';
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { bySlug, testimonials, venueTitle } from '../data/reportages';
+import { pick } from '../data/faq';
+import FaqList from '../components/FaqList.astro';
+import FrameShow from '../components/FrameShow.astro';
+
+const featured = ['hochzeit-hotel-atlantic-verena-tobias', 'joana-dennis', 'uinny-sidney-villa-mignon', 'franzi-jan-niklas'].map(bySlug);
+const day = [
+  { k: 'michelle-benjamin/03', t: 'p' },
+  { k: 'verena-toby/13', t: 'p' },
+  { note: ['Morgens', 'Ich komme, wenn noch niemand fertig ist. Da passiert mehr, als man denkt.'] },
+  { k: 'joana-dennis-gut-bardenhagen/016', t: 'l' },
+  { k: 'michelle-benjamin/09', t: 'l' },
+  { k: 'eliana-mahan/13', t: 'p' },
+  { k: 'lynn-ersin-standesamt-altona/004', t: 'p' },
+  { note: ['Zwischendurch', 'Die Blicke nach dem Jawort, die Freundin, die zuerst weint, der Onkel mit der Rede.'] },
+  { k: 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/027', t: 'l' },
+  { k: 'sb-uinny-sidney-sta/098', t: 'l' },
+  { k: 'michelle-benjamin/29', t: 'w' },
+  { k: 'joana-dennis-gut-bardenhagen/035', t: 'p' },
+  { k: 'joana-dennis-gut-bardenhagen/001', t: 'l' },
+  { note: ['Abends', 'Wenn die Krawatten fallen, bleibe ich noch. Die Tanzfläche erzählt oft am meisten.'] },
+  { k: 'verena-toby-2-hotel-atlantik/044', t: 'l' },
+  { k: 'michelle-benjamin/31', t: 'l' },
+  { k: 'michelle-benjamin/36', t: 'p' },
+];
+
+const faq = pick('Was kostet', 'Wie weit im Voraus', 'Wie viele Stunden', 'Wann bekommen', 'Begleitest du auch nur', 'Wir stehen nicht gern', 'Was passiert, wenn', 'Fotografierst du auch au');
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': 'https://marcelkuhls.de/#business',
+    name: 'Marcel Kuhls Photography',
+    description: 'Dokumentarische Hochzeitsfotografie in Hamburg.',
+    url: 'https://marcelkuhls.de/',
+    email: 'info@marcelkuhls.de',
+    telephone: '+49 176 28979148',
+    address: { '@type': 'PostalAddress', streetAddress: 'Mühlenkamp 52', postalCode: '22303', addressLocality: 'Hamburg', addressCountry: 'DE' },
+    areaServed: ['Hamburg', 'Schleswig-Holstein', 'Niedersachsen'],
+    founder: { '@type': 'Person', name: 'Marcel Kuhls', jobTitle: 'Hochzeitsfotograf' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base
+  title="Hochzeitsfotograf Hamburg: echte, ungestellte Hochzeitsfotos | Marcel Kuhls"
+  description="Hochzeitsfotografie in Hamburg: dokumentarische Hochzeitsreportagen vom Standesamt bis zum ganzen Tag. Echte Momente statt steifer Posen. Antwort innerhalb von 24 Stunden."
+  path="/"
+  schema={schema}
+  dark
+>
+  <!-- 1 · Hero -->
+  <section class="hero" data-hero data-theme-dark>
+    <div class="hero__media" data-hero-media>
+      <Photo src="franzi-jan-niklas-schloss-neckarbischhofsheim/004" alt="First Look: Der Bräutigam wischt sich Tränen aus den Augen, während die Braut lachend auf ihn zukommt" priority position="50% 40%" imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="hero__type">
+      <div class="hero__meta">
+        <p data-fade="0.9">Dokumentarische Hochzeitsreportagen. Ungestellt, unaufdringlich, ehrlich. Seit 2013.</p>
+        <a class="hero__scroll" href="#start" data-fade="1.1"><i></i>Weiter</a>
+      </div>
+      <h1 class="hero__title display">
+        <span class="hero__kw" data-fade="0.6">Hochzeitsfotograf Hamburg</span>
+        <span class="row" data-split data-split-now data-hero-shift="-6">Das Echte</span>
+        <span class="row row--r" data-split data-split-now data-hero-shift="6"><em>passiert</em> zwischen­durch.</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- 1b · Vertrauensleiste -->
+  <div class="trust">
+    <div class="wrap trust__in">
+      <span><strong>seit 2013</strong> Hochzeiten fotografiert</span>
+      <span><strong>50+</strong> begleitete Hochzeiten</span>
+      <a href="/bewertungen/"><strong>5,0 ★</strong> 17 Google-Bewertungen</a>
+      <span><strong>24 h</strong> Antwortzeit</span>
+      <span><strong>1</strong> Hochzeit pro Wochenende</span>
+    </div>
+  </div>
+
+  <!-- 2 · Haltung -->
+  <section class="section wrap" id="start">
+    <div class="intro">
+      <p class="eyebrow intro__label">Hochzeitsfotograf Hamburg</p>
+      <p class="statement intro__text" data-scrub-text>
+        Ich laufe mit, ich inszeniere nicht. Seit 2013 fotografiere ich Hochzeiten in Hamburg und überall dort, wo ihr feiert. Damit ihr euren Tag erlebt, statt ihn für die Kamera zu spielen.
+      </p>
+      <div class="intro__foot">
+        <p data-fade>Gelernt habe ich Kommunikationsdesign. Deshalb achte ich auf Licht, Linien und Ruhe im Bild, auch wenn um mich herum alles gleichzeitig passiert.</p>
+        <p data-fade="0.1">Der größte Teil meiner Bilder entsteht in Farbe. Schwarzweiß nehme ich, wenn eine Szene dadurch klarer wird. <a class="link" href="/ueber-mich/">Mehr über mich</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Versetztes Paar -->
+  <section class="wrap" style="padding-bottom: var(--space)">
+    <div class="pair">
+      <div class="pair__a">
+        <Photo src="michelle-benjamin/05" alt="Braut lacht beim Anziehen am Morgen ihrer Hochzeit auf Gut Pronstorf" ratio="2/3" reveal="up" parallax={6} sizes="(max-width: 899px) 75vw, 40vw" />
+        <p class="cap"><span>Michelle, kurz vor der Kirche</span><span class="num">Gut Pronstorf</span></p>
+      </div>
+      <div class="pair__b" data-drift="40">
+        <Photo src="mariana-mirco-hochzeit-haus-schnede/022" alt="Brautpaar küsst sich unter dem Schleier" ratio="2/3" reveal="up" sizes="(max-width: 899px) 65vw, 32vw" />
+      </div>
+      <div class="pair__text">
+        <h2 class="h2" data-split>Ungestellt heißt <em>nicht zufällig.</em></h2>
+        <p class="muted" data-fade style="max-width:42ch;margin-top:1.4em">Ich weiß, wo das Licht gleich hinfällt und wer gleich weinen wird. Dann stehe ich schon da. Wer mag, bekommt eine kleine Richtung. Mehr braucht es selten.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Laufband -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {[0, 1].map(() => (
+        <>
+          <span>Getting Ready</span><span><em>Jawort</em></span><span>Tränen</span><span><em>Konfetti</em></span><span>Reden</span><span><em>erster Tanz</em></span><span>lange Nächte</span>
+        </>
+      ))}
+    </div>
+  </div>
+
+  <!-- 5 · Ausgewählte Reportagen -->
+  <section class="section wrap">
+    <div class="phero__top" style="margin-bottom: clamp(56px, 8vw, 140px)">
+      <h2 class="phero__title h1" data-split>Hochzeits&shy;reportagen <em>aus Hamburg</em></h2>
+      <div class="phero__aside">
+        <p data-fade>Hier seht ihr ganze Hochzeiten, nicht nur die zehn schönsten Bilder. Vom ersten Knopf am Hemd bis zum letzten Lied.</p>
+        <p data-fade style="margin-top:18px"><a class="btn" href="/portfolio/">Alle Reportagen <span class="arr">→</span></a></p>
+      </div>
+    </div>
+    <div class="stories">
+      {featured.map((s, i) => (
+        <a class="story" href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
+          <div class="story__img"><Photo src={s.cover} alt={`${s.couple}, ${s.place ?? 'Hochzeit'}`} reveal={i % 2 ? 'right' : 'left'} sizes="(max-width: 899px) 100vw, 58vw" /></div>
+          <div class="story__side"><Photo src={s.side} alt="" reveal="up" sizes="(max-width: 899px) 42vw, 16vw" /></div>
+          <div class="story__meta">
+            <span class="num">{String(i + 1).padStart(2, '0')} · {s.kind}</span>
+            <h3 class="story__title">{venueTitle(s).replace(/ [^ ]+$/, '')} <em>{venueTitle(s).split(' ').at(-1)}</em></h3>
+            <p class="muted" style="margin:0">{s.couple}{s.region ? ` · ${s.region}` : ''}</p>
+            <span class="story__more">Reportage ansehen</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- 6 · Ein Tag (horizontal) -->
+  <section class="hs dark" data-hscroll data-theme-dark aria-label="Ein Hochzeitstag in Bildern">
+    <div class="hs__head">
+      <h2 class="h2" data-split>Ein Tag, <em>wie er passiert.</em></h2>
+      <p class="muted" style="max-width:30ch;margin:0">Bilder aus verschiedenen Hochzeiten, in der Reihenfolge eines Tages.</p>
+    </div>
+    <div class="hs__viewport">
+      <div class="hs__track" data-hscroll-track>
+        {day.map((d) => d.note ? (
+          <div class="hs__item hs__note">
+            <p class="h3" style="font-family:var(--f-display);font-style:italic;margin:0 0 14px">{d.note[0]}</p>
+            <p class="muted" style="margin:0">{d.note[1]}</p>
+          </div>
+        ) : (
+          <div class:list={['hs__item', `hs__item--${d.t}`]}>
+            <Photo src={d.k!} alt="Moment aus einer Hochzeitsreportage von Marcel Kuhls" sizes="(max-width: 899px) 80vw, 45vw" />
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="hs__bar"><i data-hscroll-bar></i></div>
+  </section>
+
+  <!-- 7 · Großes Querformat -->
+  <section class="bleed" style="padding-top: var(--space)">
+    <h2 class="bleed__title h1" data-split>Vom Standesamt <br /><em>bis zur letzten Runde.</em></h2>
+    <Photo src="uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/014" alt="Brautpaar rennt lachend über den Weg im Heine Park" reveal="center" parallax={10} sizes="100vw" />
+  </section>
+
+  <!-- 8 · Leistungen -->
+  <section class="section wrap">
+    <div class="svc">
+      <div class="svc__a">
+        <p class="eyebrow">Begleitung</p>
+        <h2 class="h2" data-split>Leistungen als Hochzeits&shy;fotograf <em>in Hamburg</em></h2>
+        <FrameShow photos={['michelle-benjamin/14', 'sb-lynn-ersin/048', 'sb-isabelle-kenny/022', 'boberger-duenen/01']} alt="Beispiele für ganztägige Reportage, Standesamt, kleine Hochzeit und Verlobung" ratio="4/5" sticky />
+      </div>
+      <div class="svc__b">
+    <div class="rows" data-show-rows>
+      <a class="row-item" href="/portfolio/hochzeit-gut-pronstorf/" style="text-decoration:none" data-fade>
+        <span class="num">01</span><h3>Ganzer <em>Tag</em></h3>
+        <p>Von der Vorbereitung bis zur Tanzfläche. Eine komplette Reportage mit allem, was dazwischen passiert.</p>
+      </a>
+      <a class="row-item" href="/standesamt-fotograf-hamburg/" style="text-decoration:none" data-fade>
+        <span class="num">02</span><h3>Standes<em>amt</em></h3>
+        <p>Für Trauungen in Hamburger Standesämtern, meist drei bis fünf Stunden mit Paarbildern und Sekt danach.</p>
+      </a>
+      <a class="row-item" href="/kleine-hochzeit-hamburg/" style="text-decoration:none" data-fade>
+        <span class="num">03</span><h3>Kleine <em>Hochzeit</em></h3>
+        <p>Zwanzig Gäste, ein Lieblingsrestaurant, keine große Show. Genauso ernst genommen wie eine Feier mit zweihundert.</p>
+      </a>
+      <a class="row-item" href="/verlobungsshooting-hamburg/" style="text-decoration:none" data-fade>
+        <span class="num">04</span><h3>Paarshooting <span class="amp">&amp;</span> <em>Verlobung</em></h3>
+        <p>Eine Stunde vor der Hochzeit, um sich an die Kamera zu gewöhnen. Oder für den Antrag selbst.</p>
+      </a>
+    </div>
+        <p style="margin-top:32px" data-fade><a class="btn" href="/leistungen/">Alle Leistungen und Pakete <span class="arr">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · Stimmen -->
+  <section class="section dark" data-theme-dark>
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center"><a href="/bewertungen/" style="text-decoration:none">★★★★★ 5,0 von 5 Sternen bei 17 Bewertungen auf Google</a></p>
+      <figure class="quote">
+        <blockquote data-split>„{testimonials[0].text}“</blockquote>
+        <figcaption>{testimonials[0].by} · {testimonials[0].where}</figcaption>
+      </figure>
+      <div class="tgrid">
+        {testimonials.slice(1).map((t, i) => (
+          <figure class="tcard" data-fade={String(i * 0.1)}>
+            <Photo src={t.img} alt={`${t.by}`} ratio="1/1" sizes="120px" />
+            <div>
+              <blockquote>„{t.text}“</blockquote>
+              <figcaption>{t.by} · {t.where}</figcaption>
+            </div>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · Über mich -->
+  <section class="section wrap">
+    <div class="g g--text">
+      <div>
+        <Photo src={PORTRAIT_FRONT} alt="Hochzeitsfotograf Marcel Kuhls mit Kamera vor der Speicherstadt in Hamburg" ratio="4/5" reveal="up" parallax={6} sizes="(max-width: 899px) 100vw, 50vw" position="50% 20%" />
+      </div>
+      <div class="gtext">
+        <p class="eyebrow">Über mich</p>
+        <h2 class="h2" data-split>Moin, <em>ich bin Marcel.</em></h2>
+        <p class="lead" data-fade style="margin-top:1em">Seit 2013 hinter der Kamera, zu Hause in Hamburg. Weil das Beste an einer Hochzeit nicht auf dem Zeitplan steht.</p>
+        <p data-fade style="margin-top:28px"><a class="btn" href="/ueber-mich/">Mehr über mich <span class="arr">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · Ablauf -->
+  <section class="section--tight wrap">
+    <div class="intro" style="margin-bottom: clamp(40px, 5vw, 80px)">
+      <p class="eyebrow intro__label">Von der Anfrage zur Buchung</p>
+      <h2 class="intro__text h2" data-split>Vier Schritte, <em>keiner davon kompliziert.</em></h2>
+    </div>
+    <ol class="steps">
+      <li data-fade><span class="steps__n">1</span><h3>Schreibt mir</h3><p>Datum und Location reichen für den Anfang.</p></li>
+      <li data-fade="0.08"><span class="steps__n">2</span><h3>Antwort in 24&nbsp;Stunden</h3><p>Auch dann, wenn euer Datum schon vergeben ist.</p></li>
+      <li data-fade="0.16"><span class="steps__n">3</span><h3>Kurz kennenlernen</h3><p>Ein Gespräch per Video oder Telefon, ganz ohne Verpflichtung.</p></li>
+      <li data-fade="0.24"><span class="steps__n">4</span><h3>Datum sichern</h3><p>Vertrag und Anzahlung. Bis zum Tag bin ich für euch erreichbar.</p></li>
+    </ol>
+  </section>
+
+  <!-- 11b · Datum prüfen (Vollbild, inspiriert von der Aperol-Referenz) -->
+  <section class="bigcta" data-theme-dark>
+    <div class="bigcta__media" data-parallax="8">
+      <Photo src="sb-verena-tobias-sb/196" alt="Brautpaar geht Hand in Hand über einen Steg an der Außenalster" position="50% 55%" sizes="100vw" />
+    </div>
+    <div class="bigcta__type">
+      <p class="bigcta__script" data-fade>Ist euer Datum</p>
+      <h2 class="bigcta__caps" data-split>noch frei?</h2>
+      <p class="bigcta__text" data-fade="0.2">Ich nehme pro Wochenende nur eine Hochzeit an. Termine für 2026 und 2027. Gebt euer Datum ein, ich antworte innerhalb von 24 Stunden.</p>
+      <form class="bigcta__form" action="/kontakt/" method="get" data-fade="0.3">
+        <label class="sr-only" for="dc-date">Hochzeitsdatum</label>
+        <input id="dc-date" name="datum" type="date" min="2026-10-20" required />
+        <button class="bigcta__btn" type="submit">Verfügbarkeit anfragen <span aria-hidden="true">→</span></button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 12 · FAQ -->
+  <section class="section wrap">
+    <div class="g">
+      <div style="grid-column: 1 / 5"><p class="eyebrow">Häufige Fragen</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2></div>
+      <div style="grid-column: 6 / 13" class="faq-col">
+        <FaqList items={faq} />
+        <p style="margin-top:28px"><a class="link" href="/faq/">Alle Fragen</a> · <a class="link" href="/was-kostet-ein-hochzeitsfotograf-hamburg/">Was kostet ein Hochzeitsfotograf in Hamburg?</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .svc { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: start; }
+  .svc__a { grid-column: 1 / 5; display: grid; gap: clamp(24px, 3vw, 40px); }
+  .svc__b { grid-column: 6 / 13; padding-top: clamp(20px, 4vw, 80px); }
+  .svc__a :global(h2) { font-size: clamp(2.2rem, 3.6vw, 3.8rem); }
+  .svc__b :global(.row-item) { grid-template-columns: 60px 1fr; }
+  .svc__b :global(.row-item p) { grid-column: 2; }
+  .trust { border-bottom: 1px solid var(--line); background: var(--paper); }
+  .trust__in { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 12px 20px; padding-block: 22px; font-size: var(--fs-small); color: var(--ink-2); }
+  .trust__in > * { display: grid; gap: 2px; }
+  .trust__in strong { font-family: var(--f-display); font-size: 1.35rem; font-weight: 400; color: var(--ink); margin-right: 6px; letter-spacing: -0.02em; }
+  .trust__in a { text-decoration: none; }
+  .bigcta { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: #fff; background: var(--night); text-align: center; }
+  .bigcta__media { position: absolute; inset: 0; }
+  .bigcta__media :global(.ph) { position: absolute; inset: 0; background: var(--night); }
+  .bigcta__media::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(14,12,10,.55) 0%, rgba(14,12,10,.35) 55%, rgba(14,12,10,.5) 100%); }
+  .bigcta__type { position: relative; z-index: 2; padding: 120px var(--pad); max-width: 1100px; display: grid; justify-items: center; }
+  .bigcta__script { margin: 0; font-family: var(--f-display); font-style: italic; font-weight: 300; font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; font-size: clamp(2.2rem, 5vw, 4.6rem); line-height: 1; letter-spacing: -0.02em; }
+  .bigcta__caps { font-family: var(--f-display); font-weight: 300; font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0; text-transform: uppercase; font-size: clamp(3.4rem, 12vw, 11rem); line-height: 0.9; letter-spacing: 0.01em; margin: 0.08em 0 0.25em; }
+  .bigcta__text { margin: 0 auto; max-width: 46ch; font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.6; color: rgba(255,255,255,.9); }
+  .bigcta__form { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(28px, 3.5vw, 48px); }
+  .bigcta__form input { height: 56px; width: min(260px, 100%); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.75); color: #fff; padding: 0 18px; font: inherit; color-scheme: dark; backdrop-filter: blur(6px); }
+  .bigcta__btn { height: 56px; padding: 0 30px; background: transparent; border: 1px solid #fff; color: #fff; font: inherit; font-size: 0.82rem; font-weight: 560; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: background .5s var(--ease), color .5s var(--ease); }
+  .bigcta__btn:hover { background: #fff; color: var(--night); }
+  @media (max-width: 899px) { .svc__a, .svc__b { grid-column: 1 / -1; } .svc__a :global(.fs) { max-width: 70%; } .bigcta__form input, .bigcta__btn { width: 100%; } .faq-col { grid-column: 1 / -1 !important; margin-top: 24px; } }
+  @media (max-width: 899px) { .hero :global(img) { object-position: 24% 40% !important; } }
+  .tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin-top: clamp(64px, 8vw, 130px); }
+  .tcard { margin: 0; display: grid; grid-template-columns: 64px 1fr; gap: 18px; align-items: start; padding-top: 22px; border-top: 1px solid rgba(239,232,220,.16); }
+  .tcard :global(.ph) { border-radius: 50%; }
+  .tcard blockquote { margin: 0; font-size: 0.98rem; line-height: 1.55; }
+  .tcard figcaption { margin-top: 12px; font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .steps li { border-top: 1px solid var(--line); padding-top: 22px; }
+  .steps__n { font-family: var(--f-display); font-style: italic; font-size: clamp(3rem, 5vw, 5rem); line-height: 1; color: var(--accent); display: block; margin-bottom: 18px; font-weight: 300; }
+  .steps h3 { font-size: 1.35rem; margin-bottom: 8px; }
+  .steps p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); max-width: 26ch; }
+  @media (max-width: 899px) {
+    .tgrid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+    .faq { grid-column: 1 / -1 !important; margin-top: 28px; }
+    .g > div[style*='1 / 5'] { grid-column: 1 / -1 !important; }
+  }
+</style>
+
+<script>
+  // Leistungs-Zeile unter der Maus oder im Fokus steuert die gerahmte Diashow
+  const show = document.querySelector('.svc [data-frameshow]') as HTMLElement | null;
+  document.querySelectorAll('[data-show-rows] .row-item').forEach((row, i) => {
+    const go = () => { if (show) { show.dataset.manual = '1'; show.dispatchEvent(new CustomEvent('frameshow:go', { detail: i })); } };
+    row.addEventListener('pointerenter', go);
+    row.addEventListener('focus', go);
+  });
+</script>

@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import { bySlug, testimonials, venueTitle } from '../data/reportages';
+import { faqs, pick, faqSchema } from '../data/faq';
+
+const examples = ['lynn-ersin-standesamt-altona', 'uinny-sidney-standesamt-altona', 'jill-henning-standesamt-eimsbuettel', 'isabelle-kenny-standesamt-altona', 'patricia-alexander-standesamt-eimsbuettel', 'eliana-mahan', 'sophia-behnam-standesamt-altona', 'standesamt-hamburg-larissa-und-alex'].map(bySlug);
+
+// Die sieben Hamburger Bezirke haben je ein Standesamt. „mine“ = eigene Reportage vorhanden.
+const aemter = [
+  { n: 'Altona', mine: '/hochzeit-standesamt-altona/', note: 'Lynn & Ersin, Uinny & Sidney, Isabelle & Kenny, Sophia & Behnam' },
+  { n: 'Eimsbüttel', mine: '/portfolio/jill-henning-standesamt-eimsbuettel/', note: 'Jill & Henning, Patricia & Alexander' },
+  { n: 'Hamburg-Mitte', mine: '/portfolio/standesamt-hamburg-larissa-und-alex/', note: 'Larissa & Alex', check: true },
+  { n: 'Hamburg-Nord', mine: null },
+  { n: 'Wandsbek', mine: null },
+  { n: 'Bergedorf', mine: null },
+  { n: 'Harburg', mine: null },
+];
+const timeline = [
+  ['Vor der Trauung', 'Ich bin vor euch da. Die ersten Bilder entstehen oft schon beim Aussteigen aus dem Auto, wenn die Familie vor dem Eingang wartet.'],
+  ['Einzug', 'Der Moment, in dem ihr den Raum betretet und alle sich umdrehen.'],
+  ['Trauung', 'Oft sind es zwanzig Minuten. Ich fotografiere leise und aus dem Hintergrund, damit ihr euch anschaut und nicht mich.'],
+  ['Ringe und Unterschrift', 'Kleine Gesten, große Bedeutung. Hier gehe ich nah ran, ohne zu stören.'],
+  ['Vor der Tür', 'Rosenblüten, Konfetti, Sekt. Alle wollen gleichzeitig gratulieren. Das sind oft die lebendigsten Bilder des Tages.'],
+  ['Zu zweit', 'Eine halbe Stunde Paarbilder in der Nähe, mit so viel Anleitung, wie ihr braucht, und so wenig wie möglich.'],
+];
+const spots = [
+  { img: 'sb-uinny-sidney-sta/098', t: 'Altonaer Balkon', d: 'Wenige Minuten vom Standesamt Altona, mit Blick über Elbe und Hafen. Im Februar lag dort bei Uinny & Sidney sogar Schnee.', href: '/portfolio/uinny-sidney-standesamt-altona/' },
+  { img: 'sb-jill-henning/109', t: 'Mit dem Cabrio', d: 'Jill & Henning sind nach dem Standesamt Eimsbüttel mit einem weißen Cabrio ans Wasser gefahren.', href: '/portfolio/jill-henning-standesamt-eimsbuettel/' },
+  { img: 'sb-lynn-ersin/060', t: 'Vor dem Tor', d: 'Manchmal braucht es gar keinen Ortswechsel. Das schwarze Tor in Altona ist Kulisse genug.', href: '/portfolio/lynn-ersin-standesamt-altona/' },
+];
+const faq = [...faqs.filter((f) => f.cat === 'Standesamt'), ...pick('Wie viele Stunden', 'Wann bekommen', 'Was machen wir bei Regen', 'Wie weit im Voraus')];
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Fotograf für standesamtliche Hochzeiten in Hamburg', serviceType: 'Hochzeitsfotografie Standesamt', provider: { '@id': 'https://marcelkuhls.de/#business' }, areaServed: { '@type': 'City', name: 'Hamburg' } },
+  faqSchema(faq),
+];
+const lynn = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
+---
+<Base title="Standesamt Fotograf Hamburg: Hochzeitsfotos im Standesamt | Marcel Kuhls" description="Fotograf fürs Standesamt in Hamburg: Altona, Eimsbüttel und mehr. Ablauf, Dauer, Fotografieren im Trauzimmer und die schönsten Spots danach. Antwort in 24 Stunden." ogImage="sb-uinny-sidney-sta/080" schema={schema}>
+  <PageHero crumbs={[{ label: 'Standesamt' }]}>
+    <h1 slot="title"><span class="h1-kw" data-fade="0.2">Standesamt Fotograf Hamburg</span><span data-split data-split-now>Fotograf fürs Standesamt <em>in Hamburg</em></span></h1>
+    <p slot="aside" data-fade="0.4">Oft sind es zwanzig Minuten im Trauzimmer. Ich fotografiere sie so, dass ihr sie in zwanzig Jahren noch einmal erlebt.</p>
+  </PageHero>
+
+  <section class="wrap">
+    <div class="sa-hero">
+      <div class="sa-hero__a"><Photo src="sb-lynn-ersin/053" alt="Brautpaar vor dem schwarzen Tor des Standesamts Altona in Hamburg" ratio="2/3" priority reveal="up" sizes="(max-width: 899px) 60vw, 34vw" /></div>
+      <div class="sa-hero__b" data-drift="40"><Photo src="sb-uinny-sidney-sta/080" alt="Brautpaar küsst sich im Schnee auf dem Altonaer Balkon" ratio="3/2" reveal="left" sizes="(max-width: 899px) 90vw, 50vw" /></div>
+      <p class="sa-hero__cap cap"><span>Lynn &amp; Ersin, Uinny &amp; Sidney</span><span class="num">Standesamt Altona</span></p>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro">
+      <p class="eyebrow intro__label">Kurz und gut</p>
+      <p class="statement intro__text" data-scrub-text>Ankunft, Jawort, Ringe, Unterschrift, die Umarmungen vor der Tür und ein paar ruhige Minuten zu zweit. Ohne Programm, ohne Gruppenzwang.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Dauer</dt><dd>meist 3 bis 5 Stunden</dd></div>
+      <div><dt>Galerie</dt><dd>nach etwa 2 Wochen</dd></div>
+      <div><dt>Antwort</dt><dd>innerhalb von 24 Stunden</dd></div>
+      <div><dt>Preis</dt><dd>auf Anfrage · <a class="link" href="/was-kostet-ein-hochzeitsfotograf-hamburg/">Marktpreise</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="section--tight dark" data-theme-dark>
+    <div class="wrap">
+      <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+        <p class="eyebrow intro__label">Ablauf</p>
+        <h2 class="intro__text h2" data-split>So läuft ein Standesamt <em>mit mir ab</em></h2>
+      </div>
+      <div class="rows">
+        {timeline.map(([t, d], i) => <div class="row-item" data-fade><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="g">
+      <div class="sa-col-a">
+        <p class="eyebrow">Hamburg</p>
+        <h2 class="h2" data-split>Die sieben <em>Standesämter</em></h2>
+        <p class="muted" style="margin-top:20px;max-width:38ch">Jeder Hamburger Bezirk hat ein eigenes Standesamt. Wo ich schon fotografiert habe, ist die Reportage verlinkt.</p>
+      </div>
+      <ul class="aemter sa-col-b">
+        {aemter.map((a) => (
+          <li>
+            <span class="aemter__n">Standesamt {a.n}</span>
+            {a.mine ? <a class="link" href={a.mine}>{a.note}</a> : <span class="muted">noch keine eigene Reportage</span>}
+            {a.check ? <span class="todo">Amt prüfen</span> : <span></span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="g g--text">
+      <div><Photo src="sb-jill-henning/051" alt="Ringtausch im Standesamt Eimsbüttel" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 50vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">Im Trauzimmer</p>
+        <h2 class="h2" data-split>Darf man da <em>fotografieren?</em></h2>
+        <p data-fade style="margin-top:18px">In der Regel ja. Jedes Standesamt legt aber eigene Regeln fest, etwa wo ich stehen darf oder ob Blitz erlaubt ist. Ich kläre das vorher, damit am Tag niemand überrascht wird.</p>
+        <p data-fade>Ein Tipp für eure Gäste: Handys in die Tasche. Wer euch durch ein Display anschaut, verpasst den Moment und steht auf den Bildern im Weg.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <p class="eyebrow intro__label">Danach</p>
+      <h2 class="intro__text h2" data-split>Fotospots <em>in der Nähe</em></h2>
+    </div>
+    <div class="spots3">
+      {spots.map((s, i) => (
+        <a class="card" href={s.href} data-cursor="Ansehen" data-fade={String(i * 0.06)}>
+          <Photo src={s.img} alt={`Paarbilder nach dem Standesamt: ${s.t}`} ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 33vw" />
+          <h3>{s.t}</h3><p>{s.d}</p>
+        </a>
+      ))}
+    </div>
+    <p class="muted" data-fade style="margin-top:28px;max-width:60ch">Und bei Regen? Hamburg eben. Wir suchen vorher gemeinsam überdachte Ecken. Regen sieht auf Bildern oft besser aus, als man denkt.</p>
+  </section>
+
+  <section class="section dark" data-theme-dark>
+    <div class="wrap">
+      <figure class="quote">
+        <blockquote data-split>„{lynn.text}“</blockquote>
+        <figcaption>{lynn.by} · {lynn.where}</figcaption>
+      </figure>
+      <p style="text-align:center;margin-top:28px"><a class="link" href="/bewertungen/">5,0 von 5 bei 17 Google-Bewertungen</a></p>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="phero__top" style="margin-bottom: clamp(32px, 4vw, 64px)">
+      <h2 class="phero__title h2" data-split>Standesamt-Reportagen <em>aus Hamburg</em></h2>
+      <p class="phero__aside muted" data-fade>Altona, Eimsbüttel, Rathaus Altona und Hamburg.</p>
+    </div>
+    <div class="sa-list">
+      {examples.map((s) => (
+        <a class="sa-item" href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
+          <Photo src={s.cover} alt={`${s.couple}, ${s.place}`} ratio="4/5" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+          <h3 class="h3" style="margin-top:12px;font-size:1.3rem">{venueTitle(s)}</h3>
+          <p class="muted" style="margin:4px 0 0;font-size:var(--fs-small)">{s.couple}{s.date ? ` · ${s.date}` : ''}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section--tight wrap" style="padding-bottom: var(--space)">
+    <div class="g">
+      <div class="sa-col-a"><p class="eyebrow">Fragen zum Standesamt</p><h2 class="h2" data-split>Kurz <em>geklärt</em></h2><p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/?art=Standesamt">Verfügbarkeit anfragen <span class="arr">→</span></a></p></div>
+      <div class="sa-col-b"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sa-hero { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: start; }
+  .sa-hero__a { grid-column: 1 / 6; }
+  .sa-hero__b { grid-column: 6 / 13; margin-top: 12vw; }
+  .sa-hero__cap { grid-column: 1 / 6; }
+  .sa-col-a { grid-column: 1 / 5; }
+  .sa-col-b { grid-column: 6 / 13; }
+  .aemter { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .aemter li { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
+  .aemter__n { font-family: var(--f-display); font-size: 1.35rem; letter-spacing: -0.02em; }
+  .spots3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+  .sa-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(28px, 3vw, 44px) var(--gap); }
+  .sa-list a { text-decoration: none; }
+  .sa-list :global(.ph img) { transition: transform 1.4s var(--ease); }
+  .sa-list a:hover :global(.ph img) { transform: scale(1.05); }
+  @media (max-width: 899px) {
+    .sa-hero__a { grid-column: 1 / 9; }
+    .sa-hero__b { grid-column: 3 / 13; margin-top: -10vw; }
+    .sa-hero__cap, .sa-col-a, .sa-col-b { grid-column: 1 / -1; }
+    .sa-col-b { margin-top: 24px; }
+    .aemter li { grid-template-columns: 1fr; gap: 4px; }
+    .spots3 { grid-template-columns: 1fr; }
+    .sa-list { grid-template-columns: 1fr 1fr; }
+  }
+</style>

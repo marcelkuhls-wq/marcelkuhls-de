@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { getImage } from 'astro:assets';
+import { photo, PORTRAIT_FRONT } from '../data/photos';
+
+// Marktspannen: öffentlich genannte Preise Hamburger und norddeutscher Hochzeitsfotografen,
+// erhoben am 20.10.2026 (research/05-phase2-wettbewerber.md). Keine eigenen Preise von Marcel.
+const toc = [
+  ['kurz', 'Kurz gesagt'],
+  ['faktoren', 'Wovon der Preis abhängt'],
+  ['enthalten', 'Was enthalten sein sollte'],
+  ['standesamt', 'Nur Standesamt oder kleine Hochzeit'],
+  ['extras', 'Was dazukommen kann'],
+  ['vergleichen', 'Angebote vergleichen'],
+  ['anfrage', 'Warum bei mir „auf Anfrage“'],
+  ['fragen', 'Häufige Fragen'],
+];
+const faq = [
+  { q: 'Was kostet ein Hochzeitsfotograf pro Stunde?', a: 'Öffentlich genannte Zusatzstunden liegen in Hamburg meist zwischen 250 und 400 €. Ein reiner Stundenpreis sagt aber wenig, denn Auswahl und Bearbeitung der Bilder dauern oft länger als die Hochzeit selbst.' },
+  { q: 'Was kostet ein Fotograf nur für das Standesamt?', a: 'Für zwei bis drei Stunden im Standesamt nennen Hamburger Fotografen öffentlich meist zwischen 650 und 1.400 €. Ich begleite Standesamt und kleine Hochzeiten meist drei bis fünf Stunden. Ein konkretes Angebot bekommt ihr innerhalb von 24 Stunden.' },
+  { q: 'Warum ist ein Hochzeitsfotograf so teuer?', a: 'Der Hochzeitstag ist nur ein Teil der Arbeit. Dazu kommen Vorgespräch, Planung, Anfahrt, Auswahl und Bearbeitung von mehreren hundert Bildern, Online-Galerie, doppelte Datensicherung und Ausrüstung, die nicht ausfallen darf.' },
+  { q: 'Wie viel Anzahlung ist üblich?', a: 'Üblich sind 10 bis 30 % bei Vertragsabschluss. Damit ist euer Datum fest reserviert. Der Rest wird meist nach der Hochzeit fällig.' },
+  { q: 'Kommen Anfahrtskosten dazu?', a: 'Bei vielen Fotografen ja, ab einer bestimmten Entfernung. Bei mir ist die Anfahrt im Raum Hamburg enthalten. Für Hochzeiten weiter weg nenne ich die Reisekosten vorher im Angebot.' },
+  { q: 'Wie viele Fotos bekommen wir?', a: 'Bei einer ganztägigen Reportage mehrere hundert bearbeitete Bilder. Eine feste Obergrenze gibt es bei mir nicht. Die Galerie bekommt ihr nach etwa zwei Wochen.' },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'BlogPosting',
+    headline: 'Was kostet ein Hochzeitsfotograf in Hamburg?',
+    dateModified: '2026-10-20',
+    author: { '@type': 'Person', name: 'Marcel Kuhls', url: 'https://marcelkuhls.de/ueber-mich/' },
+    publisher: { '@id': 'https://marcelkuhls.de/#business' },
+    mainEntityOfPage: 'https://marcelkuhls.de/was-kostet-ein-hochzeitsfotograf-hamburg/',
+    inLanguage: 'de-DE',
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Journal', item: 'https://marcelkuhls.de/journal/' },
+    { '@type': 'ListItem', position: 3, name: 'Was kostet ein Hochzeitsfotograf in Hamburg?' },
+  ] },
+];
+const avatar = await getImage({ src: photo(PORTRAIT_FRONT), width: 160, height: 160, fit: 'cover', position: 'top', format: 'webp' });
+---
+<Base title="Was kostet ein Hochzeitsfotograf in Hamburg? Preise 2026 im Überblick" description="Was kostet ein Hochzeitsfotograf in Hamburg? Marktpreise für Standesamt und ganztägige Reportage, was enthalten sein sollte und woran ihr ein faires Angebot erkennt." ogImage="michelle-benjamin/20" schema={schema}>
+  <article>
+    <header class="ahead wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/journal/">Journal</a></li><li><span aria-current="page">Kosten</span></li></ol></nav>
+      <p class="eyebrow">Ratgeber · Hochzeitsplanung</p>
+      <h1 class="ahead__title" data-split data-split-now>Was kostet ein Hochzeits&shy;fotograf <em>in Hamburg?</em></h1>
+      <div class="ahead__meta" data-fade="0.5">
+        <img src={avatar.src} alt="" width="40" height="40" />
+        <span>Marcel Kuhls</span><span>·</span><time datetime="2026-10-20">Aktualisiert am 20. Oktober 2026</time><span>·</span><span>7 Minuten Lesezeit</span>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <Photo src="michelle-benjamin/20" alt="Brautpaar schneidet lachend die Hochzeitstorte an, Gut Pronstorf" ratio="21/9" priority reveal="center" parallax={6} sizes="100vw" position="50% 35%" />
+      <p class="cap"><span>Michelle &amp; Benjamin auf Gut Pronstorf</span><span class="num">Ganztägige Reportage</span></p>
+    </div>
+
+    <div class="wrap section--tight">
+      <div class="article">
+        <aside class="article__toc" aria-label="Inhaltsverzeichnis">
+          <p class="eyebrow eyebrow--plain">Inhalt</p>
+          <ol>{toc.map(([id, t]) => <li><a href={`#${id}`}>{t}</a></li>)}</ol>
+        </aside>
+        <div class="article__body">
+          <h2 id="kurz">Kurz <em>gesagt</em></h2>
+          <p class="lead" style="max-width:none">Eine ganztägige Hochzeitsreportage kostet in Hamburg meist zwischen 2.000 und 3.500 €. Für das Standesamt allein liegen die Preise meist zwischen 650 und 1.400 €.</p>
+          <table class="table">
+            <thead><tr><th>Umfang</th><th>Typische Dauer</th><th>Öffentlich genannte Preise</th></tr></thead>
+            <tbody>
+              <tr><td>Standesamt</td><td>2 bis 3 Stunden</td><td>650 bis 1.400 €</td></tr>
+              <tr><td>Halber Tag, kleine Hochzeit</td><td>4 bis 6 Stunden</td><td>1.500 bis 2.400 €</td></tr>
+              <tr><td>Ganztägige Reportage</td><td>8 Stunden</td><td>2.000 bis 3.500 €</td></tr>
+              <tr><td>Von morgens bis nachts</td><td>10 bis 12 Stunden</td><td>3.000 bis 4.000 €</td></tr>
+              <tr><td>Zusatzstunde</td><td></td><td>250 bis 400 €</td></tr>
+            </tbody>
+          </table>
+          <p class="muted" style="font-size:var(--fs-small)">Grundlage: öffentlich sichtbare Preise und Marktangaben von 14 Hochzeitsfotografen aus Hamburg und Norddeutschland, Stand Oktober 2026. Viele nennen keine Preise, die Spannen sind deshalb ein Orientierungswert.</p>
+
+          <h2 id="faktoren">Wovon der Preis <em>abhängt</em></h2>
+          <p>Am meisten zählt die Zeit am Hochzeitstag. Ob ich nur beim Jawort dabei bin oder vom Anziehen bis zum ersten Tanz, macht den größten Unterschied. Dazu kommen ein paar weitere Punkte:</p>
+          <ul>
+            <li><strong>Bearbeitung:</strong> Auf jede Stunde Hochzeit kommen mehrere Stunden am Schreibtisch. Auswahl, Farbe, Galerie.</li>
+            <li><strong>Erfahrung und Stil:</strong> Wer seit Jahren Hochzeiten fotografiert, weiß, wo er stehen muss, bevor etwas passiert.</li>
+            <li><strong>Zweiter Fotograf:</strong> sinnvoll bei vielen Gästen oder wenn das Getting Ready an zwei Orten stattfindet.</li>
+            <li><strong>Anfahrt:</strong> innerhalb Hamburgs meist inklusive, darüber hinaus unterschiedlich geregelt.</li>
+            <li><strong>Produkte:</strong> Fotobuch, Prints oder Box kommen meist dazu und sind nicht im Grundpreis enthalten.</li>
+          </ul>
+
+          <Photo src="sb-franzi-jan-niklas/005" alt="Bräutigam hält sich die Hand vor das Gesicht, als die Braut beim First Look auf ihn zukommt" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 60vw" />
+          <p class="cap"><span>Franzi &amp; Jan Niklas beim First Look</span><span class="num">Juli 2026</span></p>
+
+          <h2 id="enthalten">Was enthalten <em>sein sollte</em></h2>
+          <p>Bei meinen Reportagen ist das immer dabei. Wenn ihr Angebote vergleicht, fragt nach genau diesen Punkten:</p>
+          <ul>
+            <li>ein kostenloses Kennenlerngespräch und Beratung zum Zeitplan</li>
+            <li>die Begleitung im vereinbarten Zeitraum</li>
+            <li>die Bearbeitung aller gelungenen Aufnahmen, ohne feste Obergrenze</li>
+            <li>eine private Online-Galerie zum Ansehen, Teilen und Herunterladen</li>
+            <li>doppelte Datensicherung</li>
+            <li>die Anfahrt im Raum Hamburg</li>
+          </ul>
+
+          <h2 id="standesamt">Nur Standesamt <em>oder kleine Hochzeit</em></h2>
+          <p>Nicht jede Hochzeit braucht zehn Stunden. Standesamt und kleine Hochzeiten begleite ich meist drei bis fünf Stunden. Das reicht für die Ankunft, das Jawort, die Gratulationen vor der Tür, Paarbilder in der Nähe und den Sekt danach.</p>
+          <div class="callout">
+            <p><strong>Mehr dazu:</strong> <a class="link" href="/standesamt-fotograf-hamburg/">Standesamt Fotograf Hamburg</a>, mit Reportagen aus Altona, Eimsbüttel und dem Rathaus.</p>
+          </div>
+
+          <h2 id="extras">Was <em>dazukommen</em> kann</h2>
+          <ul>
+            <li>zusätzliche Stunden am Abend</li>
+            <li>ein zweiter Fotograf</li>
+            <li>ein Paar- oder Verlobungsshooting vor der Hochzeit</li>
+            <li>Fotobuch oder Fine-Art-Prints</li>
+            <li>eine schnellere Vorabauswahl</li>
+          </ul>
+
+          <h2 id="vergleichen">Angebote <em>vergleichen</em></h2>
+          <p>Legt nicht nur die Summen nebeneinander. Diese Fragen helfen mehr:</p>
+          <ol>
+            <li>Kann ich eine ganze Reportage sehen, nicht nur die zehn besten Bilder?</li>
+            <li>Wie viele bearbeitete Bilder bekommen wir, und wann?</li>
+            <li>Was passiert, wenn der Fotograf krank wird?</li>
+            <li>Dürfen wir die Bilder privat und in sozialen Medien nutzen?</li>
+            <li>Kommen Kosten für Anfahrt, Galerie oder Überstunden dazu?</li>
+          </ol>
+          <p>Bei mir springt im Krankheitsfall ein Kollege aus meinem Netzwerk ein.</p>
+
+          <h2 id="anfrage">Warum bei mir <em>„auf Anfrage“</em></h2>
+          <p>Ich nenne meinen Preis erst, wenn ich weiß, wie euer Tag aussieht. Ein Standesamt am Dienstag in Altona ist etwas anderes als ein Fest von morgens bis Mitternacht auf einem Gut in Schleswig-Holstein. Schreibt mir Datum, Ort und ungefähre Dauer. Innerhalb von 24 Stunden bekommt ihr ein Angebot, das genau zu euch passt. Auch wenn euer Datum schon vergeben ist, sage ich euch Bescheid.</p>
+          <p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/">Angebot anfragen <span class="arr">→</span></a></p>
+
+          <h2 id="fragen">Häufige <em>Fragen</em></h2>
+          <div class="faq">
+            {faq.map((f) => <details><summary>{f.q}</summary><div><p>{f.a}</p></div></details>)}
+          </div>
+
+          <div class="author">
+            <img src={avatar.src} alt="Marcel Kuhls" width="72" height="72" />
+            <div>
+              <p><strong style="color:var(--ink)">Marcel Kuhls</strong>, Hochzeitsfotograf aus Hamburg. Seit 2013 hinter der Kamera, dokumentarisch und unaufdringlich.</p>
+              <p style="margin-top:6px"><a class="link" href="/ueber-mich/">Mehr über mich</a> · <a class="link" href="/kontakt/">Datum anfragen</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <section class="section wrap">
+    <p class="eyebrow">Weiterlesen</p>
+    <div class="cards">
+      <a class="card card--wide" href="/portfolio/hochzeit-gut-pronstorf/" data-cursor="Ansehen">
+        <Photo src="michelle-benjamin/17" alt="Brautpaar auf der Allee von Gut Pronstorf" reveal="up" sizes="(max-width: 899px) 100vw, 58vw" />
+        <h3>So sieht eine ganztägige Reportage aus</h3><p>Michelle &amp; Benjamin, Gut Pronstorf</p>
+      </a>
+      <a class="card card--side" href="/standesamt-fotograf-hamburg/" data-cursor="Lesen">
+        <Photo src="sb-lynn-ersin/048" alt="Brautpaar küsst sich vor dem Standesamt Altona" reveal="up" sizes="(max-width: 899px) 100vw, 33vw" />
+        <h3>Standesamt in Hamburg</h3><p>Drei bis fünf Stunden, die bleiben</p>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahead { padding-top: clamp(110px, 11vw, 170px); padding-bottom: clamp(28px, 3vw, 48px); }
+  .ahead__title { font-size: clamp(2.6rem, 7vw, 7.4rem); max-width: 14ch; }
+  .ahead__meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: clamp(20px, 2.5vw, 36px); font-size: var(--fs-small); color: var(--ink-2); }
+  .ahead__meta img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .article__body h2:first-child { margin-top: 0; }
+</style>

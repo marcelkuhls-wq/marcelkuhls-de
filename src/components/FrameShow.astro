@@ -1,0 +1,55 @@
+---
+// Kleine Diashow im dunklen Rahmen (Idee aus der Aperol-Referenz „Core Values“).
+// Blendet automatisch über; pausiert bei Hover und bei reduzierter Bewegung.
+import Photo from './Photo.astro';
+interface Props { photos: string[]; alt: string; ratio?: string; interval?: number; sticky?: boolean }
+const { photos, alt, ratio = '4/5', interval = 3200, sticky = false } = Astro.props;
+---
+<div class:list={['fs', { 'fs--sticky': sticky }]} data-frameshow data-interval={interval} style={`--ratio:${ratio}`} role="img" aria-label={alt}>
+  <div class="fs__frame">
+    {photos.map((p, i) => (
+      <div class:list={['fs__slide', { 'is-on': i === 0 }]} aria-hidden={i === 0 ? undefined : 'true'}>
+        <Photo src={p} alt={i === 0 ? alt : ''} ratio={ratio} sizes="(max-width: 899px) 80vw, 30vw" />
+      </div>
+    ))}
+  </div>
+  <div class="fs__dots" aria-hidden="true">{photos.map((_, i) => <i class:list={{ 'is-on': i === 0 }}></i>)}</div>
+</div>
+
+<style>
+  .fs { width: 100%; }
+  .fs--sticky { position: sticky; top: 120px; }
+  .fs__frame { position: relative; aspect-ratio: var(--ratio); background: #2a2420; padding: clamp(6px, 0.7vw, 10px); box-shadow: 0 30px 60px -30px rgba(29, 26, 23, 0.45); }
+  .fs__slide { position: absolute; inset: clamp(6px, 0.7vw, 10px); opacity: 0; transition: opacity 1.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .fs__slide.is-on { opacity: 1; }
+  .fs__slide :global(.ph) { height: 100%; aspect-ratio: auto !important; }
+  .fs__slide :global(.ph img) { transform: scale(1.06); transition: transform 6s linear; }
+  .fs__slide.is-on :global(.ph img) { transform: scale(1); }
+  .fs__dots { display: flex; gap: 6px; margin-top: 14px; }
+  .fs__dots i { width: 18px; height: 2px; background: currentColor; opacity: 0.2; transition: opacity 0.6s; }
+  .fs__dots i.is-on { opacity: 0.8; }
+  @media (prefers-reduced-motion: reduce) { .fs__slide :global(.ph img) { transform: none; transition: none; } }
+</style>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-frameshow]').forEach((el) => {
+    const slides = [...el.querySelectorAll<HTMLElement>('.fs__slide')];
+    const dots = [...el.querySelectorAll<HTMLElement>('.fs__dots i')];
+    if (slides.length < 2 || reduce) return;
+    let i = 0;
+    let paused = false;
+    const go = (n: number) => {
+      slides[i].classList.remove('is-on'); dots[i]?.classList.remove('is-on');
+      i = (n + slides.length) % slides.length;
+      slides[i].classList.add('is-on'); dots[i]?.classList.add('is-on');
+    };
+    // Von außen steuerbar, z. B. wenn eine Zeile in den Blick kommt
+    el.addEventListener('frameshow:go', ((e: CustomEvent) => go(e.detail)) as EventListener);
+    el.addEventListener('pointerenter', () => { paused = true; });
+    el.addEventListener('pointerleave', () => { paused = false; });
+    let visible = false;
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(el);
+    setInterval(() => { if (!paused && visible && !el.dataset.manual) go(i + 1); }, Number(el.dataset.interval) || 3200);
+  });
+</script>

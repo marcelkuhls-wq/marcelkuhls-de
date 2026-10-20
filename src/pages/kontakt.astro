@@ -1,0 +1,137 @@
+---
+// Live: Anfragen gehen über Web3Forms an info@marcelkuhls.de (Schlüssel in PUBLIC_WEB3FORMS_KEY).
+// Prototyp: Formular sendet nichts.
+const LIVE = import.meta.env.PUBLIC_MODE === 'live';
+const KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+if (LIVE && !KEY) throw new Error('PUBLIC_WEB3FORMS_KEY fehlt: ohne Schlüssel kommen keine Anfragen an.');
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+<Base title="Kontakt: Hochzeitsfotograf Hamburg anfragen | Marcel Kuhls" description="Fragt euer Hochzeitsdatum bei Marcel Kuhls an. Datum und Location reichen für den Anfang. Antwort innerhalb von 24 Stunden, auch wenn das Datum schon vergeben ist." ogImage="sb-joana-dennis/072">
+  <PageHero crumbs={[{ label: 'Kontakt' }]} eyebrow="Anfrage">
+    <h1 slot="title" data-split data-split-now>Erzählt mir <em>von eurem Tag.</em></h1>
+    <p slot="aside" data-fade="0.4">Datum und Location reichen für den Anfang. Ihr bekommt innerhalb von 24 Stunden eine Antwort, auch wenn das Datum schon vergeben ist.</p>
+  </PageHero>
+
+  <section class="wrap" style="padding-bottom: var(--space)">
+    <div class="form-wrap">
+      <aside class="form-side">
+        <Photo src="sb-joana-dennis/079" alt="Brautpaar lacht sich in der Sonne an" ratio="4/5" reveal="up" sizes="(max-width: 899px) 100vw, 30vw" />
+        <ol class="next">
+          <li><span>1</span>Ihr schickt mir eure Eckdaten.</li>
+          <li><span>2</span>Ich antworte innerhalb von 24 Stunden mit Verfügbarkeit und Angebot.</li>
+          <li><span>3</span>Wir sprechen kurz per Video oder Telefon.</li>
+          <li><span>4</span>Vertrag und Anzahlung, dann ist euer Datum fest.</li>
+        </ol>
+        <p class="muted" style="font-size:var(--fs-small)">Lieber direkt? <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+      </aside>
+
+      <div class="form-main">
+        <form class="form" data-demo-form data-endpoint={LIVE ? 'https://api.web3forms.com/submit' : undefined} aria-describedby="form-note">
+          {LIVE && (<><input type="hidden" name="access_key" value={KEY} /><input type="hidden" name="subject" value="Neue Hochzeitsanfrage über marcelkuhls.de" /><input type="hidden" name="from_name" value="marcelkuhls.de" /></>)}
+          <fieldset class="fieldset">
+            <legend><span class="num">01</span>Eure Hochzeit</legend>
+            <div class="fields">
+              <div class="field">
+                <div class="field__head">
+                  <label for="f-date">Hochzeitsdatum</label>
+                  <label class="check check--mini"><input type="checkbox" name="date-open" data-date-open /> noch offen</label>
+                </div>
+                <input id="f-date" name="date" type="date" min="2026-10-20" />
+              </div>
+              <div class="field">
+                <div class="field__head"><label for="f-loc">Location <span class="opt">(falls bekannt)</span></label></div>
+                <input id="f-loc" name="location" type="text" placeholder="z. B. Standesamt Altona, Gut Pronstorf" autocomplete="off" />
+              </div>
+              <div class="field field--full">
+                <div class="field__head"><span class="label" id="l-kind">Was feiert ihr?</span></div>
+                <div class="chips" role="radiogroup" aria-labelledby="l-kind">
+                  {['Hochzeit', 'Standesamt', 'Kleine Hochzeit', 'Verlobung', 'Paarshooting'].map((k, i) => (
+                    <label class="chip"><input type="radio" name="kind" value={k} checked={i === 0} /><span>{k}</span></label>
+                  ))}
+                </div>
+              </div>
+              <div class="field field--full">
+                <div class="field__head"><span class="label" id="l-dur">Wie lange soll ich dabei sein?</span></div>
+                <div class="chips" role="radiogroup" aria-labelledby="l-dur">
+                  {['3 bis 5 Stunden', '8 Stunden', '10 Stunden', '12 Stunden', 'Wissen wir noch nicht'].map((k, i) => (
+                    <label class="chip"><input type="radio" name="duration" value={k} checked={i === 4} /><span>{k}</span></label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend><span class="num">02</span>Über euch</legend>
+            <div class="fields">
+              <div class="field">
+                <div class="field__head"><label for="f-name">Eure Namen</label></div>
+                <input id="f-name" name="name" type="text" required autocomplete="name" placeholder="z. B. Lynn & Ersin" />
+              </div>
+              <div class="field">
+                <div class="field__head"><label for="f-mail">E-Mail</label></div>
+                <input id="f-mail" name="email" type="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <div class="field__head"><label for="f-guests">Gäste, ungefähr <span class="opt">(optional)</span></label></div>
+                <input id="f-guests" name="guests" type="number" min="1" max="500" inputmode="numeric" placeholder="z. B. 40" />
+              </div>
+              <div class="field">
+                <div class="field__head"><label for="f-src">Wie habt ihr mich gefunden? <span class="opt">(optional)</span></label></div>
+                <select id="f-src" name="source">
+                  <option value="">Bitte wählen</option>
+                  <option>Google</option><option>Instagram</option><option>Empfehlung</option><option>Hochzeitslocation</option><option>Anders</option>
+                </select>
+              </div>
+              <div class="field field--full">
+                <div class="field__head"><label for="f-msg">Was sollte ich wissen? <span class="opt">(optional)</span></label><span class="hint" data-count-for="message">0 Zeichen</span></div>
+                <textarea id="f-msg" name="message" rows="5" placeholder="Wie stellt ihr euch den Tag vor? Was ist euch wichtig?"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="hp" aria-hidden="true"><label>Website <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" /></label></div>
+
+          <div class="form-foot">
+            <label class="check" style="max-width:46ch">
+              <input type="checkbox" name="privacy" required />
+              <span>Ich bin einverstanden, dass meine Angaben zur Beantwortung der Anfrage verarbeitet werden. Mehr in der <a class="link" href="/datenschutzerklaerung/">Datenschutzerklärung</a>.</span>
+            </label>
+            <button class="btn btn--solid" type="submit">Verfügbarkeit anfragen <span class="arr">→</span></button>
+          </div>
+          {LIVE ? <p id="form-note" class="muted" data-form-error hidden role="alert" style="font-size:var(--fs-small)">Das hat leider nicht geklappt. Schreibt mir bitte direkt an <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.</p> : <p id="form-note" class="todo">Prototyp: Dieses Formular sendet keine Daten.</p>}
+        </form>
+
+        <div class="form-done" data-form-done hidden tabindex="-1" role="status">
+          <p class="eyebrow">Angekommen</p>
+          <h2 class="h2">Danke<span data-done-name></span>. <em>Ich melde mich.</em></h2>
+          <p class="muted" style="margin-top:18px;max-width:44ch">Innerhalb von 24 Stunden bekommt ihr eine Antwort.{!LIVE && " Im Prototyp wurde dabei nichts verschickt."}</p>
+          <p style="margin-top:24px"><a class="btn" href="/portfolio/">Bis dahin Reportagen ansehen <span class="arr">→</span></a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .next { list-style: none; padding: 0; margin: 28px 0; display: grid; gap: 14px; font-size: var(--fs-small); color: var(--ink-2); }
+  .next li { display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: baseline; }
+  .next span { font-family: var(--f-display); font-style: italic; color: var(--accent); font-size: 1.4rem; line-height: 1; }
+  #form-note { justify-self: start; }
+</style>
+
+<script>
+  const open = document.querySelector<HTMLInputElement>('[data-date-open]');
+  const date = document.querySelector<HTMLInputElement>('#f-date');
+  open?.addEventListener('change', () => { if (date) { date.disabled = open.checked; if (open.checked) date.value = ''; } });
+  // Vorbelegung aus Links wie /kontakt/?datum=2027-06-12&art=Standesamt&ort=Standesamt%20Altona
+  const q = new URLSearchParams(location.search);
+  if (date && q.get('datum')) date.value = q.get('datum')!;
+  const ort = document.querySelector<HTMLInputElement>('#f-loc');
+  if (ort && q.get('ort')) ort.value = q.get('ort')!;
+  const art = q.get('art');
+  if (art) document.querySelectorAll<HTMLInputElement>('input[name="kind"]').forEach((r) => { r.checked = r.value === art; });
+</script>

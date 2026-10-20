@@ -1,0 +1,134 @@
+---
+import { PORTRAIT } from '../data/photos';
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import { testimonials } from '../data/reportages';
+import FrameShow from '../components/FrameShow.astro';
+
+const schema = {
+  '@context': 'https://schema.org', '@type': 'ProfilePage',
+  mainEntity: { '@type': 'Person', name: 'Marcel Kuhls', jobTitle: 'Hochzeitsfotograf', homeLocation: { '@type': 'City', name: 'Hamburg' }, worksFor: { '@id': 'https://marcelkuhls.de/#business' } },
+};
+---
+<Base title="Über mich: Marcel Kuhls, Hochzeitsfotograf aus Hamburg" description="Moin, ich bin Marcel. Seit 2013 fotografiere ich Hochzeiten, dokumentarisch und unaufdringlich. Gelernt habe ich Kommunikationsdesign, zu Hause bin ich in Hamburg." ogImage={PORTRAIT} schema={schema}>
+  <PageHero crumbs={[{ label: 'Über mich' }]} eyebrow="Über mich">
+    <h1 slot="title" data-split data-split-now>Moin, <em>ich bin Marcel.</em></h1>
+    <p slot="aside" data-fade="0.4">Seit 2013 hinter der Kamera, zu Hause in Hamburg.</p>
+  </PageHero>
+
+  <section class="wrap">
+    <div class="ab-top">
+      <div class="ab-top__img"><Photo src={PORTRAIT} alt="Hochzeitsfotograf Marcel Kuhls mit Kamera vor der Elbphilharmonie in Hamburg" ratio="4/5" priority reveal="up" parallax={6} sizes="(max-width: 899px) 90vw, 42vw" position="50% 25%" /></div>
+      <div class="ab-top__txt">
+        <p class="statement" data-scrub-text>Weil das Beste an einer Hochzeit nicht auf dem Zeitplan steht.</p>
+        <div class="prose" style="margin-top:clamp(32px,4vw,56px)">
+          <p data-fade>Ich fotografiere Hochzeiten so, wie sie passieren. Ich laufe mit, ich inszeniere nicht. Die Bilder, die mir am meisten bedeuten, entstehen in den Minuten, die niemand geplant hat: kurz vor dem Jawort, beim Gratulieren, auf dem Weg zum Auto.</p>
+          <p data-fade>Gelernt habe ich Kommunikationsdesign. Das merkt man meinen Bildern bis heute an. Ich achte auf Licht, Linien und Ruhe im Bild, auch wenn um mich herum alles gleichzeitig passiert.</p>
+          <p data-fade>Ich nehme pro Wochenende nur eine Hochzeit an. So habe ich den Kopf frei für euch, und eure Bilder bekommen die Zeit, die sie brauchen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <dl class="stats">
+      <div data-fade><dt>seit</dt><dd>2013</dd><p>hinter der Kamera</p></div>
+      <div data-fade="0.08"><dt>mehr als</dt><dd>50</dd><p>begleitete Hochzeiten</p></div>
+      <div data-fade="0.16"><dt>bei Google</dt><dd>5,0</dd><p>aus 17 Bewertungen</p></div>
+      <div data-fade="0.24"><dt>pro Wochenende</dt><dd>1</dd><p>Hochzeit, nicht mehr</p></div>
+    </dl>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="values">
+      <div class="values__a">
+        <p class="eyebrow">Wie ich arbeite</p>
+        <h2 class="h1 values__title" data-split>Drei <em>Versprechen</em></h2>
+        <FrameShow photos={['sb-franzi-jan-niklas/012', 'sb-joana-dennis/079', 'sb-lynn-ersin/049', 'mariana-mirco-hochzeit-haus-schnede/022', 'sb-uinny-sidney/094']} alt="Ungestellte Momente aus Hochzeitsreportagen von Marcel Kuhls" sticky />
+      </div>
+      <div class="values__b">
+        <div class="rows">
+      <div class="row-item" data-fade><span class="num">01</span><h3>Ungestellt <em>heißt nicht zufällig</em></h3><p>Ich lese den Tag mit. Wenn das Licht gleich durch die Kirchentür fällt, stehe ich schon dort.</p></div>
+      <div class="row-item" data-fade><span class="num">02</span><h3>Farbe <em>zuerst</em></h3><p>Der größte Teil meiner Bilder entsteht in Farbe. Schwarzweiß nehme ich, wenn eine Szene dadurch klarer wird.</p></div>
+      <div class="row-item" data-fade><span class="num">03</span><h3>So wenig <em>Anleitung wie möglich</em></h3><p>Bei den Paarbildern gebe ich so viel Richtung, wie ihr braucht, und so wenig wie möglich. Meist reicht eine halbe Stunde.</p></div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="ab-pair">
+      <figure class="ab-video">
+        <video autoplay muted loop playsinline preload="metadata" poster="/video/hochzeitsfotograf-hamburg-marcel-kuhls-bei-der-arbeit.jpg" aria-label="Marcel Kuhls bei der Arbeit auf einer Hochzeit">
+          <source src="/video/hochzeitsfotograf-hamburg-marcel-kuhls-bei-der-arbeit.mp4" type="video/mp4" />
+        </video>
+        <figcaption class="cap"><span>Bei der Arbeit</span><span class="num">Video</span></figcaption>
+      </figure>
+      <div data-drift="50"><Photo src="sb-uinny-sidney-sta/073" alt="Bräutigam hebt die Braut im Schnee auf dem Altonaer Balkon hoch" ratio="2/3" reveal="up" sizes="(max-width: 899px) 60vw, 30vw" /></div>
+    </div>
+  </section>
+
+  <section class="section dark" data-theme-dark>
+    <div class="wrap">
+      <p class="eyebrow">Was Paare sagen</p>
+      <div class="ab-quotes">
+        {testimonials.map((t) => (
+          <figure data-fade>
+            <blockquote>„{t.text}“</blockquote>
+            <figcaption>{t.by} · {t.where}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="endcta" style="text-align:center;display:grid;justify-items:center">
+      <h2 class="h1" data-split>Lernen wir <em>uns kennen?</em></h2>
+      <p class="muted" data-fade style="max-width:40ch;margin:24px auto 32px">Ein kurzes Gespräch per Video oder Telefon, ganz unverbindlich. Danach wisst ihr, ob es passt.</p>
+      <a class="btn btn--solid" href="/kontakt/" data-fade>Schreibt mir <span class="arr">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .values { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: start; }
+  .values__a { grid-column: 1 / 5; display: grid; gap: clamp(24px, 3vw, 40px); }
+  .values__b { grid-column: 6 / 13; padding-top: clamp(40px, 6vw, 110px); }
+  .values__b :global(.row-item) { grid-template-columns: 60px 1fr; }
+  .values__b :global(.row-item p) { grid-column: 2; }
+  .values__title { font-size: clamp(2.6rem, 5.5vw, 5.8rem); }
+  .ab-top { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: start; }
+  .ab-top__img { grid-column: 1 / 6; }
+  .ab-top__txt { grid-column: 7 / 13; padding-top: 6vw; }
+  .ab-top__txt .prose p { color: var(--ink-2); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); margin: 0; }
+  .stats > div { border-top: 1px solid var(--line); padding-top: 20px; }
+  .stats dt { font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: .16em; color: var(--ink-3); font-weight: 560; }
+  .stats dd { margin: 8px 0 6px; font-family: var(--f-display); font-size: clamp(3.4rem, 7vw, 7rem); line-height: .9; letter-spacing: -.05em; font-weight: 300; }
+  .stats p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .ab-pair { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); align-items: start; }
+  .ab-pair > :first-child { grid-column: 2 / 6; }
+  .ab-pair > :last-child { grid-column: 7 / 11; margin-top: 10vw; }
+  .ab-video { margin: 0; }
+  .ab-video video { display: block; width: 100%; aspect-ratio: 2 / 3; object-fit: cover; background: var(--paper-2); }
+  @media (prefers-reduced-motion: reduce) { .ab-video video { animation: none; } }
+  .placeholder { aspect-ratio: 3/2; background: repeating-linear-gradient(135deg, var(--paper-2) 0 14px, #e4ddd1 14px 28px); border: 1px dashed var(--ink-3); display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; padding: 24px; color: var(--ink-2); font-size: var(--fs-small); }
+  .placeholder p { margin: 0; max-width: 30ch; }
+  .ab-quotes { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 5vw, 80px) var(--gap); margin-top: 24px; }
+  .ab-quotes figure { margin: 0; border-top: 1px solid rgba(239,232,220,.16); padding-top: 24px; }
+  .ab-quotes blockquote { margin: 0; font-family: var(--f-display); font-size: clamp(1.3rem, 2vw, 1.9rem); line-height: 1.25; letter-spacing: -.02em; font-style: italic; font-weight: 320; }
+  .ab-quotes figcaption { margin-top: 16px; font-size: var(--fs-micro); letter-spacing: .14em; text-transform: uppercase; opacity: .6; }
+  @media (max-width: 899px) {
+    .values__a, .values__b { grid-column: 1 / -1; }
+    .values__a :global(.fs) { max-width: 78%; }
+    .values__b { padding-top: 16px; }
+    .ab-top__img { grid-column: 1 / 11; }
+    .ab-top__txt { grid-column: 1 / -1; padding-top: 32px; }
+    .stats { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+    .ab-pair > :first-child { grid-column: 1 / 9; }
+    .ab-pair > :last-child { grid-column: 6 / 13; margin-top: -20vw; }
+    .ab-quotes { grid-template-columns: 1fr; }
+  }
+</style>

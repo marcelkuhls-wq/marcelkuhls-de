@@ -1,0 +1,25 @@
+{
+  "name": "marcelkuhls-wedding-prototype",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "description": "marcelkuhls.de: Hochzeitsfotografie Marcel Kuhls (lokal Prototyp/noindex, live mit PUBLIC_MODE=live)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "fotos": "node scripts/fotos.mjs",
+    "fotos:watch": "node scripts/fotos.mjs --watch",
+    "todos": "node scripts/todos.mjs",
+    "build:live": "PUBLIC_MODE=live astro build"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/fraunces": "latest",
+    "@fontsource-variable/inter-tight": "latest",
+    "astro": "7.3.5",
+    "gsap": "3.15.0",
+    "lenis": "1.3.27",
+    "sharp": "0.35.5"
+  }
+}

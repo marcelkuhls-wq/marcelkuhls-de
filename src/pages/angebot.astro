@@ -1,0 +1,185 @@
+---
+// Angebotsseite mit Preisen, wird nur direkt an Paare geschickt. Bleibt auch live noindex
+// und steht nicht in der Sitemap. Inhalt 1:1 von marcelkuhls.de/angebot/ (Stand 20.10.2026).
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import Reviews from '../components/Reviews.astro';
+import { series, PORTRAIT } from '../data/photos';
+import type { Faq } from '../data/faq';
+
+const base = [
+  ['Die komplette Reportage', 'Trauung, Gratulationen, Gruppenfotos, ein entspanntes Paarshooting, die Feier und die Details eurer Location und Dekoration.'],
+  ['200 bis 500 bearbeitete Bilder', 'Jedes Bild einzeln entwickelt, in voller Auflösung und zusätzlich webfertig für Social Media.'],
+  ['Passwortgeschützte Online Galerie', 'Zwölf Monate erreichbar, weltweit, mit Downloadrecht für euch und eure Gäste.'],
+  ['Vorabauswahl innerhalb einer Woche', 'Eine kleine Auswahl direkt nach der Hochzeit, damit ihr das Kribbeln gleich noch einmal erlebt.'],
+  ['Beratung zum Tagesablauf', 'Schon vor der Hochzeit schauen wir gemeinsam auf eure Zeitplanung, damit am Tag genug Luft bleibt.'],
+  ['Keine Reisekosten in Norddeutschland', 'Innerhalb Norddeutschlands ist die Anfahrt komplett enthalten.'],
+  ['Lieferung in etwa zwei Wochen', 'Die vollständige Reportage ist rund vierzehn Tage nach eurer Hochzeit bei euch.'],
+  ['Erreichbarkeit bis zum Tag X', 'Fragen zwischendurch sind ausdrücklich erwünscht. Kurz vorher gehen wir alles noch einmal durch.'],
+];
+const packs = [
+  { h: '8 Stunden Begleitung', t: 'Der kleine Rahmen', d: 'Für standesamtliche Trauungen und Feiern im kleinen Kreis. Vom Ankommen über die Trauung und die Gratulationen bis zum gemeinsamen Essen.', li: ['Getting Ready oder Ankommen', 'Trauung und Gratulationen', 'Gruppenfotos und Paarshooting', 'Essen und die ersten Stunden der Feier', 'Alle Basisleistungen von oben'], p: '2.500 €' },
+  { h: '10 Stunden Begleitung', t: 'Der ganze Tag', top: true, d: 'Der Klassiker. Genug Zeit für alles, was den Tag ausmacht, ohne dass am Abend die Uhr im Nacken sitzt. Für die meisten Paare genau richtig.', li: ['Getting Ready von beiden Seiten', 'Trauung, Gratulationen, Empfang', 'Gruppenfotos und Paarshooting', 'Dinner, Reden und Eröffnungstanz', 'Erste Stunde ausgelassene Feier', 'Alle Basisleistungen von oben'], p: '2.800 €' },
+  { h: '12 Stunden Begleitung', t: 'Von morgens bis Mitternacht', d: 'Für große Hochzeiten mit langem Abend. Ich bin da, wenn die erste Nadel gesteckt wird, und noch da, wenn die Tanzfläche voll ist.', li: ['Getting Ready in Ruhe, ohne Hetze', 'Trauung, Gratulationen, Empfang', 'Gruppenfotos und Paarshooting', 'Dinner, Reden, Spiele, Eröffnungstanz', 'Party bis in die Nacht', 'Alle Basisleistungen von oben'], p: '3.100 €' },
+];
+const extras = [
+  ['Jede weitere Stunde', 'Wenn der Abend länger wird als geplant, auch spontan vor Ort', '150 €'],
+  ['Express Vorabauswahl', '30 fertige Bilder schon 48 Stunden nach der Hochzeit', '190 €'],
+  ['Erinnerungsbox mit 30 Fine Art Prints', 'Eure schönsten Momente zum Anfassen, in einer hochwertigen Box', '220 €'],
+  ['Komplette Reportage in sieben Tagen', 'Statt der üblichen zwei Wochen, nach vorheriger Absprache', '390 €'],
+  ['Zweitfotograf', 'Bis zu 8 Stunden, für zwei Perspektiven und parallele Vorbereitungen', '690 €'],
+  ['Fine Art Fotobuch', '25 x 25 cm, 30 Seiten, von mir gestaltet und mit euch abgestimmt', 'ab 690 €'],
+  ['Hochzeit außerhalb Norddeutschlands', 'Deutschlandweit, in Europa und darüber hinaus', 'auf Anfrage'],
+];
+const faq: Faq[] = [
+  { cat: 'Buchung', q: 'Welches Paket passt zu unserer Hochzeit?', a: 'Als Faustregel: Wenn ihr standesamtlich heiratet und danach in kleiner Runde essen geht, reichen 8 Stunden. Wenn ihr einen klassischen Hochzeitstag mit Getting Ready, Trauung, Dinner und Feier plant, sind 10 Stunden die passende Wahl. Bei großen Hochzeiten mit langem Abend nehmt 12 Stunden. Schickt mir einfach euren groben Ablauf, dann sage ich euch ehrlich, was ihr braucht. Auch wenn das weniger ist als ihr dachtet.' },
+  { cat: 'Kosten', q: 'Kommen noch versteckte Kosten dazu?', a: 'Nein. Innerhalb Norddeutschlands ist die Anfahrt enthalten, die Bearbeitung ohnehin, die Galerie auch. Wenn eure Hochzeit weiter weg stattfindet, bekommt ihr die Reisekosten vorher schriftlich genannt, bevor ihr euch entscheidet.' },
+  { cat: 'Buchung', q: 'Wie sichern wir uns unser Datum?', a: 'Nach unserem Gespräch bekommt ihr einen Vertrag. Mit der Unterschrift und einer Anzahlung von 30 Prozent ist euer Datum verbindlich für euch reserviert. Den Rest zahlt ihr erst nach der Hochzeit, zusammen mit der Lieferung der Bilder.' },
+  { cat: 'Bilder', q: 'Wann bekommen wir die Fotos?', a: 'Eine erste Auswahl kommt innerhalb der ersten Woche, damit ihr etwas zum Zeigen habt. Die komplette Reportage mit 200 bis 500 bearbeiteten Bildern ist etwa zwei Wochen nach der Hochzeit fertig.' },
+  { cat: 'Ablauf', q: 'Machst du auch Gruppenbilder?', a: 'Ja, klar. Auch wenn mein Schwerpunkt auf ungestellten Momenten liegt, gehören Familienbilder für viele dazu. Ich organisiere sie zügig und mit Struktur, damit ihr nicht eine Stunde in der Sonne steht. Eine Liste vorab hilft dabei enorm.' },
+  { cat: 'Ablauf', q: 'Was, wenn das Wetter nicht mitspielt?', a: 'Regen ist kein Problem, sondern oft ein Geschenk. Grauer Himmel gibt weiches Licht, und Bilder unter einem Schirm gehören regelmäßig zu den Lieblingsbildern meiner Paare. Für Innenräume bin ich mit Licht ausgestattet, das nicht nach Blitz aussieht.' },
+  { cat: 'Buchung', q: 'Und wenn dir etwas dazwischenkommt?', a: 'Ich bin über ein Netzwerk aus Kolleginnen und Kollegen abgesichert, deren Arbeit ich kenne und für die ich einstehe. Sollte ich wirklich einmal ausfallen, steht kurzfristig Ersatz bereit. Die Bearbeitung übernehme trotzdem ich, damit die Bildsprache bleibt.' },
+  { cat: 'Ablauf', q: 'Fotografierst du allein oder im Team?', a: 'Normalerweise allein, das hält die Reportage ruhig und den Blick einheitlich. Wenn ihr euch parallel an zwei Orten fertig macht oder mehr als 120 Gäste kommen, lohnt sich ein Zweitfotograf. Sagt einfach Bescheid, dann bespreche ich das mit euch.' },
+];
+const steps = [
+  ['Kennenlernen', 'Ihr schreibt mir kurz, wann und wo ihr heiratet. Danach telefonieren wir oder machen einen Videocall, etwa 30 Minuten, völlig unverbindlich. Ihr stellt eure Fragen, ich gebe erste Hinweise zum Ablauf.'],
+  ['Buchung', 'Wenn die Chemie stimmt, bekommt ihr euer Angebot und den Vertrag. Mit Unterschrift und Anzahlung gehört das Datum euch. Ich nehme pro Wochenende nur eine Hochzeit an.'],
+  ['Bis zum Tag', 'Ihr könnt euch jederzeit melden, auch bei Fragen, die nichts mit Fotos zu tun haben. Ein paar Tage vorher gehen wir den Ablauf gemeinsam durch, damit am Tag selbst nichts offen ist.'],
+];
+const v = series('verena-toby-2-hotel-atlantik'), b = series('boberger-duenen');
+---
+<Base title="Leistungen & Preise | Marcel Kuhls" description="Pakete, Preise und Zusatzleistungen für eure Hochzeitsreportage mit Marcel Kuhls." noindex>
+  <PageHero crumbs={[{ label: 'Angebot' }]} eyebrow="Leistungen & Preise">
+    <h1 slot="title" data-split data-split-now>Ihr erlebt euren Tag. <em>Ich halte fest, was ihr dabei verpasst.</em></h1>
+    <p slot="aside" data-fade="0.4">13 Jahre hinter der Kamera, mehr als 50 begleitete Hochzeiten, 5,0 von 5 Sternen bei Google.</p>
+  </PageHero>
+
+  <section class="wrap">
+    <div class="an-hello">
+      <div><Photo src={PORTRAIT} alt="Hochzeitsfotograf Marcel Kuhls mit Kamera in Hamburg" ratio="4/5" priority reveal="up" sizes="(max-width: 899px) 90vw, 36vw" position="50% 25%" /></div>
+      <div class="prose">
+        <p class="eyebrow">Moin, ich bin Marcel</p>
+        <p data-fade>Ich stehe seit vielen Jahren hinter der Kamera und habe in dieser Zeit unzählige Hochzeiten begleitet. Was diese Tage verbindet, sind selten die großen Posen. Es sind die Blicke dazwischen, das Lachen in der zweiten Reihe, die Hand, die kurz die andere sucht.</p>
+        <p data-fade>Ich arbeite ruhig und im Hintergrund. Die meisten Paare bemerken mich während der Trauung kaum und sind später überrascht, wie viel trotzdem im Bild ist. Ihr müsst euch um die Fotos keine Gedanken machen. Das ist mein Job. Eurer ist, den Tag zu erleben.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom:clamp(32px,4vw,56px)">
+      <p class="eyebrow intro__label">In jedem Paket enthalten</p>
+      <h2 class="intro__text h2" data-split>Ihr sollt planen können, <em>ohne zu rechnen</em></h2>
+    </div>
+    <p class="muted an-lead">Egal für welchen Umfang ihr euch entscheidet, diese Leistungen sind immer dabei. Ohne Sternchen, ohne Nachberechnung.</p>
+    <ul class="an-base">{base.map(([t, d], i) => <li data-fade={String((i % 4) * 0.05)}><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></li>)}</ul>
+  </section>
+
+  <section class="section--tight wrap" id="pakete">
+    <div class="intro" style="margin-bottom:clamp(32px,4vw,56px)">
+      <p class="eyebrow intro__label">Die Pakete</p>
+      <h2 class="intro__text h2" data-split>Drei Umfänge, <em>ein Versprechen</em></h2>
+    </div>
+    <p class="muted an-lead">Wie lange ich bleibe, entscheidet ihr. Alles andere bleibt gleich gut.</p>
+    <div class="an-packs">
+      {packs.map((p, i) => (
+        <article class:list={['an-pack', { 'is-top': p.top }]} data-fade={String(i * 0.08)}>
+          {p.top && <span class="an-pack__tag">Am häufigsten gebucht</span>}
+          <p class="num">{p.h}</p>
+          <h3>{p.t}</h3>
+          <p class="an-pack__d">{p.d}</p>
+          <ul>{p.li.map((l) => <li>{l}</li>)}</ul>
+          <p class="an-pack__p">{p.p} <small>inkl. MwSt.</small></p>
+        </article>
+      ))}
+    </div>
+    <p class="muted" style="margin-top:24px">Ihr braucht eine Zwischenstufe? Jede weitere Stunde lässt sich für 150 € dazubuchen, auch noch kurz vor der Hochzeit.</p>
+  </section>
+
+  <section class="section wrap">
+    <div class="an-eng">
+      <div><Photo src={b[0]} alt="Verlobung in den Boberger Dünen in Hamburg" ratio="3/2" reveal="up" sizes="(max-width: 899px) 100vw, 55vw" /></div>
+      <div class="prose">
+        <p class="eyebrow">Vorab kennenlernen</p>
+        <h2 class="h2" data-split>Verlobung <em>& Paarshooting</em></h2>
+        <p data-fade>Rund 90 Minuten an einem Ort, der zu euch passt. Kein Programm, kein Posieren, einfach ihr beide. Danach wisst ihr, wie ich arbeite, und ich weiß, wie ihr vor der Kamera tickt. Am Hochzeitstag fühlt sich das dann alles schon vertraut an.</p>
+        <p data-fade>Ihr bekommt etwa 40 bearbeitete Bilder in eurer eigenen Galerie, innerhalb einer Woche.</p>
+        <dl class="an-eng__p"><div><dt>Als einzelnes Shooting</dt><dd>490 €</dd></div><div><dt>Zusammen mit einem Hochzeitspaket</dt><dd>390 €</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="intro" style="margin-bottom:clamp(32px,4vw,56px)">
+      <p class="eyebrow intro__label">Wenn ihr mehr möchtet</p>
+      <h2 class="intro__text h2" data-split>Zusatz&shy;<em>leistungen</em></h2>
+    </div>
+    <p class="muted an-lead">Frei kombinierbar mit jedem Paket, jederzeit auch noch nach der Hochzeit buchbar.</p>
+    <ul class="an-extras">{extras.map(([t, d, p]) => <li><div><h3>{t}</h3><p>{d}</p></div><span>{p}</span></li>)}</ul>
+  </section>
+
+  <div class="wrap section--tight"><Photo src={v[30]} alt="Hochzeit im Hotel Atlantic Hamburg" ratio="21/9" reveal="center" parallax={8} sizes="100vw" /></div>
+
+  <Reviews limit={3} />
+
+  <section class="section wrap">
+    <div class="g">
+      <div class="an-fa"><p class="eyebrow">Häufige Fragen</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2></div>
+      <div class="an-fb"><FaqList items={faq} /></div>
+    </div>
+  </section>
+
+  <section class="section--tight wrap" style="padding-bottom:var(--space)">
+    <div class="intro" style="margin-bottom:clamp(32px,4vw,56px)">
+      <p class="eyebrow intro__label">So geht es weiter</p>
+      <h2 class="intro__text h2" data-split>In drei <em>Schritten</em></h2>
+    </div>
+    <ol class="an-steps">{steps.map(([t, d], i) => <li data-fade={String(i * 0.08)}><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></li>)}</ol>
+    <div class="callout" style="margin-top:clamp(40px,5vw,72px)">
+      <p class="eyebrow">Lasst uns sprechen</p>
+      <h2 class="h2">Passt das <em>für euch?</em></h2>
+      <p>Schreibt mir kurz, wann und wo ihr heiratet und wie ihr euch euren Tag vorstellt. Ihr bekommt innerhalb von 24 Stunden eine Antwort von mir persönlich.</p>
+      <p><a class="btn btn--solid" href="/kontakt/">Termin anfragen <span class="arr">→</span></a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .an-hello { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(28px, 5vw, 96px); align-items: center; }
+  .an-lead { max-width: 52ch; margin: 0 0 clamp(28px, 3vw, 44px); }
+  .an-base { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(24px, 3vw, 44px) var(--gap); }
+  .an-base li { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 8px; align-content: start; }
+  .an-base h3, .an-steps h3, .an-extras h3 { font-size: 1.3rem; }
+  .an-base p, .an-steps p, .an-extras p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .an-packs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); align-items: stretch; }
+  .an-pack { position: relative; border: 1px solid var(--line); padding: clamp(24px, 2.6vw, 40px); display: flex; flex-direction: column; gap: 12px; background: var(--paper); }
+  .an-pack.is-top { background: var(--night); color: var(--paper); border-color: var(--night); }
+  .an-pack.is-top .an-pack__d, .an-pack.is-top li { color: color-mix(in srgb, var(--paper) 78%, transparent); }
+  .an-pack__tag { position: absolute; top: -12px; left: clamp(24px, 2.6vw, 40px); background: var(--accent); color: #fff; font-size: 0.7rem; letter-spacing: .14em; text-transform: uppercase; padding: 5px 10px; }
+  .an-pack h3 { font-size: clamp(1.6rem, 2.4vw, 2.2rem); }
+  .an-pack__d { margin: 0; color: var(--ink-2); }
+  .an-pack ul { margin: 6px 0 0; padding: 0 0 0 1.1em; display: grid; gap: 6px; font-size: var(--fs-small); color: var(--ink-2); }
+  .an-pack__p { margin-top: auto; padding-top: 20px; font-family: var(--serif, serif); font-size: clamp(2rem, 3vw, 2.8rem); }
+  .an-pack__p small { font-family: inherit; font-size: 0.8rem; opacity: .7; }
+  .an-eng { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(28px, 5vw, 96px); align-items: center; }
+  .an-eng__p { display: grid; gap: 10px; margin: 24px 0 0; }
+  .an-eng__p div { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .an-eng__p dt { color: var(--ink-2); }
+  .an-eng__p dd { margin: 0; font-size: 1.3rem; }
+  .an-extras { list-style: none; margin: 0; padding: 0; }
+  .an-extras li { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; border-top: 1px solid var(--line); padding: 18px 0; }
+  .an-extras li:last-child { border-bottom: 1px solid var(--line); }
+  .an-extras span { white-space: nowrap; font-size: 1.25rem; }
+  .an-fa { grid-column: 1 / 5; }
+  .an-fb { grid-column: 6 / 13; }
+  .an-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+  .an-steps li { display: grid; gap: 8px; align-content: start; border-top: 1px solid var(--line); padding-top: 18px; }
+  @media (max-width: 899px) {
+    .an-hello, .an-eng { grid-template-columns: 1fr; }
+    .an-base { grid-template-columns: 1fr 1fr; }
+    .an-packs, .an-steps { grid-template-columns: 1fr; row-gap: 32px; }
+    .an-fa, .an-fb { grid-column: 1 / -1; }
+    .an-fb { margin-top: 24px; }
+  }
+</style>

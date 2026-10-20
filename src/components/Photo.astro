@@ -1,0 +1,44 @@
+---
+// Responsives Foto: nur WebP (klein, überall unterstützt, hält die Seite unter 1 GB für GitHub Pages), Lazy Loading unterhalb des Folds.
+import { Picture } from 'astro:assets';
+import { photo } from '../data/photos';
+
+interface Props {
+  src: string;
+  alt: string;
+  sizes?: string;
+  ratio?: string;          // z. B. "4/5", "3/2", "16/9"
+  priority?: boolean;      // Hero-Bilder: eager + fetchpriority=high
+  reveal?: 'up' | 'left' | 'right' | 'center' | false;
+  parallax?: number | false;
+  position?: string;       // object-position
+  class?: string;
+  imgAttrs?: Record<string, string>;
+}
+
+const { src, alt, sizes = '100vw', ratio, priority = false, reveal = false, parallax = false, position = 'center', class: cls = '', imgAttrs = {} } = Astro.props;
+const img = photo(src);
+const widths = [640, 1024, 1600, 2000].filter((w) => w <= img.width);
+---
+<figure
+  class:list={['ph', cls]}
+  style={ratio ? `--ratio:${ratio}` : undefined}
+  data-reveal={reveal || undefined}
+  data-parallax={parallax || undefined}
+>
+  <Picture
+    src={img}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    formats={['webp']}
+    fallbackFormat="webp"
+    quality={82}
+    loading={priority ? 'eager' : 'lazy'}
+    decoding={priority ? 'sync' : 'async'}
+    fetchpriority={priority ? 'high' : 'auto'}
+    style={`object-position:${position}`}
+    {...imgAttrs}
+  />
+  <slot />
+</figure>

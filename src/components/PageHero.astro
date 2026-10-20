@@ -1,0 +1,25 @@
+---
+interface Props { crumbs: { href?: string; label: string }[]; eyebrow?: string }
+const { crumbs, eyebrow } = Astro.props;
+const schema = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [{ href: '/', label: 'Start' }, ...crumbs].map((c, i) => ({
+    '@type': 'ListItem', position: i + 1, name: c.label, ...(c.href ? { item: new URL(c.href, 'https://marcelkuhls.de').href } : {}),
+  })),
+};
+---
+<header class="phero wrap">
+  <nav class="crumbs" aria-label="Brotkrumen">
+    <ol>
+      <li><a href="/">Start</a></li>
+      {crumbs.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}
+    </ol>
+  </nav>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <div class="phero__top">
+    <div class="phero__title"><slot name="title" /></div>
+    <div class="phero__aside"><slot name="aside" /></div>
+  </div>
+  <slot />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</header>

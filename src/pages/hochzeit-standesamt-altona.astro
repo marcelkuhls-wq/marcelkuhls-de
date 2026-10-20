@@ -1,0 +1,159 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Gallery from '../components/Gallery.astro';
+import FaqList from '../components/FaqList.astro';
+import { bySlug, venueTitle, testimonials } from '../data/reportages';
+import { faqSchema, type Faq } from '../data/faq';
+
+// Ortsseite aus Marcels eigenen Altona-Reportagen (Gap-Analyse research/05, Empfehlung 3).
+const couples = ['uinny-sidney-standesamt-altona', 'sophia-behnam-standesamt-altona', 'lynn-ersin-standesamt-altona', 'isabelle-kenny-standesamt-altona', 'eliana-mahan'].map(bySlug);
+const seasons = [
+  { m: 'Februar', img: 'sb-uinny-sidney-sta/076', t: 'Schnee auf dem Altonaer Balkon', who: 'Uinny & Sidney', href: '/portfolio/uinny-sidney-standesamt-altona/' },
+  { m: 'März', img: 'sb-sophia-behnam-sta/043', t: 'Rote Calla vor weißer Fassade', who: 'Sophia & Behnam', href: '/portfolio/sophia-behnam-standesamt-altona/' },
+  { m: 'April', img: 'sb-lynn-ersin/057', t: 'Vor dem schwarzen Tor', who: 'Lynn & Ersin', href: '/portfolio/lynn-ersin-standesamt-altona/' },
+  { m: 'August', img: 'sb-isabelle-kenny-sta/110', t: 'Sommer in Altona', who: 'Isabelle & Kenny', href: '/portfolio/isabelle-kenny-standesamt-altona/' },
+];
+const faq: Faq[] = [
+  { cat: 'Standesamt', q: 'Wie lange sollte ich einen Fotografen für das Standesamt Altona buchen?', a: 'Meist drei bis fünf Stunden. Das reicht für Ankunft, Trauung, Gratulationen vor dem Rathaus, Paarbilder am Altonaer Balkon und den Sekt danach.' },
+  { cat: 'Standesamt', q: 'Wo macht man in Altona die Paarbilder?', a: 'Direkt vor dem Rathaus, am schwarzen Tor und an der weißen Fassade, oder ein paar Minuten weiter auf dem Altonaer Balkon mit Blick auf Elbe und Hafen.' },
+  { cat: 'Standesamt', q: 'Kann man vor dem Standesamt Altona anstoßen?', a: 'Bei Sophia & Behnam gab es Gruppenbilder und Sektempfang direkt nach der Trauung. Was erlaubt ist, klärt ihr am besten vorher mit dem Standesamt.' },
+  { cat: 'Standesamt', q: 'Lohnt sich Altona auch im Winter?', a: 'Ja. Uinny & Sidney haben im Februar geheiratet, mit Schnee auf dem Altonaer Balkon. Es gehören zu meinen liebsten Bildern aus Altona.', check: true },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: 'Hochzeit im Standesamt Altona: Fotos, Ablauf und Fotospots',
+    author: { '@type': 'Person', name: 'Marcel Kuhls' },
+    about: { '@type': 'Place', name: 'Standesamt Altona', address: { '@type': 'PostalAddress', addressLocality: 'Hamburg-Altona', addressCountry: 'DE' } },
+  },
+  faqSchema(faq),
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Hochzeitslocations', item: 'https://marcelkuhls.de/hochzeitslocations-hamburg/' },
+    { '@type': 'ListItem', position: 3, name: 'Standesamt Altona' },
+  ] },
+];
+const lynn = testimonials.find((t) => t.by === 'Lynn & Ersin')!;
+---
+<Base title="Hochzeit im Standesamt Altona: Fotos, Ablauf & Fotospots | Marcel Kuhls" description="Hochzeit im Standesamt Altona: echte Reportagen von fünf Paaren, Ablauf vor Ort, die schönsten Fotospots bis zum Altonaer Balkon und Tipps vom Hochzeitsfotografen." ogImage="sb-uinny-sidney-sta/080" schema={schema} dark>
+  <section class="ahero" data-hero data-theme-dark>
+    <div class="ahero__media" data-hero-media>
+      <Photo src="sb-uinny-sidney-sta/080" alt="Brautpaar küsst sich im Schnee auf dem Altonaer Balkon, im Hintergrund der Hamburger Hafen" priority position="50% 35%" imgAttrs={{ 'data-hero-img': '' }} />
+    </div>
+    <div class="ahero__type wrap">
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/hochzeitslocations-hamburg/">Locations</a></li><li><span aria-current="page">Standesamt Altona</span></li></ol></nav>
+      <h1 class="h1"><span class="h1-kw" style="color:rgba(255,255,255,.85)">Hochzeit im Standesamt Altona</span><span data-split data-split-now>Altona, <em>fünf Mal erlebt</em></span></h1>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro">
+      <p class="eyebrow intro__label">Aus erster Hand</p>
+      <p class="statement intro__text" data-scrub-text>Ich habe im Standesamt Altona und im Rathaus Altona schon mehrere Paare begleitet, im Schnee, im Frühling und im Hochsommer. Hier steht, was ich dort gesehen habe.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Ort</dt><dd>Rathaus Altona, Hamburg</dd></div>
+      <div><dt>Begleitung</dt><dd>meist 3 bis 5 Stunden</dd></div>
+      <div><dt>Fotospot danach</dt><dd>Altonaer Balkon</dd></div>
+      <div><dt>Eigene Reportagen</dt><dd>{couples.length}</dd></div>
+    </dl>
+  </section>
+
+  <section class="wrap">
+    <div class="intro" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <p class="eyebrow intro__label">Durchs Jahr</p>
+      <h2 class="intro__text h2" data-split>Altona <em>in vier Jahreszeiten</em></h2>
+    </div>
+    <div class="seasons">
+      {seasons.map((s, i) => (
+        <a class="season" href={s.href} data-cursor="Ansehen" data-fade={String(i * 0.06)}>
+          <Photo src={s.img} alt={`${s.t}, ${s.who}, Standesamt Altona im ${s.m}`} ratio="3/4" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+          <span class="num">{s.m}</span>
+          <h3>{s.t}</h3>
+          <p>{s.who}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="g g--text">
+      <div><Photo src="sb-lynn-ersin/009" alt="Braut und Bräutigam vor dem Rathaus Altona" ratio="2/3" reveal="up" sizes="(max-width: 899px) 100vw, 45vw" /></div>
+      <div class="gtext prose">
+        <p class="eyebrow">Vor Ort</p>
+        <h2 class="h2" data-split>Was euch <em>erwartet</em></h2>
+        <p data-fade style="margin-top:18px">Eine weiße Fassade, ein schweres schwarzes Tor mit verschnörkeltem Gitter, Treppen und davor ein großer Platz. Mehr Kulisse braucht es eigentlich nicht.</p>
+        <p data-fade>Vor der Tür ist genug Platz, damit alle gratulieren können. Bei Lynn &amp; Ersin habe ich die ersten Bilder schon beim Aussteigen aus dem Auto gemacht, noch bevor wir uns vorgestellt hatten.</p>
+        <p data-fade>Für die Paarbilder geht es danach entweder ein paar Schritte zur Fassade oder ein paar Minuten weiter zum Altonaer Balkon, hoch über der Elbe.</p>
+        <p class="todo" data-fade>Marcel: Trauzimmer, Gästezahl und eigene Tipps ergänzen</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight dark" data-theme-dark>
+    <div class="wrap">
+      <figure class="quote">
+        <blockquote data-split>„{lynn.text}“</blockquote>
+        <figcaption>{lynn.by} · {lynn.where}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="chapter wrap">
+      <span class="chapter__n">02</span>
+      <h2 class="chapter__t h2" data-split>Der Altonaer <em>Balkon</em></h2>
+      <p class="chapter__d">Wenige Minuten vom Rathaus, mit Blick über Elbe, Hafen und Kräne. Bei jedem Wetter ein guter Ort.</p>
+    </div>
+    <Gallery photos={['sb-uinny-sidney-sta/098', 'sb-uinny-sidney-sta/073', 'sb-uinny-sidney-sta/094', 'sb-uinny-sidney-sta/143', 'sb-uinny-sidney-sta/153']} alt="Paarbilder auf dem Altonaer Balkon" />
+  </section>
+
+  <section class="section wrap">
+    <div class="phero__top" style="margin-bottom: clamp(32px, 4vw, 56px)">
+      <h2 class="phero__title h2" data-split>Alle Reportagen <em>aus Altona</em></h2>
+    </div>
+    <div class="alist">
+      {couples.map((s) => (
+        <a href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
+          <Photo src={s.cover} alt={`${s.couple}, ${s.place}`} ratio="4/5" reveal="up" sizes="(max-width: 899px) 50vw, 20vw" />
+          <h3>{s.couple}</h3>
+          <p>{venueTitle(s)}{s.date ? ` · ${s.date}` : ''}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section--tight wrap" style="padding-bottom: var(--space)">
+    <div class="g">
+      <div class="af-a"><p class="eyebrow">Fragen zu Altona</p><h2 class="h2" data-split>Gut zu <em>wissen</em></h2><p style="margin-top:24px"><a class="btn btn--solid" href="/kontakt/?art=Standesamt&amp;ort=Standesamt%20Altona">Verfügbarkeit anfragen <span class="arr">→</span></a></p><p style="margin-top:14px"><a class="link" href="/standesamt-fotograf-hamburg/">Alle Hamburger Standesämter</a></p></div>
+      <div class="af-b"><FaqList items={faq} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahero { position: relative; height: 88svh; min-height: 540px; color: #fff; overflow: hidden; background: var(--night); }
+  .ahero__media { position: absolute; inset: 0; transform-origin: 50% 0; }
+  .ahero__media :global(.ph) { position: absolute; inset: 0; }
+  .ahero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,0) 40%, rgba(0,0,0,.55)); }
+  .ahero__type { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; padding-bottom: clamp(28px, 4vw, 64px); z-index: 2; }
+  .ahero .crumbs { color: rgba(255,255,255,.7); }
+  .seasons { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .season { text-decoration: none; display: grid; gap: 8px; align-content: start; }
+  .season h3 { font-size: 1.35rem; }
+  .season p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .season :global(.ph img), .alist :global(.ph img) { transition: transform 1.4s var(--ease); }
+  .season:hover :global(.ph img), .alist a:hover :global(.ph img) { transform: scale(1.05); }
+  .alist { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); }
+  .alist a { text-decoration: none; display: grid; gap: 6px; }
+  .alist h3 { font-size: 1.2rem; margin-top: 8px; }
+  .alist p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .af-a { grid-column: 1 / 5; }
+  .af-b { grid-column: 6 / 13; }
+  @media (max-width: 899px) {
+    .seasons, .alist { grid-template-columns: 1fr 1fr; }
+    .af-a, .af-b { grid-column: 1 / -1; }
+    .af-b { margin-top: 24px; }
+  }
+</style>

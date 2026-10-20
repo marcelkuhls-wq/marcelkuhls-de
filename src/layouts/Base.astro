@@ -1,0 +1,141 @@
+---
+import '../styles/global.css';
+import { site, nav, legal, more } from '../data/site';
+import { getImage } from 'astro:assets';
+import { photo } from '../data/photos';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  ogImage?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  dark?: boolean;
+  noindex?: boolean;   // z. B. /angebot/: auch live nicht indexieren
+}
+const { title, description, path = Astro.url.pathname, ogImage = 'joana-dennis-gut-bardenhagen/016', schema, dark = false, noindex = false } = Astro.props;
+// PUBLIC_MODE=live nur beim Veröffentlichen (GitHub Action). Lokal bleibt alles Prototyp und noindex.
+const LIVE = import.meta.env.PUBLIC_MODE === 'live';
+const robots = !LIVE || noindex ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large';
+const canonical = new URL(path, site.url).href;
+const og = await getImage({ src: photo(ogImage), width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const current = Astro.url.pathname;
+const menuImg = await getImage({ src: photo('eileen-michael/10'), width: 700, format: 'webp' });
+---
+<!doctype html>
+<html lang="de" class:list={[{ 'page-dark': dark, live: LIVE }]}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content={robots} />
+  {LIVE && (
+    <>
+      {/* Bestätigungen von der alten Seite, damit Search Console und Meta den Zugriff behalten */}
+      <meta name="google-site-verification" content="google-site-verification=KtePhZwmQ3oCNU0_gGkRyZODEvwdKIb_DH6I6ESWgH0" />
+      <meta name="google-site-verification" content="EAy4-B2aq9e0dEJIsn5vV_AT_sKUoZ_BfsDVxBkPYYk" />
+      <meta name="facebook-domain-verification" content="svt1soedi4fhsi7n63m6a79z0xwmmh" />
+    </>
+  )}
+  <!-- Vorgesehene Live-URL (nur Konzept, Prototyp wird nicht veröffentlicht) -->
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:site_name" content="Marcel Kuhls Hochzeitsfotografie" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(og.src, Astro.url).href} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#f5f1ea" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  <script is:inline>
+    // Startzustände der Animationen nur setzen, wenn Bewegung erwünscht ist
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('motion');
+      setTimeout(function () {
+        if (!document.documentElement.classList.contains('motion-ready')) document.documentElement.classList.remove('motion');
+      }, 3000);
+    }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+  <header class="hdr" data-header>
+    <a class="hdr__logo" href="/" aria-label="Marcel Kuhls, zur Startseite">
+      <span class="hdr__name">Marcel Kuhls</span>
+      <span class="hdr__sub">Hochzeitsfotografie · Hamburg</span>
+    </a>
+    <nav class="hdr__nav" aria-label="Hauptnavigation">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={n.href} aria-current={current.startsWith(n.href) ? 'page' : undefined}><span>{n.label}</span></a></li>
+        ))}
+      </ul>
+    </nav>
+    <a class="btn btn--pill hdr__cta" href="/kontakt/">Anfragen</a>
+    <button class="hdr__burger" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <div class="menu" id="menu" data-menu>
+    <div class="menu__inner">
+      <ol class="menu__list">
+        {nav.map((n) => (
+          <li><a href={n.href}><sup>{n.n}</sup>{n.label}</a></li>
+        ))}
+        <li><a href="/kontakt/"><sup>07</sup><em>Anfragen</em></a></li>
+      </ol>
+      <div class="menu__aside">
+        <img src={menuImg.src} alt="" width="700" height="1050" loading="lazy" />
+        <p>Antwort meist innerhalb von 24 Stunden.<br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+    </div>
+  </div>
+
+  <main id="inhalt">
+    <slot />
+  </main>
+
+  <footer class="ftr" data-theme-dark>
+    <div class="ftr__cta wrap">
+      <p class="eyebrow">Euer Tag, eure Geschichte</p>
+      <a class="ftr__big" href="/kontakt/" data-cursor="Schreiben">
+        <span>Erzählt mir</span>
+        <span><em>von euch.</em></span>
+      </a>
+    </div>
+    <div class="ftr__grid wrap">
+      <div>
+        <p class="ftr__label">Kontakt</p>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a><br />Hamburg und Umgebung, gern auch weiter weg</p>
+      </div>
+      <div>
+        <p class="ftr__label">Entdecken</p>
+        <ul>{[...nav, ...more].map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+      </div>
+      <div>
+        <p class="ftr__label">Rechtliches</p>
+        <ul>{legal.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+      </div>
+    </div>
+    <div class="ftr__brand wrap">
+      <span class="ftr__signet" role="img" aria-label="Logo Marcel Kuhls Photography"></span>
+    </div>
+    <div class="ftr__base wrap">
+      <span>© 2026 Marcel Kuhls Photography</span>
+      <span>Entwurf · nicht öffentlich</span>
+    </div>
+  </footer>
+
+  {!LIVE && <div class="proto-badge" role="note">Prototyp · noindex · Formular sendet nichts</div>}
+
+  <script>
+    import '../scripts/motion.js';
+  </script>
+</body>
+</html>

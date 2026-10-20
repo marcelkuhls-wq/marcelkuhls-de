@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+
+// Nur Orte, an denen Marcel nachweislich fotografiert hat (Website oder Scrappbook-Alben)
+const groups = [
+  {
+    title: 'Standesämter', em: 'in Hamburg',
+    items: [
+      { name: 'Standesamt Altona', area: 'Altona', img: 'sb-lynn-ersin/057', href: '/hochzeit-standesamt-altona/', n: 'Lynn & Ersin, Uinny & Sidney, Sophia & Behnam, Isabelle & Kenny' },
+      { name: 'Standesamt Eimsbüttel', area: 'Eimsbüttel', img: 'sb-jill-henning/041', href: '/portfolio/jill-henning-standesamt-eimsbuettel/', n: 'Jill & Henning, Patricia & Alexander' },
+      { name: 'Rathaus Altona', area: 'Altona', img: 'eliana-mahan/14', href: '/portfolio/eliana-mahan/', n: 'Eliana & Mahan' },
+      { name: 'Standesamt Hamburg', area: 'Hamburg', img: 'larissa-alex-standesamt/09', href: '/portfolio/standesamt-hamburg-larissa-und-alex/', n: 'Larissa & Alex' },
+    ],
+  },
+  {
+    title: 'In der', em: 'Stadt',
+    items: [
+      { name: 'Hotel Atlantic', area: 'St. Georg, an der Außenalster', img: 'sb-verena-tobias-sb/054', href: '/portfolio/hochzeit-hotel-atlantic-verena-tobias/', n: 'Verena & Tobias, Sophia & Behnam', feature: true },
+      { name: 'Altonaer Balkon', area: 'Altona, über der Elbe', img: 'sb-uinny-sidney-sta/098', href: '/hochzeit-standesamt-altona/', n: 'Uinny & Sidney' },
+      { name: 'Leuchtturm Harburg', area: 'Harburg', img: 'sb-eileen-michael-sb/141', href: '/portfolio/eileen-michael/', n: 'Eileen & Michael' },
+      { name: 'Melanchthonkirche & Villa Heine Park', area: 'Hamburg', img: 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/006', href: '/portfolio/uinny-sidney-villa-mignon/', n: 'Uinny & Sidney' },
+      { name: 'Boberger Dünen', area: 'Bergedorf', img: 'boberger-duenen/01', href: '/portfolio/verlobung-boberger-duenen/', n: 'Verlobung' },
+    ],
+  },
+  {
+    title: 'Im Umland', em: 'und am Stadtrand',
+    items: [
+      { name: 'Gut Pronstorf', area: 'Schleswig-Holstein', img: 'michelle-benjamin/18', href: '/hochzeit-gut-pronstorf-fotograf/', n: 'Michelle & Benjamin', feature: true },
+      { name: 'Horster Mühle', area: 'mit Standesamt Jesteburg', img: 'sb-kristina-swen/222', href: '/portfolio/kristina-swen-horster-muehle/', n: 'Kristina & Swen' },
+      { name: 'Elbterrassen Wussegel', area: 'an der Elbe', img: 'sb-larissa-jonas/106', href: '/portfolio/larissa-jonas-elbterrassen-wussegel/', n: 'Larissa & Jonas' },
+      { name: 'Gut Bardenhagen', area: 'Bienenbüttel, Lüneburger Heide', img: 'joana-dennis-gut-bardenhagen/024', href: '/portfolio/joana-dennis/', n: 'Joana & Dennis' },
+      { name: 'Haus Schnede', area: 'Salzhausen, Lüneburger Heide', img: 'mariana-mirco-hochzeit-haus-schnede/018', href: '/portfolio/mariana-mirco/', n: 'Mariana & Mirco' },
+      { name: 'Ulsnis an der Schlei', area: 'Schleswig-Holstein', img: 'isabelle-kenny-hochzeit-ulsnis-an-der-schlei/006', href: '/portfolio/isabelle-kenny/', n: 'Isabelle & Kenny' },
+      { name: 'Villa Mignon', area: 'Hamburg', img: 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/028', href: '/portfolio/uinny-sidney-villa-mignon/', n: 'Uinny & Sidney' },
+    ],
+  },
+  {
+    title: 'Weiter', em: 'weg',
+    items: [
+      { name: 'Parkhotel Bremen', area: 'Bremen', img: 'erika-roland-parkhotel-bremen/007', href: '/portfolio/erika-roland/', n: 'Erika & Roland' },
+      { name: 'Schloss Neckarbischhofsheim', area: 'Baden-Württemberg', img: 'franzi-jan-niklas-schloss-neckarbischhofsheim/010', href: '/portfolio/franzi-jan-niklas/', n: 'Franzi & Jan Niklas' },
+      { name: 'Castillo de Bendinat', area: 'Mallorca', img: 'larissa-alex-mallorca/01', href: '/portfolio/hochzeit-castillo-bendinat/', n: 'Larissa & Alex, mit Katamaran-Tour', feature: true },
+    ],
+  },
+];
+// Weitere Orte aus Scrappbook ohne Bildauswahl im Prototyp
+const more = [
+  { name: 'Restaurant Sicily', note: 'Patricia & Alexander' },
+  { name: 'Café Prüsse', note: 'Verena & Tobias' },
+  { name: 'Papillon, Berlin', note: 'Maksooda & Iman' },
+];
+---
+<Base title="Hochzeitslocations in Hamburg und Umgebung, fotografiert | Marcel Kuhls" description="Hochzeitslocations in Hamburg, Schleswig-Holstein und weiter weg, an denen ich wirklich fotografiert habe: Hotel Atlantic, Standesamt Altona, Gut Pronstorf und mehr. Mit echten Reportagen." ogImage="michelle-benjamin/18">
+  <PageHero crumbs={[{ label: 'Hochzeitslocations' }]} eyebrow="Hochzeitslocations Hamburg">
+    <h1 slot="title" data-split data-split-now>Orte, an denen <em>ich war.</em></h1>
+    <p slot="aside" data-fade="0.4">Hochzeitslocations in Hamburg und Umgebung, an denen ich selbst fotografiert habe. Zu jeder gibt es eine echte Reportage.</p>
+  </PageHero>
+
+  {groups.map((g, gi) => (
+    <section class="wrap loc-group">
+      <div class="loc-head">
+        <span class="chapter__n">{String(gi + 1).padStart(2, '0')}</span>
+        <h2 class="h2" data-split>{g.title} <em>{g.em}</em></h2>
+      </div>
+      <ul class="loc-list">
+        {g.items.map((it, i) => (
+          <li class:list={['loc', { 'loc--feature': it.feature }, g.items.filter((x) => !x.feature).length % 2 === 0 ? 'loc--half' : 'loc--third']}>
+            <a href={it.href} data-cursor="Ansehen">
+              <Photo src={it.img} alt={`Hochzeit ${it.name}, fotografiert von Marcel Kuhls`} ratio={it.feature ? '21/9' : '3/2'} reveal="up" sizes="(max-width: 899px) 100vw, 50vw" />
+              <div class="loc__meta">
+                <h3>{it.name}</h3>
+                <p>{it.area.includes('ergänzen') ? <span class="todo">{it.area}</span> : it.area}</p>
+                <p class="num">{it.n}</p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <section class="wrap" style="padding-top: clamp(40px, 5vw, 80px)">
+    <div class="loc-more">
+      <p class="eyebrow">Außerdem fotografiert</p>
+      <ul>{more.map((m) => <li><strong>{m.name}</strong> <span class="muted">{m.note}</span></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="callout">
+      <p><strong>Eure Location fehlt?</strong> Kein Problem. Ich fotografiere überall, wo ihr feiert, und schaue mir neue Orte vorher gern an. Schreibt mir einfach, wo es hingehen soll.</p>
+      <p style="margin-top:18px"><a class="btn btn--solid" href="/kontakt/">Location nennen <span class="arr">→</span></a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .loc-group { padding-top: clamp(40px, 5vw, 80px); }
+  .loc-group:first-of-type { padding-top: 8px; }
+  .loc-head { display: flex; gap: clamp(16px, 3vw, 48px); align-items: baseline; margin-bottom: clamp(24px, 3vw, 44px); border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+  .loc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(32px, 4vw, 56px) var(--gap); }
+  .loc a { text-decoration: none; display: block; }
+  .loc-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 40px; font-size: 1.05rem; }
+  .loc-more .muted { font-size: var(--fs-small); margin-left: 6px; }
+  .loc :global(.ph img) { transition: transform 1.4s var(--ease); }
+  .loc a:hover :global(.ph img) { transform: scale(1.05); }
+  .loc--half { grid-column: span 6; }
+  .loc--third { grid-column: span 4; }
+  .loc--feature { grid-column: 1 / -1; }
+  .loc__meta { display: grid; grid-template-columns: 1fr auto; gap: 2px 20px; margin-top: 16px; }
+  .loc__meta h3 { font-size: clamp(1.5rem, 2.6vw, 2.6rem); }
+  .loc__meta p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .loc__meta .num { grid-column: 2; grid-row: 1; align-self: center; }
+  @media (max-width: 899px) {
+    .loc { grid-column: 1 / -1 !important; margin-top: 0 !important; }
+    .loc__meta { grid-template-columns: 1fr; }
+    .loc__meta .num { grid-column: 1; grid-row: auto; }
+  }
+</style>

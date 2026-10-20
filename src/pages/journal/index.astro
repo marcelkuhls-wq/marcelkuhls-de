@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import PageHero from '../../components/PageHero.astro';
+import { series } from '../../data/photos';
+
+const posts = [
+  { cat: 'Ratgeber', t: 'Heiraten in Hamburg: Planungshilfe', d: 'Standesämter, Zeitplan, Kosten, Jahreszeit und ein Plan B für Regen.', href: '/heiraten-in-hamburg/', img: series('uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg')[13] },
+  { cat: 'Locations', t: 'Hochzeit im Gutshaus', d: 'Worauf ihr bei Location, Licht und Zeitplan achten solltet.', href: '/hochzeit-gutshaus-norddeutschland/', img: series('joana-dennis-gut-bardenhagen')[15] },
+  { cat: 'Ratgeber', t: 'Kleine Hochzeit in Hamburg', d: 'Wo ihr mit wenigen Gästen feiert und wie viel Fotografie ihr braucht.', href: '/kleine-hochzeit-hamburg/', img: series('lynn-ersin-standesamt-altona')[3] },
+  { cat: 'Stil', t: 'Hochzeitsfotos aus Hamburg', d: 'Wie eure Bilder aussehen, wenn niemand posieren muss.', href: '/hochzeitsfotos/', img: series('verena-toby-2-hotel-atlantik')[10] },
+];
+
+const planned = [
+  { cat: 'Locations', t: 'Heiraten im Standesamt Altona', img: 'sb-sophia-behnam-sta/043', k: 'hochzeitsfotograf altona · 61 Impressionen' },
+  { cat: 'Locations', t: 'Hochzeit im Hotel Atlantic', img: 'sb-verena-tobias-sb/141', k: 'zwei echte Hochzeiten fotografiert' },
+  { cat: 'Ratgeber', t: 'First Look: ja oder nein?', img: 'sb-franzi-jan-niklas/008', k: 'Bilder von Franzi & Jan Niklas, Joana & Dennis' },
+];
+---
+<Base title="Journal: Ratgeber, Locations und Reportagen | Marcel Kuhls" description="Das Journal von Hochzeitsfotograf Marcel Kuhls: ehrliche Ratgeber zu Kosten und Planung, Hochzeitslocations in Hamburg und echte Reportagen.">
+  <PageHero crumbs={[{ label: 'Journal' }]} eyebrow="Journal">
+    <h1 slot="title" data-split data-split-now>Lesen, <em>bevor ihr plant.</em></h1>
+    <p slot="aside" data-fade="0.4">Drei Arten von Beiträgen: echte Reportagen, Locations, an denen ich war, und Ratgeber zu den Fragen, die mir Paare wirklich stellen.</p>
+    <div class="jcats" data-fade="0.6"><a class="chipbtn-l is-on" href="/journal/">Alle</a><a class="chipbtn-l" href="/portfolio/">Reportagen</a><a class="chipbtn-l" href="/hochzeitslocations-hamburg/">Locations</a><a class="chipbtn-l" href="#ratgeber">Ratgeber</a></div>
+  </PageHero>
+
+  <section class="wrap" id="ratgeber">
+    <a class="jfeat" href="/was-kostet-ein-hochzeitsfotograf-hamburg/" data-cursor="Lesen">
+      <Photo src="michelle-benjamin/20" alt="Brautpaar schneidet die Torte an" ratio="16/10" reveal="up" sizes="(max-width: 899px) 100vw, 60vw" />
+      <div class="jfeat__txt">
+        <span class="num">Ratgeber · 8 Minuten</span>
+        <h2 class="h2">Was kostet ein Hochzeitsfotograf <em>in Hamburg?</em></h2>
+        <p class="muted">Echte Pakete, was enthalten ist, und worauf ihr beim Vergleichen achten solltet.</p>
+        <span class="story__more">Artikel lesen</span>
+      </div>
+    </a>
+  </section>
+
+  <section class="section wrap">
+    <ul class="jposts">
+      {posts.map((p, i) => (
+        <li data-fade={String(i * 0.06)}>
+          <a href={p.href} data-cursor="Lesen">
+            <Photo src={p.img} alt={p.t} ratio="4/5" reveal="up" sizes="(max-width: 899px) 50vw, 25vw" />
+            <span class="num">{p.cat}</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section wrap">
+    <div class="intro" style="margin-bottom:clamp(40px,5vw,80px)">
+      <p class="eyebrow intro__label">In Vorbereitung</p>
+      <h2 class="intro__text h2" data-split>Die nächsten <em>Beiträge</em></h2>
+    </div>
+    <ul class="jplan">
+      {planned.map((p, i) => (
+        <li data-fade={String(i * 0.06)}>
+          <Photo src={p.img} alt="" ratio="4/5" sizes="(max-width: 899px) 50vw, 25vw" />
+          <span class="num">{p.cat} · geplant</span>
+          <h3>{p.t}</h3>
+          <p>{p.k}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .jcats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(28px, 4vw, 48px); }
+  .chipbtn-l { height: 42px; display: inline-flex; align-items: center; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-size: 0.9rem; transition: all .4s var(--ease); }
+  .chipbtn-l:hover { border-color: var(--ink); }
+  .chipbtn-l.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .jfeat { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 4vw, 72px); align-items: end; text-decoration: none; }
+  .jfeat :global(.ph img) { transition: transform 1.4s var(--ease); }
+  .jfeat:hover :global(.ph img) { transform: scale(1.04); }
+  .jfeat__txt { display: grid; gap: 16px; }
+  .jfeat__txt p { margin: 0; }
+  .jposts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .jposts a { display: grid; gap: 10px; text-decoration: none; }
+  .jposts li:nth-child(even) { margin-top: 6vw; }
+  .jposts h3 { font-size: 1.5rem; }
+  .jposts p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .jplan { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .jplan li { display: grid; gap: 10px; align-content: start; opacity: .92; }
+  .jplan li:nth-child(even) { margin-top: 6vw; }
+  .jplan :global(.ph) { filter: grayscale(.35); }
+  .jplan h3 { font-size: 1.4rem; }
+  .jplan p { margin: 0; color: var(--ink-3); font-size: var(--fs-micro); letter-spacing: .04em; }
+  @media (max-width: 899px) {
+    .jfeat { grid-template-columns: 1fr; }
+    .jplan, .jposts { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+// Echte Kundenstimmen (veröffentlicht auf marcelkuhls.de) plus Google-Bewertungsangabe.
+import Photo from './Photo.astro';
+import { testimonials } from '../data/reportages';
+interface Props { limit?: number; dark?: boolean }
+const { limit = 4, dark = true } = Astro.props;
+const list = testimonials.slice(0, limit);
+---
+<section class:list={['reviews section', { dark }]} data-theme-dark={dark || undefined}>
+  <div class="wrap">
+    <div class="reviews__head">
+      <div>
+        <p class="eyebrow">Was Paare sagen</p>
+        <h2 class="h2" data-split>Echte Stimmen, <em>echte Hochzeiten</em></h2>
+      </div>
+      <a class="reviews__google" href="/bewertungen/">
+        <span class="reviews__stars" aria-hidden="true">★★★★★</span>
+        <span><strong>5,0 von 5</strong> bei 17 Bewertungen auf Google</span>
+      </a>
+    </div>
+    <div class="reviews__grid">
+      {list.map((t, i) => (
+        <figure class="review" data-fade={String(i * 0.08)}>
+          <blockquote>„{t.text}“</blockquote>
+          <figcaption>
+            <Photo src={t.img} alt={t.by} ratio="1/1" sizes="56px" />
+            <span><strong>{t.by}</strong><br />{t.where}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(32px, 4vw, 64px); }
+  .reviews__google { display: inline-flex; gap: 12px; align-items: center; text-decoration: none; border: 1px solid currentColor; border-radius: 999px; padding: 10px 18px; font-size: var(--fs-small); opacity: .9; }
+  .reviews__google:hover { opacity: 1; }
+  .reviews__stars { color: #e7b04a; letter-spacing: 2px; }
+  .reviews__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .review { margin: 0; display: grid; gap: 20px; align-content: space-between; border-top: 1px solid currentColor; border-color: color-mix(in srgb, currentColor 20%, transparent); padding-top: 22px; }
+  .review blockquote { margin: 0; font-family: var(--f-display); font-size: 1.15rem; line-height: 1.35; letter-spacing: -0.01em; font-weight: 340; }
+  .review figcaption { display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: center; font-size: var(--fs-small); opacity: .8; }
+  .review :global(.ph) { border-radius: 50%; }
+  @media (max-width: 899px) { .reviews__grid { grid-template-columns: 1fr; } }
+</style>
