@@ -16,10 +16,10 @@ const filters = ['Alle', 'Hochzeit', 'Standesamt', 'Destination', 'Verlobung'];
 
   <section class="wrap" style="padding-bottom: var(--space)">
     <ul class="pf">
-      {reportages.map((s, i) => (
-        <li class:list={['pf__item', `pf__item--${i % 5}`]} data-kind={s.kind}>
+      {reportages.map((s) => (
+        <li class="pf__item" data-kind={s.kind}>
           <a href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
-            <Photo src={i % 5 === 1 || i % 5 === 3 ? s.side : s.cover} alt={`${s.couple}${s.place ? `, ${s.place}` : ''}`} ratio={i % 5 === 0 ? '3/2' : i % 5 === 4 ? '16/10' : '4/5'} reveal="up" sizes="(max-width: 899px) 100vw, 50vw" />
+            <Photo src={s.cover} alt={`${s.couple}${s.place ? `, ${s.place}` : ''}`} ratio="4/5" reveal="up" sizes="(max-width: 599px) 50vw, (max-width: 1099px) 33vw, 25vw" />
             <div class="pf__meta">
               <h2 class="h3">{venueTitle(s)}</h2>
               <p>{s.place ? s.couple : s.kind}{s.region ? ` · ${s.region}` : ''}{!s.place && <> · <span class="todo">Ort ergänzen</span></>}</p>
@@ -37,22 +37,19 @@ const filters = ['Alle', 'Hochzeit', 'Standesamt', 'Destination', 'Verlobung'];
   .chipbtn { height: 42px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: none; cursor: pointer; font-size: 0.9rem; transition: all .4s var(--ease); }
   .chipbtn:hover { border-color: var(--ink); }
   .chipbtn[aria-pressed='true'] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .pf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(48px, 7vw, 120px) var(--gap); }
+  .pf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(32px, 3.5vw, 56px) var(--gap); }
   .pf a { text-decoration: none; display: block; }
   .pf :global(.ph img) { transition: transform 1.4s var(--ease); }
   .pf a:hover :global(.ph img) { transform: scale(1.05); }
-  .pf__item--0 { grid-column: 1 / 9; }
-  .pf__item--1 { grid-column: 9 / 13; margin-top: 24vw; }
-  .pf__item--2 { grid-column: 2 / 6; }
-  .pf__item--3 { grid-column: 7 / 12; margin-top: 10vw; }
-  .pf__item--4 { grid-column: 3 / 13; }
-  .pf__meta { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; margin-top: 16px; align-items: baseline; }
-  .pf__meta p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); grid-column: 1; }
-  .pf__meta .num { grid-row: 1; grid-column: 2; }
+  .pf .h3 { font-size: clamp(1.15rem, 1.6vw, 1.5rem); }
+  .pf__meta { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; }
+  .pf__meta p { margin: 0; color: var(--ink-2); font-size: var(--fs-small); }
+  .pf__meta .num { order: -1; }
   .pf__item.is-hidden { display: none; }
-  @media (max-width: 899px) {
-    .pf > li { grid-column: 1 / -1 !important; margin-top: 0 !important; }
-    .pf__item--1, .pf__item--3 { padding-left: 18vw; }
+  @media (max-width: 1099px) { .pf { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 599px) {
+    .pf { grid-template-columns: repeat(2, 1fr); gap: 28px 12px; }
+    .pf__meta { margin-top: 10px; }
   }
 </style>
 
