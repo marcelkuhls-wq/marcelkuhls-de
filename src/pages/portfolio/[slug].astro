@@ -38,7 +38,7 @@ const schema = [
   },
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://marcelkuhls.de/' },
-    { '@type': 'ListItem', position: 2, name: 'Reportagen', item: 'https://marcelkuhls.de/portfolio/' },
+    { '@type': 'ListItem', position: 2, name: 'Hochzeiten', item: 'https://marcelkuhls.de/portfolio/' },
     { '@type': 'ListItem', position: 3, name: r.couple },
   ] },
 ];
@@ -58,7 +58,7 @@ const topic = r.kind === 'Standesamt'
       <Photo src={r.hero} mobile={heroMobile} alt={`${r.couple}${r.place ? ` bei ihrer Hochzeit, ${r.place}` : ''}`} priority imgAttrs={{ 'data-hero-img': '' }} />
     </div>
     <div class="rhero__type wrap">
-      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/portfolio/">Reportagen</a></li><li><span aria-current="page">{r.couple}</span></li></ol></nav>
+      <nav class="crumbs" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/portfolio/">Hochzeiten</a></li><li><span aria-current="page">{r.couple}</span></li></ol></nav>
       <h1 class:list={[b ? 'mega' : 'h1 rhero__long', 'display']}>
         <span class="rhero__venue">{r.place ? vt : 'Hochzeitsreportage'}{r.region && !vt.includes(r.region) ? ` · ${r.region}` : ''}</span>
         <span class="row" data-split data-split-now data-hero-shift="-4">{a}</span>

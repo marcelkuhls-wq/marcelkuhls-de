@@ -13,7 +13,7 @@ export const site = {
 };
 
 export const nav = [
-  { href: '/portfolio/', label: 'Reportagen', n: '01' },
+  { href: '/portfolio/', label: 'Hochzeiten', n: '01' },
   { href: '/standesamt-fotograf-hamburg/', label: 'Standesamt', n: '02' },
   { href: '/leistungen/', label: 'Leistungen', n: '03' },
   { href: '/hochzeitslocations-hamburg/', label: 'Locations', n: '04' },
