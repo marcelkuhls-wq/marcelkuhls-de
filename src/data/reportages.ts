@@ -13,6 +13,7 @@ export type Reportage = {
   kind: 'Hochzeit' | 'Standesamt' | 'Verlobung' | 'Destination';
   cover: string;
   side: string;              // zweites Bild für Listen
+  coverPos?: string;         // Bildausschnitt für das Querformat auf der Startseite
   seoTitle?: string;         // eigener <title>, wenn der automatische zu lang oder unpassend ist
   hero: string;
   dek: string;               // kurze, faktische Einleitung
@@ -204,8 +205,9 @@ export const reportages: Reportage[] = [
     region: 'Hamburg',
     date: 'August 2026',
     kind: 'Hochzeit',
-    cover: nf(F.uinny, [3])[0],
-    side: nf(F.uinny, [16])[0],
+    cover: nf(F.uinny, [29])[0],
+    coverPos: '50% 52%',
+    side: nf(F.uinny, [20])[0],
     hero: nf(F.uinny, [14])[0],
     dek: 'Kirchliche Trauung in der Melanchthonkirche, Paarbilder an der Villa im Heine Park und ein großes Fest in der Villa Mignon. Ein halbes Jahr nach dem Standesamt im Schnee.',
     source: 'Orte aus Marcels Ordnername „Melanchthonkirche, Villa Heine Park, Villa Mignon Hamburg“, Datum vom Willkommensschild',

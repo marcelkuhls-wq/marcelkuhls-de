@@ -136,7 +136,7 @@ const schema = [
     <div class="stories">
       {featured.map((s, i) => (
         <a class="story" href={`/portfolio/${s.slug}/`} data-cursor="Ansehen">
-          <div class="story__img"><Photo src={s.cover} alt={`${s.couple}, ${s.place ?? 'Hochzeit'}`} reveal={i % 2 ? 'right' : 'left'} sizes="(max-width: 899px) 100vw, 58vw" /></div>
+          <div class="story__img"><Photo src={s.cover} alt={`${s.couple}, ${s.place ?? 'Hochzeit'}`} position={s.coverPos} reveal={i % 2 ? 'right' : 'left'} sizes="(max-width: 899px) 100vw, 58vw" /></div>
           <div class="story__side"><Photo src={s.side} alt="" reveal="up" sizes="(max-width: 899px) 42vw, 16vw" /></div>
           <div class="story__meta">
             <span class="num">{String(i + 1).padStart(2, '0')} · {s.kind}</span>
@@ -184,7 +184,7 @@ const schema = [
       <div class="svc__a">
         <p class="eyebrow">Begleitung</p>
         <h2 class="h2" data-split>Leistungen als Hochzeits&shy;fotograf <em>in Hamburg</em></h2>
-        <FrameShow photos={['michelle-benjamin/14', 'sb-lynn-ersin/048', 'sb-isabelle-kenny/022', 'boberger-duenen/01']} alt="Beispiele für ganztägige Reportage, Standesamt, kleine Hochzeit und Verlobung" ratio="4/5" sticky />
+        <FrameShow photos={['michelle-benjamin/14', 'lynn-ersin-standesamt-altona/002', 'sb-isabelle-kenny/022', 'boberger-duenen/01']} alt="Beispiele für ganztägige Reportage, Standesamt, kleine Hochzeit und Verlobung" ratio="4/5" sticky />
       </div>
       <div class="svc__b">
     <div class="rows" data-show-rows>
