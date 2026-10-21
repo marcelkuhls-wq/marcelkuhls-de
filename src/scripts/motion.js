@@ -275,7 +275,9 @@ function initMotion() {
     const from = { up: 'inset(100% 0% 0% 0%)', left: 'inset(0% 100% 0% 0%)', right: 'inset(0% 0% 0% 100%)', center: 'inset(18% 18% 18% 18%)' }[dir] || 'inset(100% 0% 0% 0%)';
     const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 90%' } });
     tl.fromTo(el, { clipPath: from }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'expo.inOut' });
-    if (img) tl.fromTo(img, { scale: 1.22 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 0.1);
+    // Bei Parallax-Bildern nicht unter die Parallax-Vergrößerung zurückzoomen, sonst entsteht beim Scrollen ein Rand
+    const rest = el.hasAttribute('data-parallax') ? 1 + (parseFloat(el.dataset.parallax) || 10) / 40 : 1;
+    if (img) tl.fromTo(img, { scale: 1.22 }, { scale: Math.max(rest, 1), duration: 1.8, ease: 'expo.out' }, 0.1);
   });
 
   // Parallax innerhalb des Bildrahmens (Rahmen bleibt stehen)
@@ -283,7 +285,7 @@ function initMotion() {
     const inner = el.querySelector('img, [data-parallax-inner]');
     if (!inner) return;
     const amt = parseFloat(el.dataset.parallax) || 10;
-    gsap.set(inner, { scale: 1 + amt / 50 });
+    gsap.set(inner, { scale: 1 + amt / 40 }); // etwas mehr Reserve als der Weg, damit nie ein Rand sichtbar wird
     gsap.fromTo(inner, { yPercent: -amt }, {
       yPercent: amt, ease: 'none',
       scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },

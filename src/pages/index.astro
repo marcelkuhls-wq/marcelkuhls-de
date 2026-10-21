@@ -11,15 +11,15 @@ import FrameShow from '../components/FrameShow.astro';
 const featured = ['hochzeit-hotel-atlantic-verena-tobias', 'joana-dennis', 'uinny-sidney-villa-mignon', 'franzi-jan-niklas'].map(bySlug);
 const day = [
   { k: 'michelle-benjamin/03', t: 'p' },
-  { k: 'verena-toby/13', t: 'p' },
+  { k: 'verena-toby-2-hotel-atlantik/006', t: 'p' },
   { note: ['Morgens', 'Ich komme, wenn noch niemand fertig ist. Da passiert mehr, als man denkt.'] },
   { k: 'joana-dennis-gut-bardenhagen/016', t: 'l' },
   { k: 'michelle-benjamin/09', t: 'l' },
-  { k: 'eliana-mahan/13', t: 'p' },
-  { k: 'lynn-ersin-standesamt-altona/004', t: 'p' },
+  { k: 'verena-toby-2-hotel-atlantik/041', t: 'p' },
+  { k: 'mariana-mirco-hochzeit-haus-schnede/028', t: 'p' },
   { note: ['Zwischendurch', 'Die Blicke nach dem Jawort, die Freundin, die zuerst weint, der Onkel mit der Rede.'] },
-  { k: 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/027', t: 'l' },
-  { k: 'sb-uinny-sidney-sta/098', t: 'l' },
+  { k: 'mariana-mirco-hochzeit-haus-schnede/018', t: 'l' },
+  { k: 'uinny-sidney-hochzeit-melanchthonkirche-villa-heine-park-villa-mignon-hamburg/013', t: 'p' },
   { k: 'michelle-benjamin/29', t: 'w' },
   { k: 'joana-dennis-gut-bardenhagen/035', t: 'p' },
   { k: 'joana-dennis-gut-bardenhagen/001', t: 'l' },
@@ -78,7 +78,6 @@ const schema = [
       <span><strong>50+</strong> begleitete Hochzeiten</span>
       <a href="/bewertungen/"><strong>5,0 ★</strong> 18 Google-Bewertungen</a>
       <span><strong>24 h</strong> Antwortzeit</span>
-      <span><strong>1</strong> Hochzeit pro Wochenende</span>
     </div>
   </div>
 
@@ -269,7 +268,7 @@ const schema = [
     <div class="bigcta__type">
       <p class="bigcta__script" data-fade>Ist euer Datum</p>
       <h2 class="bigcta__caps" data-split>noch frei?</h2>
-      <p class="bigcta__text" data-fade="0.2">Ich nehme pro Wochenende nur eine Hochzeit an. Termine für 2026 und 2027. Gebt euer Datum ein, ich antworte innerhalb von 24 Stunden.</p>
+      <p class="bigcta__text" data-fade="0.2">Ich vergebe Termine für 2026 und 2027. Gebt euer Datum ein, ich antworte innerhalb von 24 Stunden.</p>
       <form class="bigcta__form" action="/kontakt/" method="get" data-fade="0.3">
         <label class="sr-only" for="dc-date">Hochzeitsdatum</label>
         <input id="dc-date" name="datum" type="date" min="2026-10-20" required />
@@ -302,7 +301,7 @@ const schema = [
   .trust__in > * { display: grid; gap: 2px; }
   .trust__in strong { font-family: var(--f-display); font-size: 1.35rem; font-weight: 400; color: var(--ink); margin-right: 6px; letter-spacing: -0.02em; }
   .trust__in a { text-decoration: none; }
-  @media (max-width: 599px) { .trust__in { grid-template-columns: 1fr 1fr; } .trust__in > :first-child { display: none; } } /* „seit 2013“ steht schon im Hero, so bleibt ein sauberes 2×2-Raster */
+  @media (max-width: 599px) { .trust__in { grid-template-columns: 1fr 1fr; } } /* vier Werte, sauberes 2×2-Raster */
   .bigcta { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: #fff; background: var(--night); text-align: center; }
   .bigcta__media { position: absolute; inset: 0; }
   .bigcta__media :global(.ph) { position: absolute; inset: 0; background: var(--night); }

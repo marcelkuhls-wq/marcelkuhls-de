@@ -5,7 +5,7 @@ export type Faq = { q: string; a: string; cat: 'Kosten' | 'Ablauf' | 'Bilder' | 
 
 export const faqs: Faq[] = [
   { cat: 'Kosten', q: 'Was kostet ein Hochzeitsfotograf in Hamburg?', a: 'Eine ganztägige Reportage kostet in Hamburg meist zwischen 2.000 und 3.500 €, ein Standesamt meist zwischen 650 und 1.400 €. Mein Angebot richtet sich nach Dauer und Ablauf eures Tages. Ihr bekommt es innerhalb von 24 Stunden.' },
-  { cat: 'Buchung', q: 'Wie weit im Voraus sollten wir buchen?', a: 'Je früher, desto sicherer, besonders für Samstage im Sommer. Ich nehme pro Wochenende nur eine Hochzeit an. Aktuell vergebe ich Termine für 2026 und 2027.' },
+  { cat: 'Buchung', q: 'Wie weit im Voraus sollten wir buchen?', a: 'Je früher, desto sicherer, besonders für Samstage im Sommer. Aktuell vergebe ich Termine für 2026 und 2027.' },
   { cat: 'Ablauf', q: 'Wie viele Stunden sind sinnvoll?', a: 'Für Standesamt und kleine Hochzeiten meist drei bis fünf Stunden. Für eine ganze Reportage vom Getting Ready bis zum ersten Tanz acht bis zehn Stunden. Wer bis zur Party bleiben möchte, plant zwölf Stunden ein.' },
   { cat: 'Bilder', q: 'Wann bekommen wir die Bilder?', a: 'Nach etwa zwei Wochen in einer privaten Online-Galerie. Bei längeren Reportagen gibt es vorher eine kleine Vorschau.' },
   { cat: 'Bilder', q: 'Wie viele Bilder bekommen wir?', a: 'Bei einer ganztägigen Reportage mehrere hundert bearbeitete Bilder. Eine feste Obergrenze gibt es nicht. Ihr bekommt alle gelungenen Aufnahmen.' },
