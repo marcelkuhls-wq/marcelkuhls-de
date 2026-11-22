@@ -1,0 +1,130 @@
+---
+// Partnerseite PAISLEY Bespoke. Fakten wie auf THE NOVELOR (paisley-bespoke.com, geprüft 1.11.2026),
+// Fotos: Marcel Kuhls im Atelier, 2.11.2026. Logos von paisley-bespoke.com.
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Photo from '../../components/Photo.astro';
+import Gallery from '../../components/Gallery.astro';
+
+const P = 'paisley-atelier';
+const url = 'https://paisley-bespoke.com/';
+const instagram = 'https://www.instagram.com/thepaisleyofficial/';
+const novelor = 'https://www.the-novelor.com/de/partners/paisley-bespoke';
+
+const facts: [string, string][] = [
+  ['Atelier', 'Hamburg-Harvestehude'],
+  ['Adresse', 'Milchstraße 10, 20148 Hamburg'],
+  ['Schneidermeister', 'Pedram Nejad, Inhaber'],
+  ['Gefertigt', 'In der eigenen Werkstatt in Portugal'],
+  ['Für', 'Herren und Damen: Anzüge, Mäntel, Sakkos, Hemden, Hosen, Strick, Schuhe, Accessoires'],
+];
+const steps = [
+  { n: '01', t: 'Beratung', em: 'und Maßnehmen', p: 'Ein persönlicher Termin im Atelier. Ihr sprecht über Stil, Schnitt und Stoff, dann werden die Maße genommen.' },
+  { n: '02', t: 'Fertigung', em: 'in Portugal', p: 'Der Anzug entsteht in der eigenen Werkstatt von PAISLEY in Portugal.' },
+  { n: '03', t: 'Anprobe', em: 'in Hamburg', p: 'Anprobe im Atelier, Anpassungen wo nötig, danach holt ihr ihn ab. Den Zeitplan bis zur Hochzeit klärt ihr direkt mit dem Atelier.' },
+];
+
+const schema = {
+  '@context': 'https://schema.org', '@type': 'WebPage',
+  name: 'PAISLEY Bespoke: Maßschneiderei-Partner in Hamburg',
+  about: {
+    '@type': 'LocalBusiness', name: 'PAISLEY Bespoke', url,
+    address: { '@type': 'PostalAddress', streetAddress: 'Milchstraße 10', postalCode: '20148', addressLocality: 'Hamburg', addressCountry: 'DE' },
+    founder: { '@type': 'Person', name: 'Pedram Nejad' },
+  },
+};
+---
+<Base
+  title="Maßanzug zur Hochzeit in Hamburg: PAISLEY Bespoke, Partner von Marcel Kuhls"
+  description="Der Anzug für euren Tag, nach Maß aus Hamburg: PAISLEY Bespoke, das Atelier von Schneidermeister Pedram Nejad in der Milchstraße 10, ist Partner von Marcel Kuhls Photography."
+  ogImage={`${P}/001`}
+  schema={schema}
+>
+  <PageHero crumbs={[{ label: 'Partner' }, { label: 'PAISLEY Bespoke' }]} eyebrow="Partner · Maßschneiderei">
+    <h1 slot="title" data-split data-split-now>Der Anzug für euren Tag, <em>nach Maß aus Hamburg.</em></h1>
+    <p slot="aside" data-fade="0.4">PAISLEY Bespoke, Maßschneiderei in Hamburg-Harvestehude.</p>
+  </PageHero>
+
+  <section class="wrap">
+    <Photo src={`${P}/001`} alt="Pedram Nejad nimmt im Atelier von PAISLEY Bespoke in Hamburg Maß für einen Anzug" ratio="3/2" priority sizes="100vw" position="50% 45%" />
+  </section>
+
+  <section class="section wrap">
+    <div class="pb-intro">
+      <div class="pb-intro__img">
+        <Photo src={`${P}/002`} alt="Hand auf einem Stoffballen im Atelier von PAISLEY Bespoke" ratio="4/5" reveal="up" sizes="(max-width: 899px) 90vw, 40vw" />
+      </div>
+      <div class="pb-intro__txt">
+        <img class="pb-logo" src="/partners/paisley-logo.svg" alt="PAISLEY Bespoke Logo" width="232" height="200" loading="lazy" />
+        <div class="prose">
+          <p data-fade>PAISLEY Bespoke ist eine Maßschneiderei in Hamburg, geführt von Inhaber und Schneidermeister Pedram Nejad. Das Atelier verbindet das Handwerk der Maßschneiderei mit modernen Techniken, für Herren und für Damen.</p>
+          <p data-fade>Im November habe ich das Atelier in der Milchstraße fotografiert, seitdem sind wir Partner. Wenn ihr für die Hochzeit einen Anzug sucht, der wirklich sitzt, ist Pedram meine Empfehlung in Hamburg.</p>
+        </div>
+        <dl class="pb-facts">
+          {facts.map(([k, v]) => <div data-fade><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight wrap">
+    <p class="eyebrow">Im Atelier · 2. November 2026</p>
+    <Gallery photos={[`${P}/003`, `${P}/004`, `${P}/005`, `${P}/006`, `${P}/007`, `${P}/011`]} alt="Im Atelier von PAISLEY Bespoke in Hamburg" />
+    <p class="pb-credit">Fotografiert von Marcel Kuhls im Atelier in der Milchstraße 10.</p>
+  </section>
+
+  <section class="section wrap">
+    <div class="pb-steps">
+      <div class="pb-steps__head">
+        <p class="eyebrow">So entsteht ein Anzug</p>
+        <h2 class="h1" data-split>Drei Schritte, <em>von Hamburg nach Portugal und zurück.</em></h2>
+        <Photo src={`${P}/008`} alt="Pedram Nejad bei einer Anprobe im Atelier von PAISLEY Bespoke" ratio="4/5" reveal="up" sizes="(max-width: 899px) 90vw, 34vw" />
+      </div>
+      <div class="rows">
+        {steps.map((s) => <div class="row-item" data-fade><span class="num">{s.n}</span><h3>{s.t} <em>{s.em}</em></h3><p>{s.p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark" data-theme-dark>
+    <div class="wrap pb-visit">
+      <div class="pb-visit__img">
+        <Photo src={`${P}/009`} alt="Schild von PAISLEY Bespoke am Eingang des Ateliers in der Milchstraße 10" ratio="2/3" reveal="up" sizes="(max-width: 899px) 70vw, 30vw" />
+      </div>
+      <div class="pb-visit__txt">
+        <p class="eyebrow">Atelier besuchen</p>
+        <p class="pb-visit__addr">Milchstraße 10, <em>Hamburg</em></p>
+        <p class="muted">In Harvestehude, ein paar Minuten von der Alster. Termine vereinbart ihr direkt mit dem Atelier.</p>
+        <div class="pb-visit__links">
+          <a class="btn" href={url} target="_blank" rel="noopener">paisley-bespoke.com <span class="arr">↗</span></a>
+          <a class="link" href={instagram} target="_blank" rel="noopener">Instagram ↗</a>
+          <a class="link" href={novelor} target="_blank" rel="noopener">Das Atelier auf THE NOVELOR ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight wrap">
+    <p class="pb-disclosure">Partnerschaft. PAISLEY Bespoke ist Partner von Marcel Kuhls Photography. Diese Seite stellt das Atelier vor, alle Fotos hat Marcel Kuhls im Atelier aufgenommen.</p>
+  </section>
+</Base>
+
+<style>
+  .pb-intro { display: grid; grid-template-columns: 5fr 6fr; gap: var(--gap); align-items: center; }
+  .pb-logo { display: block; width: clamp(140px, 14vw, 200px); height: auto; margin-bottom: clamp(28px, 4vw, 48px); }
+  .pb-facts { margin: clamp(28px, 4vw, 48px) 0 0; border-top: 1px solid var(--line); }
+  .pb-facts div { display: grid; grid-template-columns: 11rem 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
+  .pb-facts dt { text-transform: uppercase; letter-spacing: 0.14em; font-size: var(--fs-micro); color: var(--ink-2); padding-top: 2px; }
+  .pb-facts dd { margin: 0; }
+  .pb-credit, .pb-disclosure { font-size: var(--fs-small); font-style: italic; color: var(--ink-2); margin-top: 24px; }
+  .pb-disclosure { max-width: 62ch; }
+  .pb-steps { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--gap); align-items: start; }
+  .pb-steps__head .h1 { margin: 16px 0 clamp(28px, 4vw, 48px); }
+  .pb-visit { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--gap); align-items: center; }
+  .pb-visit__addr { font-family: var(--f-display); font-size: var(--fs-h2); line-height: 1; letter-spacing: -0.03em; font-weight: 300; margin: 20px 0 24px; }
+  .pb-visit__links { display: flex; flex-wrap: wrap; align-items: center; gap: 24px 32px; margin-top: 36px; }
+  @media (max-width: 899px) {
+    .pb-intro, .pb-steps, .pb-visit { grid-template-columns: 1fr; }
+    .pb-facts div { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>

@@ -503,6 +503,12 @@ html { interpolate-size: allow-keywords; }
 .ftr__grid a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
 .ftr__label { font-size: var(--fs-micro) !important; text-transform: uppercase; letter-spacing: 0.16em; opacity: 0.5; margin-bottom: 12px !important; font-weight: 560; }
 .ftr__brand { padding-block: 8px 36px; }
+/* Partner-Credit im Footer, bewusst klein */
+.ftr__partner { padding-block: 0 40px; }
+.ftr__partner a { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 10px; text-decoration: none; }
+.ftr__partner .ftr__label { margin: 0 !important; }
+.ftr__partner img { display: block; height: 30px; width: auto; opacity: .75; transition: opacity .3s; }
+.ftr__partner a:hover img { opacity: 1; }
 /* Logo als Maske, damit es die helle Footer-Schrift übernimmt */
 .ftr__signet { display: block; width: clamp(80px, 7vw, 104px); aspect-ratio: 1; background: currentColor; opacity: .9; -webkit-mask: url('/brand/signet.png') center / contain no-repeat; mask: url('/brand/signet.png') center / contain no-repeat; }
 .ftr__base { display: flex; justify-content: space-between; gap: 16px; padding-block: 22px 28px; font-size: var(--fs-micro); letter-spacing: 0.08em; opacity: 0.5; border-top: 1px solid rgba(239,232,220,.14); }
